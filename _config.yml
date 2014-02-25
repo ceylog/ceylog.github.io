@@ -1,0 +1,11 @@
+auto: true
+
+markdown: rdiscount
+pygments: true
+paginate: 8
+permalink: /:title
+
+title: Ceylog
+url: http://ceylog.github.io
+feed: /atom.xml
+author_info: <a href="http://ceylog.github.io/">Ceylog</a>
