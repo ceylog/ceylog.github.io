@@ -70,7 +70,7 @@ pre ol{margin-left:25px;list-style-type:decimal;}
 .entry blockquote{margin-left:25px;font-size:14px;font-style:italic}
 .entry img{max-width:670px;display:block;margin:10px auto;}
 
-.footer{text-align:center;margin-bottom:80px;width:680px;float:left;background:#fff;padding:20px;box-shadow:0 2px 4px #ccc;}
+.footer{text-align:center;margin-top:20px;}
 
 .index-content .aside {
     position: fixed;
