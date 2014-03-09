@@ -23,4 +23,5 @@ layout: home
     </div>
     <div class="aside">
     </div>
+	{% include footer.md %}
 </div>
