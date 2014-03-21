@@ -12,4 +12,4 @@ description: 工具 记录 备忘
 
 来一个[在线注册码生成器][1]，挺方便，恨自己还是个屌丝，不然就花点钱买了，本来社区版也够用，还是手贱下了商业版本。
 
-[1] http://174.140.163.89/keygen/idea.htm 'Intellij IDEA'
+[1]: http://174.140.163.89/keygen/idea.htm 'Intellij IDEA'
