@@ -22,6 +22,6 @@ Oracle中树形结构的数据在查询时候比较麻烦，前不久看到同�
 
 ###从叶节点到根节点
 
-    select * from sys_permission 
+    select * from table_ 
     start with id = '4'
     connect by prior parent_id=id
