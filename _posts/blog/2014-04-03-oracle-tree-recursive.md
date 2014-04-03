@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Oracle 树递归用法
+title:      Oracle 树结构递归用法
 category: blog
 description: oracle tree recursive 树 递归
 ---
