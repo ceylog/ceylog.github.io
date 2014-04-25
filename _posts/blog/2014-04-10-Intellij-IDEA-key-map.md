@@ -85,6 +85,7 @@ description: Intellij IDEA key map
 
 ###常用操作
 | 说明                    | Intellij IDEA             | Eclipse         |
+| ----------------------- |---------------------------| ----------------|
 | 项目                    | Alt + 1                   |                 |
 | 收藏                    | Alt + 2                   |                 |
 | TODO                    | Alt + 6                   |                 |
