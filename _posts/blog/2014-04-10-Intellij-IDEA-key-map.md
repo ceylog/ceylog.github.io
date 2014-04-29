@@ -12,17 +12,17 @@ description: Intellij IDEA key map
 | 显示参数                | Ctrl + P                  |                |
 | 显示最近编辑文件        | Ctrl + E                  |                |
 | 代码完成                | Ctrl + J                  |                |
-| 删除行                  | Ctrl + X                  |                |
-| 复制行                  | Ctrl + D                  |                |
+| 删除行                  | Ctrl + X                  | Ctrl + d       |
+| 复制行                  | Ctrl + D                  |Ctrl+Alt+up/down|
 | 快速打开类              | Ctrl + N                  |                |
-| 生成代码                | Alt + Insert              |                |
+| 生成代码                | Alt + Insert              | Alt + s + r    |
 | 选择剪贴板内容并插入    | Ctrl + Shift + Insert     |                |
 | 可以快速打开文件        | Ctrl + Shift + N          |                |
 | 自动代码                | Ctrl + J                  |                |
 | 两行转一行去空格        | Ctrl + Shift + J          |                |
 | 选择最近的剪贴板内容    | Ctrl + Shift + V          |                |
 | 查看继承层次结构        | Ctrl + H                  |                |
-| 向上/下移动语句         | Ctrl + Shift + Up / Down  |                |
+| 向上/下移动语句         | Ctrl + Shift + Up / Down  | Alt + Up / Down|
 | 把代码包在一个块内      | Ctrl + Alt + T            |                |
 | 导入包，自动修正        | Ctrl + Enter              |                |
 | 格式化代码              | Ctrl + Alt + L            |                |
@@ -49,6 +49,7 @@ description: Intellij IDEA key map
 | 高亮显示选中文字        | Ctrl + Shift + F7  F3向下;Shift+F3向上 | Ctrl + K |
 | 替换文本                | Ctrl + R                               |          |
 | 查找文本                | Ctrl + F                               |          |
+| 全文查找                | Ctrl + Shift + H                       | ctrl + H |
 
 ###重构
 | 说明                    | Intellij IDEA             | Eclipse         |
