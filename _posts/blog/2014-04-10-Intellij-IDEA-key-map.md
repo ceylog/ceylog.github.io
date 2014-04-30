@@ -39,6 +39,8 @@ description: Intellij IDEA key map
 | 跳转到语法错误文件处    | Ctrl + Alt + Up / Down    |                |
 | 方法间快速移动          | Alt + Up / Down           |                |
 | 跳转到声明              | Ctrl + B                  |                |
+| 条转到实现              | Ctrl+ Alt + B             |                |
+| 跳转到调用处            | Ctrl Alt + F7             |                |
 | 跳转到大括号开始/结尾   | Ctrl+ [ / ]               |                |
 | 最近的更改              | Alt + Shift + C           |                |
 | 跳到父类                | Ctrl + U                  |                |
@@ -50,6 +52,7 @@ description: Intellij IDEA key map
 | 替换文本                | Ctrl + R                               |          |
 | 查找文本                | Ctrl + F                               |          |
 | 全文查找                | Ctrl + Shift + H                       | ctrl + H |
+| 查找菜单功能            | Ctrl + Shift + A                       |          |
 
 ###重构
 | 说明                    | Intellij IDEA             | Eclipse         |
@@ -101,6 +104,7 @@ description: Intellij IDEA key map
 | 关闭活动选项卡          | Ctrl + Shift + F4         |                 |
 | 转到下一个拆分器        | Ctrl + Tab                |                 |
 | 转到上一个拆分器        | Ctrl + Shift + Tab        |                 |
+| 编译                    | Ctrl+Shift+F9             |                 |
 
 ###格式化
     Ctrl + Alt + L 格式化代码
