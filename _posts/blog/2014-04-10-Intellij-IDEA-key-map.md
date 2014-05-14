@@ -73,7 +73,7 @@ description: Intellij IDEA key map
 | 选择 Run                | Alt + Shift + F10         |                 |
 | 编译                    | Ctrl + Shift + F9         |                 |
 | 运行                    | Ctrl + Shift + F10        |                 |
-| 查看断点                | Ctrl+Shift+F8             |                 |
+| 查看断点                | Ctrl + Shift + F8         |                 |
 | 步过                    | F8                        |                 |
 | 步入                    | F7                        |                 |
 | 智能步入                | Shift + F7                |                 |
@@ -95,7 +95,7 @@ description: Intellij IDEA key map
 | TODO                    | Alt + 6                   |                 |
 | 结构                    | Alt + 7                   |                 |
 | 复制路径                | Ctrl + Shift + C          |                 |
-| 复制引用，必须选择类名  | Ctrl+Alt+Shift+C          |                 |
+| 复制引用，必须选择类名  | Ctrl+Alt + Shift + C      |                 |
 | 同步                    | Ctrl + Alt + Y            |                 |
 | 快速切换方案            | Ctrl + ~                  |                 |
 | 还原默认布局            | Shift + F12               |                 |
@@ -104,7 +104,8 @@ description: Intellij IDEA key map
 | 关闭活动选项卡          | Ctrl + Shift + F4         |                 |
 | 转到下一个拆分器        | Ctrl + Tab                |                 |
 | 转到上一个拆分器        | Ctrl + Shift + Tab        |                 |
-| 编译                    | Ctrl+Shift+F9             |                 |
+| 编译                    | Ctrl + Shift + F9         |                 |
+| 快速打开Commit Changes  | Ctrl + K                  |                 |
 
 ###格式化
     Ctrl + Alt + L 格式化代码
