@@ -22,5 +22,9 @@ description: 工具 软件
 ### 高清电影下载网站
 [中国高清网][2]
 
+### 看文章
+[简书][3]
+
 [1]: http://174.140.163.89/keygen/idea.htm 'Intellij IDEA'
 [2]: http://gaoqing.la 'gaoqing'
+[3]: http://jianshu.io 'jianshu'
