@@ -74,11 +74,12 @@ Redis 的Pub/Sub 系统可以构建实时的消息系统，比如很多用Pub/Su
     # make
     # cd src && make all
 
-#### 第三步，启动redis服务
+### 第三步，启动redis服务
 
     # src/redis-server
 
-#### 第四步，测试redis
+### 第四步，测试redis
+
     # redis－cli
     # redis 127.0.0.1:6379> set foo 123
     # redis 127.0.0.1:6379> get foo  
