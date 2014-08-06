@@ -78,6 +78,13 @@ Redis 的Pub/Sub 系统可以构建实时的消息系统，比如很多用Pub/Su
 
     # src/redis-server
 
+#### 第四步，测试redis
+    # redis－cli
+    # redis 127.0.0.1:6379> set foo 123
+    # redis 127.0.0.1:6379> get foo  
+    "123"
+    # redis 127.0.0.1:6379> exit
+
 
 Redis服务器的端口默认是6379，但是你会发现Redis服务会一直占用我们当前登录Linux的SESSION，那能否像Mysql或者是MongoDB一样在后台执行Redis进程呢，当然可以，我们只需要更改Redis的配置文件，并且启动的时候指定配置文件即可！
 
@@ -151,6 +158,75 @@ Redis的配置文件redis.conf里面都有什么：
 启动的时候来指定redis的配置文件
 
     /usr/local/redis/bin/redis-server /usr/local/redis/redis.conf
+
+## 开机启动
+
+### 1.配置
+将以下代码存为redis,放到/etc/init.d/下面,注意修改相应的路径
+
+    ###########################  
+    PATH=/usr/local/bin:/sbin:/usr/bin:/bin  
+         
+    REDISPORT=6379  
+    EXEC=/usr/local/bin/redis-server  
+    REDIS_CLI=/usr/local/bin/redis-cli  
+         
+    PIDFILE=/var/run/redis.pid  
+    CONF="/etc/redis.conf"  
+         
+    case "$1" in  
+        start)  
+            if [ -f $PIDFILE ]  
+            then  
+                    echo "$PIDFILE exists, process is already running or crashed"  
+            else  
+                    echo "Starting Redis server..."  
+                    $EXEC $CONF  
+            fi  
+            if [ "$?"="0" ]   
+            then  
+                  echo "Redis is running..."  
+            fi  
+            ;;  
+        stop)  
+            if [ ! -f $PIDFILE ]  
+            then  
+                    echo "$PIDFILE does not exist, process is not running"  
+            else  
+                    PID=$(cat $PIDFILE)  
+                    echo "Stopping ..."  
+                    $REDIS_CLI -p $REDISPORT SHUTDOWN  
+                    while [ -x ${PIDFILE} ]  
+                   do  
+                        echo "Waiting for Redis to shutdown ..."  
+                        sleep 1  
+                    done  
+                    echo "Redis stopped"  
+            fi  
+            ;;  
+       restart|force-reload)  
+            ${0} stop  
+            ${0} start  
+            ;;  
+      *)  
+        echo "Usage: /etc/init.d/redis {start|stop|restart|force-reload}" >&2  
+            exit 1  
+    esac  
+    ##############################
+
+### 2.修改配置文件权限
+
+    ＃ chmod a+x /etc/init.d/redis
+
+### 3.设定开机启动
+
+    # chkconfig redis on
+
+### 4.启动，停止redis服务
+
+    # service redis start   //或者 /etc/init.d/redis start  
+    # service redis stop    //或者 /etc/init.d/redis stop 
+
 
 [1]:    http://redis.io "redis"
 [2]:    http://redis.io/download "redis download"
