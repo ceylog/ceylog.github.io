@@ -164,55 +164,50 @@ Redis的配置文件redis.conf里面都有什么：
 ### 1.配置
 将以下代码存为redis,放到/etc/init.d/下面,注意修改相应的路径
 
-    ###########################  
-    PATH=/usr/local/bin:/sbin:/usr/bin:/bin  
-         
-    REDISPORT=6379  
-    EXEC=/usr/local/bin/redis-server  
-    REDIS_CLI=/usr/local/bin/redis-cli  
-         
-    PIDFILE=/var/run/redis.pid  
-    CONF="/etc/redis.conf"  
-         
-    case "$1" in  
-        start)  
-            if [ -f $PIDFILE ]  
-            then  
-                    echo "$PIDFILE exists, process is already running or crashed"  
-            else  
-                    echo "Starting Redis server..."  
-                    $EXEC $CONF  
-            fi  
-            if [ "$?"="0" ]   
-            then  
-                  echo "Redis is running..."  
-            fi  
-            ;;  
-        stop)  
-            if [ ! -f $PIDFILE ]  
-            then  
-                    echo "$PIDFILE does not exist, process is not running"  
-            else  
-                    PID=$(cat $PIDFILE)  
-                    echo "Stopping ..."  
-                    $REDIS_CLI -p $REDISPORT SHUTDOWN  
-                    while [ -x ${PIDFILE} ]  
-                   do  
-                        echo "Waiting for Redis to shutdown ..."  
-                        sleep 1  
-                    done  
-                    echo "Redis stopped"  
-            fi  
-            ;;  
-       restart|force-reload)  
-            ${0} stop  
-            ${0} start  
-            ;;  
-      *)  
-        echo "Usage: /etc/init.d/redis {start|stop|restart|force-reload}" >&2  
-            exit 1  
-    esac  
-    ##############################
+    #
+    # chkconfig: - 90 10
+    # description: Redis is an open source, advanced key-value store. 
+    #
+    # processname: redis-server
+    # config: /etc/redis.conf
+    # pidfile: /var/run/redis.pid
+     
+    PATH=/usr/local/bin:/sbin:/usr/bin:/bin
+     
+    REDISPORT=6379
+    EXEC=/usr/local/bin/redis-server
+    REDIS_CLI=/usr/local/bin/redis-cli
+     
+    PIDFILE=/var/run/redis.pid
+    CONF="/etc/redis.conf"
+     
+    case "$1" in
+        start)
+            if [ -f $PIDFILE ]
+            then
+                    echo -n "$PIDFILE exists, process is already running or crashed\n"
+            else
+                    echo -n "Starting Redis server...\n"
+                    $EXEC $CONF
+            fi
+            ;;
+        stop)
+            if [ ! -f $PIDFILE ]
+            then
+                    echo -n "$PIDFILE does not exist, process is not running\n"
+            else
+            PID=$(cat $PIDFILE)
+                    echo -n "Stopping ...\n"
+                    $REDIS_CLI -p $REDISPORT SHUTDOWN
+                    while [ -x ${PIDFILE} ]
+                    do
+                        echo "Waiting for Redis to shutdown ..."
+                        sleep 1
+                    done
+                    echo "Redis stopped"
+            fi
+            ;;
+    esac
 
 ### 2.修改配置文件权限
 
