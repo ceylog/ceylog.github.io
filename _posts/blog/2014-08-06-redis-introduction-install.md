@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      redis 整理之简介及安装
+title:      redis 整理（一）简介及安装
 category: blog
 description: redis 相关整理（一）简介及安装
 
