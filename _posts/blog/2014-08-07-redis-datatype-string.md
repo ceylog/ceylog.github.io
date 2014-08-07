@@ -16,7 +16,7 @@ String是最简单的类型，可以理解成与Memcached是一模一样的类�
 
 ## 操作
 
-### set
+### 1. set
 
 设置Key对应的值为string类型的value。
 
@@ -29,7 +29,7 @@ String是最简单的类型，可以理解成与Memcached是一模一样的类�
     "zhangsan"
     redis 127.0.0.1:6379>
 
-### setnx
+### 2. setnx
 
 设置key 对应的值为string 类型的value。如果key 已经存在，返回0，nx 是not exist 的意思。
 
@@ -43,7 +43,7 @@ String是最简单的类型，可以理解成与Memcached是一模一样的类�
 
 由于原来name 有一个对应的值，所以本次的修改不生效，且返回码是0。
 
-### setex
+### 3. setex
 
 设置一个键对应的值，并对此键值对设置一个有效期。
 

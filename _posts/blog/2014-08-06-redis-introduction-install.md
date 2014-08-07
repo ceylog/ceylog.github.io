@@ -69,22 +69,22 @@ Redis 的Pub/Sub 系统可以构建实时的消息系统，比如很多用Pub/Su
 
 ### 第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装
 
-    # tar zxf redis-2.8.13.tar.gz
-    # cd redis-2.8.13
-    # make
-    # cd src && make all
+    $ tar zxf redis-2.8.13.tar.gz
+    $ cd redis-2.8.13
+    $ make
+    $ cd src && make all
 
 ### 第三步，启动redis服务
 
-    # src/redis-server
+    $ src/redis-server
 
 ### 第四步，测试redis
 
-    # redis－cli
-    # redis 127.0.0.1:6379> set foo 123
-    # redis 127.0.0.1:6379> get foo  
+    $ redis－cli
+    redis 127.0.0.1:6379> set foo 123
+    redis 127.0.0.1:6379> get foo  
     "123"
-    # redis 127.0.0.1:6379> exit
+    redis 127.0.0.1:6379> exit
 
 
 Redis服务器的端口默认是6379，但是你会发现Redis服务会一直占用我们当前登录Linux的SESSION，那能否像Mysql或者是MongoDB一样在后台执行Redis进程呢，当然可以，我们只需要更改Redis的配置文件，并且启动的时候指定配置文件即可！
@@ -158,7 +158,7 @@ Redis的配置文件redis.conf里面都有什么：
 
 启动的时候来指定redis的配置文件
 
-    /usr/local/redis/bin/redis-server /usr/local/redis/redis.conf
+    $ /usr/local/redis/bin/redis-server /usr/local/redis/redis.conf
 
 ## 开机启动
 
@@ -212,16 +212,16 @@ Redis的配置文件redis.conf里面都有什么：
 
 ### 2.修改配置文件权限
 
-    ＃ chmod a+x /etc/init.d/redis
+    $ chmod a+x /etc/init.d/redis
 
 ### 3.设定开机启动
 
-    # chkconfig redis on
+    $ chkconfig redis on
 
 ### 4.启动，停止redis服务
 
-    # service redis start   //或者 /etc/init.d/redis start  
-    # service redis stop    //或者 /etc/init.d/redis stop 
+    $ service redis start   //或者 /etc/init.d/redis start  
+    $ service redis stop    //或者 /etc/init.d/redis stop 
 
 
 [1]:    http://redis.io "redis"
