@@ -220,8 +220,8 @@ Redis的配置文件redis.conf里面都有什么：
 
 ### 4.启动，停止redis服务
 
-    $ service redis start   //或者 /etc/init.d/redis start  
-    $ service redis stop    //或者 /etc/init.d/redis stop 
+    $ service redis start   #或者 /etc/init.d/redis start  
+    $ service redis stop    #或者 /etc/init.d/redis stop 
 
 
 [1]:    http://redis.io "redis"
