@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      redis 整理（三）List 类型
+title:      redis 整理（四）List 类型
 category: blog
-description: redis 相关整理（三）List 类型
+description: redis 相关整理（四）List 类型
 
 ---
 
