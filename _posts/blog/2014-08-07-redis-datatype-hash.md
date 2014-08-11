@@ -52,7 +52,7 @@ redis hash是一个string类型的field和value的映射表。它的添加、删
     (nil)
     redis 127.0.0.1:6379>
 
-由于数据库没有field3，所以渠道的是一个空值nil。
+由于数据库没有field3，所以取到的是一个空值`nil`。
 
 
 ### 5. hmget
@@ -66,7 +66,7 @@ redis hash是一个string类型的field和value的映射表。它的添加、删
     redis 127.0.0.1:6379>
 
 
-由于数据库没有field3，所以取到的是一个空值nil。
+由于数据库没有field3，所以取到的是一个空值`nil`。
 
 ### 6. hincrby
 
