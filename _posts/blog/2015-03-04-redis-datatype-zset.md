@@ -32,16 +32,19 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     (integer) 1
 
 #### 添加多个元素
+
     127.0.0.1:6379[1]> zadd zset_list 1 test2 2 test3
     (integer) 2
 
 #### 查看元素
+
     127.0.0.1:6379[1]> zrange zset_list 0 -1
     1) "test2"
     2) "test3"
     3) "test1"
 
 #### 查看元素带score值
+
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
     2) "1"
@@ -51,6 +54,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     6) "11"
 
 #### 添加已存在元素，且 score 值不变 操作不成功返回0
+
     127.0.0.1:6379[1]> zadd zset_list 11 test1
     (integer) 0
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
@@ -62,6 +66,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     6) "11"
 
 #### 添加已存在元素，但是改变 score 值
+
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
     2) "1"
@@ -74,15 +79,14 @@ Sorted-Sets中的成员在集合中的位置是有序的.
 
 命令格式: ZREM key member [member ...]
 
-描述:移除有序集 key 中的一个或多个成员，不存在的成员将被忽略。
-
-当 key 存在但不是有序集类型时，返回一个错误。
+描述:移除有序集 key 中的一个或多个成员，不存在的成员将被忽略。当 key 存在但不是有序集类型时，返回一个错误。
 
 时间复杂度:O(M*log(N))， N 为有序集的基数， M 为被成功移除的成员的数量。
 
 返回值:被成功移除的成员的数量，不包括被忽略的成员。
 
 #### 移除单个元素
+
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
     2) "1"
@@ -99,6 +103,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     4) "2"
 
 #### 移除多个
+
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
     2) "1"
@@ -110,6 +115,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     (empty list or set)
 
 #### 移除不存在元素
+
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     (empty list or set)
     127.0.0.1:6379[1]> zrem zset_list test2
@@ -281,6 +287,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     4) "2"
 
 #### 显示大于2 小于等于10的成员
+
     127.0.0.1:6379[1]> zrangebyscore zset_list -inf +inf withscores
     1) "test1"
     2) "0"
@@ -366,9 +373,13 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     2) "0"
 
 ### zremrangebyscore
+
 命令格式：zremrangebyscore key min max
+
 描述：移除score值介于min和max之间（等于）的成员
+
 时间复杂度:O(log(N)+M)， N 为有序集的基数，而 M 为被移除成员的数量。
+
 返回值:被移除成员的数量。
 
 #### 移除所有score在 100 到 110 内的数据
