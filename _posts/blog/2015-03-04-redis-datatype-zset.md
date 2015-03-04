@@ -99,8 +99,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
 返回值:被成功移除的成员的数量，不包括被忽略的成员。
 
 
-#### 移除单个元素
-
+移除单个元素
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
@@ -118,7 +117,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     4) "2"
 
 
-#### 移除多个
+移除多个
 
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
@@ -132,7 +131,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     (empty list or set)
 
 
-#### 移除不存在元素
+移除不存在元素
 
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
@@ -252,7 +251,8 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     5) "test3"
     6) "2"
 
-#### 当给定区间不存在于有序集时的情况
+
+当给定区间不存在于有序集时的情况
 
 
     127.0.0.1:6379[1]> zrange zset_list 10 20
@@ -307,7 +307,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     3) "test3"
     4) "2"
 
-#### 显示大于2 小于等于10的成员
+显示大于2 小于等于10的成员
 
     127.0.0.1:6379[1]> zrangebyscore zset_list -inf +inf withscores
     1) "test1"
@@ -319,7 +319,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     127.0.0.1:6379[1]> zrangebyscore zset_list (1 10
     1) "test3
 
-#### 显示条件 1 < score < 10 的成员
+显示条件 1 < score < 10 的成员
 
     127.0.0.1:6379[1]> zrangebyscore zset_list (1 (10
     1) "test3"
@@ -403,7 +403,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
 
 返回值:被移除成员的数量。
 
-#### 移除所有score在 100 到 110 内的数据
+移除所有score在 100 到 110 内的数据
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test1"
