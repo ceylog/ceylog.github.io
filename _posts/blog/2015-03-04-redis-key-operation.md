@@ -8,7 +8,10 @@ description: redis 相关整理（七）key（键）的相关操作
 
 
 ### del
+
 时间复杂度: String类型其时间复杂度为O(1)。 其余O(N) N表删除key数量.
+
+描述：删除
 
 返回值: 实际被删除的KEY数量
 
@@ -18,6 +21,7 @@ description: redis 相关整理（七）key（键）的相关操作
     (integer) 2
 
 ### keys
+
 命令格式: keys pattern
 
 描述: 获取所有匹配PATTERN参数的keys.
@@ -27,6 +31,7 @@ description: redis 相关整理（七）key（键）的相关操作
 返回值:匹配模式的键列表。
 
 操作命令如下:
+
     redis 127.0.0.1:6379> keys my*
     1) “my_set_2″
     2) “myset2″
@@ -40,6 +45,7 @@ description: redis 相关整理（七）key（键）的相关操作
 时间复杂度:O(1)
 
 操作命令如下:
+
     redis 127.0.0.1:6379> exists myset
     (integer) 1
     redis 127.0.0.1:6379> exists myset9
