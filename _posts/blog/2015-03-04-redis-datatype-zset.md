@@ -26,24 +26,32 @@ Sorted-Sets中的成员在集合中的位置是有序的.
 
 返回值:被成功添加的新成员的数量，不包括那些被更新的、已经存在的成员。
 
+
 #### 添加一个元素
+
 
     127.0.0.1:6379[1]> zadd zset_list 11 test1
     (integer) 1
 
+
 #### 添加多个元素
+
 
     127.0.0.1:6379[1]> zadd zset_list 1 test2 2 test3
     (integer) 2
 
+
 #### 查看元素
+
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1
     1) "test2"
     2) "test3"
     3) "test1"
 
+
 #### 查看元素带score值
+
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
@@ -53,7 +61,9 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     5) "test1"
     6) "11"
 
+
 #### 添加已存在元素，且 score 值不变 操作不成功返回0
+
 
     127.0.0.1:6379[1]> zadd zset_list 11 test1
     (integer) 0
@@ -65,7 +75,9 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     5) "test1"
     6) "11"
 
+
 #### 添加已存在元素，但是改变 score 值
+
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
@@ -74,6 +86,7 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     4) "2"
     5) "test1"
     6) "3"
+
 
 ### zrem
 
@@ -85,7 +98,9 @@ Sorted-Sets中的成员在集合中的位置是有序的.
 
 返回值:被成功移除的成员的数量，不包括被忽略的成员。
 
+
 #### 移除单个元素
+
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
@@ -102,7 +117,9 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     3) "test3"
     4) "2"
 
+
 #### 移除多个
+
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     1) "test2"
@@ -114,7 +131,9 @@ Sorted-Sets中的成员在集合中的位置是有序的.
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     (empty list or set)
 
+
 #### 移除不存在元素
+
 
     127.0.0.1:6379[1]> zrange zset_list 0 -1 withscores
     (empty list or set)
@@ -235,8 +254,10 @@ Sorted-Sets中的成员在集合中的位置是有序的.
 
 #### 当给定区间不存在于有序集时的情况
 
+
     127.0.0.1:6379[1]> zrange zset_list 10 20
     (empty list or set)
+
 
 ### zrevrange
 
