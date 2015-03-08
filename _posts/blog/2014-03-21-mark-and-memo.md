@@ -18,6 +18,8 @@ description: 工具 软件
 
 ![dexpot_2](/images/dexpot/dexpot_2.jpg)
 
+### Nikon Camera Control Pro 2 product key
+  48600-17854-11336-52282-35553  
 
 ### 高清电影下载网站
 [中国高清网][2]
