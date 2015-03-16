@@ -7,7 +7,7 @@ description: CAS 登录流程httpwatch解析
 ---
 
 cas sso 登录流程解析，使用httpwatch查看
-## 1. 第一次访问 http://localhost:8080/a , 
+## 1. 第一次访问 http://localhost:8080/a
 CLIENT：没票据且SESSION中没有Assertion所以跳转至CAS 
 
 CAS：拿不到TGC故要求用户登录 
@@ -26,7 +26,8 @@ CAS：从客户端取出TGC，如果TGC有效则给用户ST并后台验证ST，�
 CLIENT：没票据但是SESSION中有(Assertion)消息故不跳转也不用发CAS验证票据，允许用户访问 
 ![image011](/images/cas/cas_clip_image011.jpg)
 
-CAS Authentication Filter认证： 
+CAS Authentication Filter认证：
+
     if (CommonUtils.isBlank(ticket) && request.setAttribute(CONST_CAS_ASSERTION, assertion)== null && !wasGatewayed) { 
      //即没有票据且没有SESSION通过信息则跳转 
     }
