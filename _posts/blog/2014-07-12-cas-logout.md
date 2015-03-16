@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      CAS logout
+title:      CAS logout 注销
 category: blog
-description: CAS 登出
+description: CAS 登出 注销
 
 ---
 
