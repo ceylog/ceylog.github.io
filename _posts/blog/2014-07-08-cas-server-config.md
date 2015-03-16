@@ -264,7 +264,9 @@ Credentials-->Principal-->Authentication
      * 
      * @return the service for which we are asserting this ticket is valid for. 
      */
-    Service getService(); 通过getChainedAuthentications()方法，我们可以得到Authentication对象列表，再看看Authentication的代码：
+    Service getService(); 
+
+通过getChainedAuthentications()方法，我们可以得到Authentication对象列表，再看看Authentication的代码：
  
     /**  
     * Method to obtain the Principal.  
@@ -308,7 +310,7 @@ Credentials-->Principal-->Authentication
     Map<String, Object> getAttributes(); 
 
 而这其中的Principal就来源于上面提到的由credentialsToPrincipalResolvers处理得到的Principal对象，最后看一下Principal的代码，我们只要再做一个实现他的代码，整个CAS Server就可以信手拈来了，呵呵
-Java代码  
+  
     /**  
     * Returns the unique id for the Principal  
     * @return the unique id for the Principal.  
