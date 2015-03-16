@@ -6,7 +6,7 @@ description: CAS 登出
 
 ---
 
-网友不停问为什么CAS Logout后，仍然能够访问应用？ 
+### 网友不停问为什么CAS Logout后，仍然能够访问应用？ 
 
 http://dev2dev.bea.com.cn/bbs/thread.jspa?forumID=29304&threadID=37715&messageID=221727#221727 假设有webapp1, webapp2, cas server，webapp1, webapp2均受cas server保护，首先，在这里简单解释一下： 
 
