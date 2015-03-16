@@ -70,6 +70,7 @@ CAS Client 与受保护的客户端应用部署在一起，以 Filter 方式保�
  cas认证时序图  
 #### 3.2.2.      CAS 如何实现 SSO
 当用户访问另一个应用的服务再次被重定向到 CAS Server 的时候， CAS Server 会主动获到这个 TGC cookie ，然后做下面的事情：
+
 1) 如果 User 持有 TGC 且其还没失效，那么就走基础协议图的 Step4 ，达到了 SSO 的效果；
 2) 如果 TGC 失效，那么用户还是要重新认证 ( 走基础协议图的 Step3) 。
  
@@ -110,12 +111,9 @@ CAS 的安全性仅仅依赖于 SSL 。使用的是 secure cookie 。
 TGT 的存活周期默认为 120 分钟。
 ### 4.2.  ST/PT 安全性
 ST （ Service Ticket ）是通过 Http 传送的，因此网络中的其他人可以 Sniffer 到其他人的 Ticket 。 CAS 通过以下几方面来使 ST 变得更加安全（事实上都是可以配置的）：
-1.   ST 只能使用一次
-CAS 协议规定，无论 Service Ticket 验证是否成功， CAS Server 都会清除服务端缓存中的该 Ticket ，从而可以确保一个 Service Ticket 不被使用两次。
-2.   ST 在一段时间内失效
-CAS 规定 ST 只能存活一定的时间，然后 CAS Server 会让它失效。默认有效时间为 5 分钟。
-3.   ST 是基于随机数生成的
-ST 必须足够随机，如果 ST 生成规则被猜出， Hacker 就等于绕过 CAS 认证，直接访问 对应的 服务。
+1.   ST 只能使用一次CAS 协议规定，无论 Service Ticket 验证是否成功， CAS Server 都会清除服务端缓存中的该 Ticket ，从而可以确保一个 Service Ticket 不被使用两次。
+2.   ST 在一段时间内失效CAS 规定 ST 只能存活一定的时间，然后 CAS Server 会让它失效。默认有效时间为 5 分钟。
+3.   ST 是基于随机数生成的ST 必须足够随机，如果 ST 生成规则被猜出， Hacker 就等于绕过 CAS 认证，直接访问 对应的 服务。
  
 ## 5. 参考资料
 1. https://wiki.jasig.org/display/CASUM/Introduction
