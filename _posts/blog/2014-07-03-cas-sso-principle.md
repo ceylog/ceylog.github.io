@@ -81,7 +81,7 @@ CAS Client 与受保护的客户端应用部署在一起，以 Filter 方式保�
 这种情况下，假设 App2 也是需要对 User 进行身份验证才能访问，那么，为了不影响用户体验（过多的重定向导致 User 的 IE 窗口不停地闪动 ) ， CAS 引入了一种 Proxy 认证机制，即 CAS Client 可以代理用户去访问其它 Web 应用。
 代理的前提是需要 CAS Client 拥有用户的身份信息 ( 类似凭据 ) 。之前我们提到的 TGC 是用户持有对自己身份信息的一种凭据，这里的 PGT 就是 CAS Client 端持有的对用户身份信息的一种凭据。凭借 TGC ， User 可以免去输入密码以获取访问其它服务的 Service Ticket ，所以，这里凭借 PGT ， Web 应用可以代理用户去实现后端的认证，而 无需前端用户的参与 。
 下面为代理应用（ helloService ）获取 PGT 的过程： （注： PGTURL 用于表示一个 Proxy 服务，是一个回调链接； PGT 相当于代理证； PGTIOU 为取代理证的钥匙，用来与 PGT 做关联关系；）
- ![cas代理PGT获取](images/cas/cas_clip_image004.jpg)  
+ ![cas代理PGT获取](/images/cas/cas_clip_image004.jpg)  
 如上面的 CAS Proxy 图所示， CAS Client 在基础协议之上，在验证 ST 时提供了一个额外的 PGT URL( 而且是 SSL 的入口 ) 给 CAS Server ，使得 CAS Server 可以通过 PGT URL 提供一个 PGT 给 CAS Client 。
 CAS Client 拿到了 PGT(PGTIOU-85 … ..ti2td) ，就可以通过 PGT 向后端 Web 应用进行认证。
 下面是代理认证和提供服务的过程：
