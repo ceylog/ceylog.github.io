@@ -12,6 +12,17 @@ description: 工具 软件
 
 来一个[在线注册码生成器][1]，挺方便，本来社区版也够用，还是手贱下了商业版本。
 
+### PL/SQL Developer 
+
+[官方下载地址][4]
+
+####注册码
+
+    Product Code：4t46t6vydkvsxekkvf3fjnpzy5wbuhphqz
+    serial Number：601769
+    password：xs374ca
+
+
 ### Dexpot
 一个类似linux多工作区的工具，挺方便，也很cool，来张图
 ![dexpot_1](/images/dexpot/dexpot_1.jpg)
@@ -30,3 +41,4 @@ description: 工具 软件
 [1]: http://174.140.163.89/keygen/idea.htm 'Intellij IDEA'
 [2]: http://gaoqing.la 'gaoqing'
 [3]: http://jianshu.io 'jianshu'
+[4]: http://download.allroundautomations.com/plsqldev1100.exe
