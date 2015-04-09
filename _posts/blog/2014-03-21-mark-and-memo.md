@@ -21,6 +21,9 @@ description: 工具 软件
     serial Number：601769
     password：xs374ca
 
+### Xmanager Enterprise 5
+
+注册码：`101210-450789-147200`
 
 ### Dexpot
 一个类似linux多工作区的工具，挺方便，也很cool，来张图
