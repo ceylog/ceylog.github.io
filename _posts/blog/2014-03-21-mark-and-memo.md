@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      实用工具
+title:      杂项备忘
 category: blog
-description: 工具 软件
+description: 工具 软件 备忘
 ---
 
 ### Intellij IDEA
