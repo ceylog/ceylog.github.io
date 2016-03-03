@@ -39,8 +39,8 @@ description: 工具 软件 备忘
 
 
 ### 树莓派 开源硬件相关
-* openELEC
-* KODI（XBMC）
+* [openELEC](http://openelec.tv/)
+* [KODI（XBMC）](https://kodi.tv)
 
 
 ### linux服务器环境一键安装包
