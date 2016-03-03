@@ -44,8 +44,8 @@ description: 工具 软件 备忘
 
 
 ### linux服务器环境一键安装包
-* [OneinStack]([http://oneinstack.com/](http://oneinstack.com/))
-* [LNMP]([http://lnmp.org/](http://lnmp.org/))
+* [OneinStack](http://oneinstack.com/)
+* [LNMP](http://lnmp.org/)
 
 ### 看文章
 [简书][3]
