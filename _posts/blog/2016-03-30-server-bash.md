@@ -8,14 +8,17 @@ description: 服务器维护脚本 tomcat 应用备份操作  数据库备份操
 
 ###备份MySQL数据库
 
+```
   #!/bin/bash
 
   mysqldump -uroot -proot cswebsite > /root/cswebsite_`date +%Y%m%d%H%M%S`.sql
 
+```
 
 
 ###备份tomcat 应用
 
+```
   #!/bin/bash
   
   echo "shutdown tomcat.."
@@ -33,6 +36,6 @@ description: 服务器维护脚本 tomcat 应用备份操作  数据库备份操
   echo ""
   echo ""
   
-  
+```
   
  
