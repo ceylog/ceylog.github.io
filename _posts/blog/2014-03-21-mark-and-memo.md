@@ -50,6 +50,10 @@ description: 工具 软件 备忘
 ### 看文章
 [简书][3]
 
+
+### Intellij IDEA 在线注册
+[Intellij IDEA](http://idea.lanyus.com/)
+
 [1]: http://174.140.163.89/keygen/idea.htm 'Intellij IDEA'
 [2]: http://gaoqing.la 'gaoqing'
 [3]: http://jianshu.io 'jianshu'
