@@ -48,7 +48,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     ==> Summary
     🍺  /usr/local/Cellar/redis/3.2.3: 10 files, 1.7M, built in 13 seconds
     
-#### install
+#### start
     brew services start redis
 
 ### JDK
