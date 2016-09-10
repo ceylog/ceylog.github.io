@@ -17,22 +17,18 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ## iterm2
 #### install
-
-    ➜  ~ brew cask install iterm2
+    brew cask install iterm2
 
 ## dev tool
 ### mysql
 #### install
-
-    ➜  ~ brew install mysql
+    brew install mysql
 #### start
-
-    ➜  ~ mysql.server start
+    mysql.server start
     
 ### redis
 #### install
-
-    ➜  ~ brew install redis
+    brew install redis
     ==> Downloading https://homebrew.bintray.com/bottles/redis-3.2.3.el_capitan.bottle.tar.gz
 
     curl: (7) Failed to connect to akamai.bintray.com port 443: Operation timed out
@@ -53,23 +49,20 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     🍺  /usr/local/Cellar/redis/3.2.3: 10 files, 1.7M, built in 13 seconds
     
 #### install
-
-    ➜  ~ brew services start redis
+    brew services start redis
 
 ### JDK
-##### install 
-
-    ➜  ~ brew cask install java
-    ➜  ~ java -version
+##### install
+    brew cask install java
+    java -version
     java version "1.8.0_102"
     Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
     Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 
 ### maven
 ##### install
-
-    ➜  ~ brew cask install maven
-    ➜  ~ mvn -v
+    brew cask install maven
+    mvn -v
     Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:47+08:00)
     Maven home: /usr/local/Cellar/maven/3.3.9/libexec
     Java version: 1.8.0_102, vendor: Oracle Corporation
@@ -79,9 +72,8 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ### gradle
 ##### install
-
-    ➜  ~ brew cask install gradle
-    ➜  ~ gradle -v
+    brew cask install gradle
+    gradle -v
     ------------------------------------------------------------
     Gradle 3.0
     ------------------------------------------------------------
@@ -96,8 +88,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ### groovy
 ##### install
-
-    ➜  ~ brew cask install groovy
+    brew cask install groovy
     
 #### cask
 cask 可以安装很多软件、例如`jdk`，`maven`， `groovy`， `macDown`， `idea` 等等一系列软件都可以通过`cask`安装
