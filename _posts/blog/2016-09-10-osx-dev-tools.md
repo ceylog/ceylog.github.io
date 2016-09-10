@@ -17,17 +17,21 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ## iterm2
 #### install
+
     ➜  ~ brew cask install iterm2
 
 ## dev tool
 ### mysql
 #### install
+
     ➜  ~ brew install mysql
 #### start
+
     ➜  ~ mysql.server start
     
 ### redis
 #### install
+
     ➜  ~ brew install redis
     ==> Downloading https://homebrew.bintray.com/bottles/redis-3.2.3.el_capitan.bottle.tar.gz
 
@@ -49,10 +53,12 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     🍺  /usr/local/Cellar/redis/3.2.3: 10 files, 1.7M, built in 13 seconds
     
 #### install
+
     ➜  ~ brew services start redis
 
 ### JDK
 ##### install 
+
     ➜  ~ brew cask install java
     ➜  ~ java -version
     java version "1.8.0_102"
@@ -61,6 +67,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ### maven
 ##### install
+
     ➜  ~ brew cask install maven
     ➜  ~ mvn -v
     Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:47+08:00)
@@ -72,6 +79,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ### gradle
 ##### install
+
     ➜  ~ brew cask install gradle
     ➜  ~ gradle -v
     ------------------------------------------------------------
@@ -88,6 +96,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ### groovy
 ##### install
+
     ➜  ~ brew cask install groovy
     
 #### cask
