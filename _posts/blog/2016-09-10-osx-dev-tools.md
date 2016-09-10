@@ -8,7 +8,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 
 ## ZSH
-### 安装
+### install
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 ## homebrew
@@ -21,13 +21,13 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
 
 ## dev tool
 ### mysql
-####安装
+#### install
     ➜  ~ brew install mysql
-####启动
+#### start
     ➜  ~ mysql.server start
     
 ### redis
-#### 安装
+#### install
     ➜  ~ brew install redis
     ==> Downloading https://homebrew.bintray.com/bottles/redis-3.2.3.el_capitan.bottle.tar.gz
 
@@ -48,11 +48,11 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     ==> Summary
     🍺  /usr/local/Cellar/redis/3.2.3: 10 files, 1.7M, built in 13 seconds
     
-#### 启动
+#### install
     ➜  ~ brew services start redis
 
 ### JDK
-##### 安装 
+##### install 
     ➜  ~ brew cask install java
     ➜  ~ java -version
     java version "1.8.0_102"
@@ -60,7 +60,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 
 ### maven
-##### 安装
+##### install
     ➜  ~ brew cask install maven
     ➜  ~ mvn -v
     Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:47+08:00)
@@ -71,7 +71,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     OS name: "mac os x", version: "10.11.6", arch: "x86_64", family: "mac"
 
 ### gradle
-##### 安装
+##### install
     ➜  ~ brew cask install gradle
     ➜  ~ gradle -v
     ------------------------------------------------------------
@@ -87,7 +87,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     OS:           Mac OS X 10.11.6 x86_64
 
 ### groovy
-##### 安装
+##### install
     ➜  ~ brew cask install groovy
     
 #### cask
