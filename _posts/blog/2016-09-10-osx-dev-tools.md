@@ -16,7 +16,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 ## iterm2
-#### install
+### install
     brew cask install iterm2
 
 ## dev tool
@@ -52,7 +52,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     brew services start redis
 
 ### JDK
-##### install
+#### install
     brew cask install java
     java -version
     java version "1.8.0_102"
@@ -60,7 +60,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 
 ### maven
-##### install
+#### install
     brew cask install maven
     mvn -v
     Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:47+08:00)
@@ -71,7 +71,7 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     OS name: "mac os x", version: "10.11.6", arch: "x86_64", family: "mac"
 
 ### gradle
-##### install
+#### install
     brew cask install gradle
     gradle -v
     ------------------------------------------------------------
@@ -87,8 +87,8 @@ tags: [osx, tool, zsh, homebrew, brew, iterm2]
     OS:           Mac OS X 10.11.6 x86_64
 
 ### groovy
-##### install
+#### install
     brew cask install groovy
     
-#### cask
+### cask
 cask 可以安装很多软件、例如`jdk`，`maven`， `groovy`， `macDown`， `idea` 等等一系列软件都可以通过`cask`安装
