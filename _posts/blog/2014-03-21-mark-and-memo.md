@@ -50,6 +50,11 @@ description: 工具 软件 备忘
 ### 看文章
 [简书][3]
 
+### OSX 软件下载
+[AppKed](https://www.macbed.com/)
+[xclient](http://xclient.info/)
+[爱情守望者](http://www.waitsun.com)
+
 
 ### Intellij IDEA 在线注册
 [Intellij IDEA](http://idea.lanyus.com/)
