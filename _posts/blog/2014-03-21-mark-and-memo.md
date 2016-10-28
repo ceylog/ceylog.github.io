@@ -51,6 +51,7 @@ description: 工具 软件 备忘
 [简书][3]
 
 ### OSX 软件下载
+* [macpeers](http://www.macpeers.com/)
 * [AppKed](https://www.macbed.com/)
 * [xclient](http://xclient.info/)
 * [爱情守望者](http://www.waitsun.com)
