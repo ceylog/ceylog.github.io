@@ -37,5 +37,12 @@ echo ""
 echo ""
   
 ```
+
+
+### 筛选nginx日志访问量IP排名top1000(http 状态码403  请求路径/v2/sms/send)
+
+```
+awk '{if($9=="403" && $7=="/v2/sms/send") print $1}' /usr/local/tomcat/nginx-log/api.credan.com.log | sort | uniq -c | sort -nr -k1|head -n 1000
+``` 
   
  
