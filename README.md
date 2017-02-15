@@ -3,4 +3,4 @@ ceylog.github.io
 
 My[blog]
 
-[blog]: http://ceylog.github.io    "ceylog blog"
+[blog]: http://blog.wglgg.cn    "ceylog blog"
