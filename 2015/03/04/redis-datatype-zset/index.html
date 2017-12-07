@@ -1,0 +1,1311 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Ceylog Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="redis 相关整理（六）ZSet 类型">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis 整理（六）ZSet 类型">
+<meta property="og:url" content="http://blog.wglgg.cn/2015/03/04/redis-datatype-zset/index.html">
+<meta property="og:site_name" content="Ceylog Blog">
+<meta property="og:description" content="redis 相关整理（六）ZSet 类型">
+<meta property="og:updated_time" content="2017-04-07T06:51:33.634Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis 整理（六）ZSet 类型">
+<meta name="twitter:description" content="redis 相关整理（六）ZSet 类型">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wglgg.cn/2015/03/04/redis-datatype-zset/"/>
+
+
+
+
+
+  <title> redis 整理（六）ZSet 类型 | Ceylog Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?71481116ee0fd744a092e4317c9f870f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ceylog Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Whatever is worth doing is worth doing well.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://blog.wglgg.cn/2015/03/04/redis-datatype-zset/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ceylog">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ceylog Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ceylog Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis 整理（六）ZSet 类型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-03-04T00:00:00+08:00">
+                2015-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/03/04/redis-datatype-zset/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/04/redis-datatype-zset/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  redis 相关整理（六）ZSet 类型
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="zset-类型简介"><a href="#zset-类型简介" class="headerlink" title="zset 类型简介"></a>zset 类型简介</h2><p>zset全称为sorted-sets类型,和set数据类型有极为相似,都是字符串的集合,都不允许重复的成员<br>出现在一个set中.两者的主要区别是zset的每一个成员都会有一个分数(score)与之关联.redis正是通过分数来为集合中的成员进行从小到大的排序.zset的成员是唯一的,但分数(score)却可以重复.<br>在zset中添加、删除或更新一个成员都是非常快速的操作，其时间复杂度为集合中成员数量的对数.</p>
+<p>Sorted-Sets中的成员在集合中的位置是有序的.</p>
+<h2 id="zset-操作"><a href="#zset-操作" class="headerlink" title="zset 操作"></a>zset 操作</h2><h3 id="1-zadd"><a href="#1-zadd" class="headerlink" title="1. zadd"></a>1. zadd</h3><p>命令格式: zadd key score member [[score] [member] …]</p>
+<p>描述：将一个或多个 member 元素及其 score 值加入到有序集 key 当中.如果某个 member 已经是有序集的成员，那么更新这个 member 的 score 值，并通过重新插入这个 member 元素，来保证该 member 在正确的位置上。score 值可以是整数值或双精度浮点数。如果 key 不存在，则创建一个空的有序集并执行 ZADD 操作。当 key 存在但不是有序集类型时，返回一个错误。</p>
+<p>时间复杂度: O(M*log(N))， N 是有序集的基数， M 为成功添加的新成员的数量</p>
+<p>返回值:被成功添加的新成员的数量，不包括那些被更新的、已经存在的成员。</p>
+<p>添加一个元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset_list 11 test1
+(integer) 1
+</code></pre><p>添加多个元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset_list 1 test2 2 test3
+(integer) 2
+</code></pre><p>查看元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1
+1) &quot;test2&quot;
+2) &quot;test3&quot;
+3) &quot;test1&quot;
+</code></pre><p>查看元素带score值</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;11&quot;
+</code></pre><p>添加已存在元素，且 score 值不变 操作不成功返回0</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset_list 11 test1
+(integer) 0
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;11&quot;
+</code></pre><p>添加已存在元素，但是改变 score 值</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;3&quot;
+</code></pre><h3 id="zrem"><a href="#zrem" class="headerlink" title="zrem"></a>zrem</h3><p>命令格式: ZREM key member [member …]</p>
+<p>描述:移除有序集 key 中的一个或多个成员，不存在的成员将被忽略。当 key 存在但不是有序集类型时，返回一个错误。</p>
+<p>时间复杂度:O(M*log(N))， N 为有序集的基数， M 为被成功移除的成员的数量。</p>
+<p>返回值:被成功移除的成员的数量，不包括被忽略的成员。</p>
+<p>移除单个元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;3&quot;
+127.0.0.1:6379[1]&gt; zrem zset_list test1
+(integer) 1
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+</code></pre><p>移除多个</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrem zset_list test2 test3
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+(empty list or set)
+</code></pre><p>移除不存在元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+(empty list or set)
+127.0.0.1:6379[1]&gt; zrem zset_list test2
+(integer) 0
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+(empty list or set)
+</code></pre><h3 id="zcard"><a href="#zcard" class="headerlink" title="zcard"></a>zcard</h3><p>描述：返回zset集合的成员数</p>
+<p>时间复杂度：O(1)</p>
+<p>返回值：当 key 存在且是有序集(zset)类型时，返回集合内的成员数。不存在返回0。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zcard zset_list
+(integer) 0
+127.0.0.1:6379[1]&gt; zadd zset_list 0 test1
+(integer) 1
+127.0.0.1:6379[1]&gt; zcard zset_list
+(integer) 1
+127.0.0.1:6379[1]&gt; zadd zset_list 1 test2 2 test3
+(integer) 2
+127.0.0.1:6379[1]&gt; zcard zset_list
+(integer) 3
+</code></pre><h3 id="zcount"><a href="#zcount" class="headerlink" title="zcount"></a>zcount</h3><p>命令格式:ZCOUNT key min max</p>
+<p>描述：返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或 max )的成员的数量。</p>
+<p>时间复杂度: O(log(N)+M)， N 为有序集的基数， M 为值在 min 和 max 之间的元素的数量。</p>
+<p>返回值：score 值在 min 和 max 之间的成员的数量。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zcount zset_list 1 2
+(integer) 2
+127.0.0.1:6379[1]&gt; zcount zset_list 0 2
+(integer) 3
+127.0.0.1:6379[1]&gt; zcount zset_list 2 2
+(integer) 1 
+</code></pre><h3 id="zscore"><a href="#zscore" class="headerlink" title="zscore"></a>zscore</h3><p>命令格式:ZSCORE key member</p>
+<p>描述:返回有序集 key 中，成员 member 的 score 值。如果 member 元素不是有序集 key 的成员，或 key 不存在，返回 nil 。</p>
+<p>时间复杂度:O(1)</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zscore zset_list test2
+&quot;1&quot;
+127.0.0.1:6379[1]&gt; zscore zset_list test5
+(nil)
+</code></pre><h3 id="zincrby"><a href="#zincrby" class="headerlink" title="zincrby"></a>zincrby</h3><p>命令格式：ZINCRBY key increment member</p>
+<p>描述：为有序集 key 的成员 member 的 score 值加上增量 increment 。</p>
+<p>时间复杂度：O(log(N))</p>
+<p>返回值： 返回member 成员的新 score 值，以字符串形式表示。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zscore zset_list test2
+&quot;1&quot;
+127.0.0.1:6379[1]&gt; zincrby zset_list 2 test2
+&quot;3&quot;
+127.0.0.1:6379[1]&gt; zincrby zset_list -2 test2
+&quot;1&quot;
+</code></pre><h3 id="zrange"><a href="#zrange" class="headerlink" title="zrange"></a>zrange</h3><p>命令格式: ZRANGE key start stop [WITHSCORES]</p>
+<p>描述：返回指定区间的成员。其中成员位置按 score 值递增(从小到大)来排序。 WITHSCORES选项是用来让成员和它的score值一并返回.(在前面我们已经用到过)</p>
+<p>时间复杂度:O(log(N)+M)， N 为有序集的基数，而 M 为结果集的基数。</p>
+<p>返回值：返回指定区间的成员列表.</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 1 2
+1) &quot;test2&quot;
+2) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 2
+1) &quot;test1&quot;
+2) &quot;test2&quot;
+3) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1
+1) &quot;test1&quot;
+2) &quot;test2&quot;
+3) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+</code></pre><p>当给定区间不存在于有序集时的情况</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 10 20
+(empty list or set)
+</code></pre><h3 id="zrevrange"><a href="#zrevrange" class="headerlink" title="zrevrange"></a>zrevrange</h3><p>命令格式：ZREVRANGE key start stop [WITHSCORES]</p>
+<p>描述：和zrange一样使用，唯一不同是其成员位置按 score 值递减(从大到小)来排列。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrevrange zset_list 0 -1 withscores
+1) &quot;test3&quot;
+2) &quot;2&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test1&quot;
+6) &quot;0&quot;
+</code></pre><h3 id="zrangebyscore"><a href="#zrangebyscore" class="headerlink" title="zrangebyscore"></a>zrangebyscore</h3><p>命令格式：ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</p>
+<p>描述：返回有序集key中所有score值介于min与max之间(包括等于)的成员.成员按score值递增(从小到大)排列 。min 和 max 可以是 -inf 和 +inf可选limit参数指定返回结果的数量及区间。</p>
+<p>时间复杂度：O(log(N)+M)， N 为有序集的基数， M 为被结果集的基数。</p>
+<p>返回值：指定区间内，带有 score 值(可选)的有序集成员的列表。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf
+1) &quot;test1&quot;
+2) &quot;test2&quot;
+3) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrangebyscore zset_list 1 +inf withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+</code></pre><p>显示大于2 小于等于10的成员</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrangebyscore zset_list (1 10
+1) &quot;test3
+</code></pre><p>显示条件 1 &lt; score &lt; 10 的成员</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list (1 (10
+1) &quot;test3&quot;
+</code></pre><h3 id="zrevrangebyscore"><a href="#zrevrangebyscore" class="headerlink" title="zrevrangebyscore"></a>zrevrangebyscore</h3><p>命令格式: zrevrangebyscore key max min [WITHSCORES] [LIMIT offset count]</p>
+<p>描述：和zrangebyscore一样，唯一不同的是成员按 score 值递减(从大到小)的次序排列。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrevrangebyscore zset_list +inf -inf withscores
+1) &quot;test3&quot;
+2) &quot;2&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test1&quot;
+6) &quot;0&quot;
+</code></pre><h3 id="zrank"><a href="#zrank" class="headerlink" title="zrank"></a>zrank</h3><p>命令格式： zrank key member</p>
+<p>描述：返回有序集key中成员member的排名。成员按 score 值递增(从小到大)顺序排列。排名以0开始，也就是说score 值最小的为0.</p>
+<p>时间复杂度:O(log(N))</p>
+<p>返回值：返回成员排名，member不存在返回nil.</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrank zset_list test1
+(integer) 0
+</code></pre><h3 id="zrevrank"><a href="#zrevrank" class="headerlink" title="zrevrank"></a>zrevrank</h3><p>命令格式： zrevrank key member</p>
+<p>描述：返回有序集key中成员member的排名。成员按 score 值递增(从大到小)顺序排列。排名以0开始，也就是说score 值最大的为0.</p>
+<p>时间复杂度:O(log(N))</p>
+<p>返回值：返回成员排名，member不存在返回nil.</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrevrank zset_list test3
+(integer) 0
+</code></pre><h3 id="zremrangebyrank"><a href="#zremrangebyrank" class="headerlink" title="zremrangebyrank"></a>zremrangebyrank</h3><p>命令格式: ZREMRANGEBYRANK key start stop</p>
+<p>描述：移除有序集 key 中，指定排名(rank)区间内的所有成员。区间分别以下标参数 start 和 stop 指出，包含 start 和 stop 在内。下标参数 start 和 stop 都以 0 为底，也就是说，以 0 表示有序集第一个成员，以 1 表示有序集第二个成员，以此类推。你也可以使用负数下标，以 -1 表示最后一个成员， -2 表示倒数第二个成员，以此类推。</p>
+<p>时间复杂度:O(log(N)+M)， N 为有序集的基数，而 M 为被移除成员的数量。</p>
+<p>返回值:被移除成员的数量。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zremrangebyrank zset_list 1 2
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+</code></pre><h3 id="zremrangebyscore"><a href="#zremrangebyscore" class="headerlink" title="zremrangebyscore"></a>zremrangebyscore</h3><p>命令格式：zremrangebyscore key min max</p>
+<p>描述：移除score值介于min和max之间（等于）的成员</p>
+<p>时间复杂度:O(log(N)+M)， N 为有序集的基数，而 M 为被移除成员的数量。</p>
+<p>返回值:被移除成员的数量。</p>
+<p>移除所有score在 100 到 110 内的数据</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test11&quot;
+4) &quot;100&quot;
+5) &quot;test22&quot;
+6) &quot;101&quot;
+127.0.0.1:6379[1]&gt; zremrangebyscore zset_list 100 110
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+</code></pre><h3 id="zunionstore"><a href="#zunionstore" class="headerlink" title="zunionstore"></a>zunionstore</h3><p>命令格式：ZUNIONSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]] [AGGREGATE SUM|MIN|MAX]</p>
+<p>描述：计算给定的一个或多个有序集的并集，其中给定 key 的数量必须以 numkeys 参数指定，并将该并集(结果集)储存到 destination 。默认情况下，结果集中某个成员的 score 值是所有给定集下该成员 score 值之 和 。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset1 1 test1 2 test2
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+127.0.0.1:6379[1]&gt; zadd zset_list 1 test2
+(integer) 1
+127.0.0.1:6379[1]&gt; zunionstore dis_set 2 zset_list zset1
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange dis_set 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;3&quot;
+127.0.0.1:6379[1]&gt; zrange zset1 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+127.0.0.1:6379[1]&gt; zadd zset_list 3 test3
+(integer) 1
+127.0.0.1:6379[1]&gt; zunionstore dis_set1 2 zset_list zset1
+(integer) 3
+127.0.0.1:6379[1]&gt; zrange dis_set1 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;3&quot;
+5) &quot;test3&quot;
+6) &quot;3&quot;
+</code></pre><h3 id="zinterstore"><a href="#zinterstore" class="headerlink" title="zinterstore"></a>zinterstore</h3><p>命令格式：ZINTERSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]] [AGGREGATE SUM|MIN|MAX]</p>
+<p>描述：计算给定的一个或多个有序集的交集。其中给定 key 的数量必须以 numkeys 参数指定，并将该交集(结果集)储存到 destination 。默认情况下，结果集中某个成员的 score 值是所有给定集下该成员 score 值之 和 。</p>
+<p>时间复杂度：O(N<em>K)+O(M</em>log(M))， N 为给定 key 中基数最小的有序集， K 为给定有序集的数量， M 为结果集的基数。</p>
+<p>返回值：保存到 destination 的结果集成员数。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset1 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;3&quot;
+127.0.0.1:6379[1]&gt; zinterstore dis_set2 2 zset1 zset_list
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange dis_set2 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;3&quot;
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat_mp.jpg" alt="ceylog wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我公众平台！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx_pay.png" alt="ceylog WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/04/redis-key-operation/" rel="next" title="redis 整理（七）key（键）的相关操作">
+                <i class="fa fa-chevron-left"></i> redis 整理（七）key（键）的相关操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/08/15/java-overloading-Overriding/" rel="prev" title="Java 重载与重写的区别">
+                Java 重载与重写的区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/03/04/redis-datatype-zset/"
+     data-title="redis 整理（六）ZSet 类型"
+     data-content=""
+     data-url="http://blog.wglgg.cn/2015/03/04/redis-datatype-zset/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/03/04/redis-datatype-zset/"
+           data-title="redis 整理（六）ZSet 类型" data-url="http://blog.wglgg.cn/2015/03/04/redis-datatype-zset/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="ceylog" />
+          <p class="site-author-name" itemprop="name">ceylog</p>
+           
+              <p class="site-description motion-element" itemprop="description">If you find a path with no obstacles, it probably doesn’t lead anywhere.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ceylog" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/ceylog" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/ceylog" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/ceylogs" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#zset-类型简介"><span class="nav-number">1.</span> <span class="nav-text">zset 类型简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zset-操作"><span class="nav-number">2.</span> <span class="nav-text">zset 操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-zadd"><span class="nav-number">2.1.</span> <span class="nav-text">1. zadd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrem"><span class="nav-number">2.2.</span> <span class="nav-text">zrem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zcard"><span class="nav-number">2.3.</span> <span class="nav-text">zcard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zcount"><span class="nav-number">2.4.</span> <span class="nav-text">zcount</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zscore"><span class="nav-number">2.5.</span> <span class="nav-text">zscore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zincrby"><span class="nav-number">2.6.</span> <span class="nav-text">zincrby</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrange"><span class="nav-number">2.7.</span> <span class="nav-text">zrange</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrevrange"><span class="nav-number">2.8.</span> <span class="nav-text">zrevrange</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrangebyscore"><span class="nav-number">2.9.</span> <span class="nav-text">zrangebyscore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrevrangebyscore"><span class="nav-number">2.10.</span> <span class="nav-text">zrevrangebyscore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrank"><span class="nav-number">2.11.</span> <span class="nav-text">zrank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrevrank"><span class="nav-number">2.12.</span> <span class="nav-text">zrevrank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zremrangebyrank"><span class="nav-number">2.13.</span> <span class="nav-text">zremrangebyrank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zremrangebyscore"><span class="nav-number">2.14.</span> <span class="nav-text">zremrangebyscore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zunionstore"><span class="nav-number">2.15.</span> <span class="nav-text">zunionstore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zinterstore"><span class="nav-number">2.16.</span> <span class="nav-text">zinterstore</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ceylog</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wglgg"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

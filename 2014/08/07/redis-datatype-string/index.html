@@ -1,0 +1,1143 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Ceylog Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="redis 相关整理（二）String类型">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis 整理（二）String类型">
+<meta property="og:url" content="http://blog.wglgg.cn/2014/08/07/redis-datatype-string/index.html">
+<meta property="og:site_name" content="Ceylog Blog">
+<meta property="og:description" content="redis 相关整理（二）String类型">
+<meta property="og:updated_time" content="2017-04-07T06:51:33.632Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis 整理（二）String类型">
+<meta name="twitter:description" content="redis 相关整理（二）String类型">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wglgg.cn/2014/08/07/redis-datatype-string/"/>
+
+
+
+
+
+  <title> redis 整理（二）String类型 | Ceylog Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?71481116ee0fd744a092e4317c9f870f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ceylog Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Whatever is worth doing is worth doing well.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://blog.wglgg.cn/2014/08/07/redis-datatype-string/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ceylog">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ceylog Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ceylog Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis 整理（二）String类型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2014-08-07T00:00:00+08:00">
+                2014-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/08/07/redis-datatype-string/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/07/redis-datatype-string/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  redis 相关整理（二）String类型
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上文详细介绍了Redis数据库以及它的安装过程，及适用场景，已经了解，Redis数据库是基于内存的数据库，速度极快，本篇将介绍redis数据库的操作使用方法，Redis有七种数据类型：字符串，哈希表，链表，集合和有序集合</p>
+<h2 id="String-类型简介"><a href="#String-类型简介" class="headerlink" title="String 类型简介"></a>String 类型简介</h2><p>String是最简单的类型，可以理解成与Memcached是一模一样的类型，一个Key对应一个Value，可以完全实现Memcached的功能，而且效率要比Memcached高很多，同时可以设置Redis的定时数据持久化，操作日志的记录以及主从复制等功能！</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="1-set"><a href="#1-set" class="headerlink" title="1. set"></a>1. set</h3><p>设置Key对应的值为string类型的value。</p>
+<p>例如设置一个name = zhangsan 的键值对，可以这样做：</p>
+<pre><code>$ redis-cli
+redis 127.0.0.1:6379&gt; set name zhangsan
+OK
+redis 127.0.0.1:6379&gt; get name
+&quot;zhangsan&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="2-setnx"><a href="#2-setnx" class="headerlink" title="2. setnx"></a>2. setnx</h3><p>设置key 对应的值为string 类型的value。如果key 已经存在，返回0，nx 是not exist 的意思。</p>
+<p>例如添加一个name= lisi 的键值对，可以这样做:</p>
+<pre><code>redis 127.0.0.1:6379&gt; setnx name lisi
+(integer) 0
+redis 127.0.0.1:6379&gt; get name
+&quot;lisi&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>由于原来name 有一个对应的值，所以本次的修改不生效，且返回码是0。</p>
+<h3 id="3-setex"><a href="#3-setex" class="headerlink" title="3. setex"></a>3. setex</h3><p>设置一个键对应的值，并对此键值对设置一个有效期。</p>
+<p>例如：指定一个键值对 result = success，并且设置一个有效期为10秒，我们来这样做：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set result 10 success
+OK
+redis 127.0.0.1:6379&gt; get result
+&quot;success&quot;
+redis 127.0.0.1:6379&gt; get result
+(nil)
+redis 127.0.0.1:6379&gt;
+</code></pre><p>由于第二次调用已经超过10秒，所以无法取到result的值了！！！</p>
+<h3 id="4-setrange"><a href="#4-setrange" class="headerlink" title="4. setrange"></a>4. setrange</h3><p>设置指定键的值的子字符串。</p>
+<p>例如：我现在要把 gang 的邮箱 finalsin@foxmail.com 改为 finalsin@sina.com</p>
+<pre><code>redis 127.0.0.1:6379&gt; get gang
+&quot;finalsin@foxmail.com&quot;
+redis 127.0.0.1:6379&gt; setrange gang 9 sina.com
+(integer) 21
+redis 127.0.0.1:6379&gt; get gang
+&quot;finalsin@sina.com&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="5-mset"><a href="#5-mset" class="headerlink" title="5. mset"></a>5. mset</h3><p>同时设置多个键值对，成功返回ok表示所有键设置成功，失败则返回0表示所有键设置都不成功</p>
+<p>例如：同时设置 王刚 的多个爱好：</p>
+<pre><code>redis 127.0.0.1:6379&gt; mset hobby1 music hobby2 sport hobby3 girl
+OK
+redis 127.0.0.1:6379&gt; get hobby1
+&quot;music&quot;
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="6-msetnx"><a href="#6-msetnx" class="headerlink" title="6. msetnx"></a>6. msetnx</h3><p>同时设置多个键值对，同样失败返回0表示所有键都没有设置成功，成功返回OK表示所有键都设置成功，但不同于mset的是本方法不会设置已经存在的键值对！</p>
+<pre><code>redis 127.0.0.1:6379&gt; get hobby1
+&quot;music&quot;
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+redis 127.0.0.1:6379&gt; msetnx hobby1 tingge hobby4 hejiu
+(integer) 0
+redis 127.0.0.1:6379&gt; get hobby4
+(nil)
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+</code></pre><p>可以看出如果这条命令返回0，那么里面操作都会回滚，都不会被执行。</p>
+<h3 id="7-get"><a href="#7-get" class="headerlink" title="7. get"></a>7. get</h3><p>获取某个键对应的值，如果不存在则返回 <code>nil</code></p>
+<pre><code>redis 127.0.0.1:6379&gt; get hobby4
+(nil)
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+</code></pre><p>如上例，hobby3存在，并且值为”girl”，hobby4不存在，则返回 <code>nil</code></p>
+<h3 id="8-getset"><a href="#8-getset" class="headerlink" title="8. getset"></a>8. getset</h3><p>设置某一个键的值，并且返回该键的旧值，如果该键不存在，则返回 <code>nil</code>，然后再设置新的值</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; getset hobby4 football
+(nil)
+redis 127.0.0.1:6379&gt; getset hobby3 basketball
+&quot;girl&quot;
+redis 127.0.0.1:6379&gt; get hobby4
+&quot;football&quot;
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;basketball&quot;
+</code></pre><h3 id="9-getrange"><a href="#9-getrange" class="headerlink" title="9. getrange"></a>9. getrange</h3><p>获取指定键的值的子字符串</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; getrange gang 0 7
+&quot;finalsin&quot;
+redis 127.0.0.1:6379&gt; getrange gang -8 -1
+&quot;sina.com&quot;
+redis 127.0.0.1:6379&gt; getrange gang 0 100
+&quot;finalsin@sina.com&quot;
+</code></pre><p>上例中，getrange jiege 0 4 表示获取 jiege 这个键的值的下标为 0~4 的所有字符</p>
+<p>同样，getrange jiege -15 -1 表示获取 jiege 这个键的值的下标从后数第15个到最后一个的所有字符</p>
+<p>而 getrange jiege 0 100 则表示全部输出 jiege 这个键的值的所有字符，因为最后一个字符的下标 小于 100，</p>
+<p>当下标超出字符串长度时，将默认为是同方向的最大下标。</p>
+<h3 id="10-mget"><a href="#10-mget" class="headerlink" title="10. mget"></a>10. mget</h3><p>一次性获取多个键的值，如果键不存在，则返回 <code>nil</code></p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; mget hobby1 hobby2 hobby5
+1) &quot;music&quot;
+2) &quot;sport&quot;
+3) (nil)
+redis 127.0.0.1:6379&gt;
+</code></pre><p>hobby5不存在，所以返回<code>nil</code>。</p>
+<h3 id="11-incr"><a href="#11-incr" class="headerlink" title="11. incr"></a>11. incr</h3><p>对一个键的值做加加操作，并返回新的值，如果该键的值类型不是int类型，将会报错，如果该键不存在，则设置该键为1</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set age 20
+OK
+redis 127.0.0.1:6379&gt; incr age
+(integer) 21
+redis 127.0.0.1:6379&gt; get age
+&quot;21&quot;
+redis 127.0.0.1:6379&gt; get age1
+(nil)
+redis 127.0.0.1:6379&gt; incr age1
+(integer) 1
+redis 127.0.0.1:6379&gt; get age1
+&quot;1&quot;
+</code></pre><h3 id="12-incrby"><a href="#12-incrby" class="headerlink" title="12. incrby"></a>12. incrby</h3><p>类似于incr，但是incrby可以指定增加的值</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; incrby age 5
+(integer) 26
+redis 127.0.0.1:6379&gt; get age
+&quot;26&quot;
+redis 127.0.0.1:6379&gt; incrby age -1
+(integer) 25
+redis 127.0.0.1:6379&gt; get age
+&quot;25&quot;
+</code></pre><p>可以看到，5代表给age键增加5，而-1表示给age键减1，即正数为加，负数为减</p>
+<h3 id="13-decr"><a href="#13-decr" class="headerlink" title="13. decr"></a>13. decr</h3><p>对某一个键做减减操作，同incr</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set age 20
+OK
+redis 127.0.0.1:6379&gt; decr age
+(integer) 19
+redis 127.0.0.1:6379&gt; get age
+&quot;19&quot;
+redis 127.0.0.1:6379&gt; get age1
+(nil)
+redis 127.0.0.1:6379&gt; decr age1
+(integer) -1
+redis 127.0.0.1:6379&gt; get age1
+&quot;-1&quot;
+</code></pre><h3 id="14-decrby"><a href="#14-decrby" class="headerlink" title="14. decrby"></a>14. decrby</h3><p>同incrby，给某一键减去指定的值</p>
+<pre><code>redis 127.0.0.1:6379&gt; decrby age 5
+(integer) 14
+redis 127.0.0.1:6379&gt; get age
+&quot;14&quot;
+</code></pre><p>decrby 完全是为了可读性，我们完全可以通过incrby 一个负值来实现同样效果，反之一样。</p>
+<h3 id="15-append"><a href="#15-append" class="headerlink" title="15. append"></a>15. append</h3><p>给指定key 的字符串值追加value,返回新字符串值的长度。</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set name wanggang
+OK
+redis 127.0.0.1:6379&gt; get name
+&quot;wanggang&quot;
+redis 127.0.0.1:6379&gt; append name @wg.org
+(integer) 15
+redis 127.0.0.1:6379&gt; get name
+&quot;wanggang@wg.org&quot;
+</code></pre><h3 id="16-strlen"><a href="#16-strlen" class="headerlink" title="16. strlen"></a>16. strlen</h3><p>取指定key 的value 值的长度。</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; get name
+&quot;wanggang@wg.org&quot;  
+redis 127.0.0.1:6379&gt; strlen name
+(integer) 15
+redis 127.0.0.1:6379&gt; get age
+&quot;20&quot;
+redis 127.0.0.1:6379&gt; strlen age
+(integer) 2
+</code></pre><p>好了，这就是String类型的所有操作</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat_mp.jpg" alt="ceylog wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我公众平台！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx_pay.png" alt="ceylog WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/08/08/redis-datatype-hash/" rel="next" title="redis 整理（三）hash 类型">
+                <i class="fa fa-chevron-left"></i> redis 整理（三）hash 类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/08/06/redis-introduction-install/" rel="prev" title="redis 整理（一）简介及安装">
+                redis 整理（一）简介及安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2014/08/07/redis-datatype-string/"
+     data-title="redis 整理（二）String类型"
+     data-content=""
+     data-url="http://blog.wglgg.cn/2014/08/07/redis-datatype-string/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/08/07/redis-datatype-string/"
+           data-title="redis 整理（二）String类型" data-url="http://blog.wglgg.cn/2014/08/07/redis-datatype-string/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="ceylog" />
+          <p class="site-author-name" itemprop="name">ceylog</p>
+           
+              <p class="site-description motion-element" itemprop="description">If you find a path with no obstacles, it probably doesn’t lead anywhere.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ceylog" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/ceylog" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/ceylog" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/ceylogs" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#String-类型简介"><span class="nav-number">1.</span> <span class="nav-text">String 类型简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作"><span class="nav-number">2.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-set"><span class="nav-number">2.1.</span> <span class="nav-text">1. set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-setnx"><span class="nav-number">2.2.</span> <span class="nav-text">2. setnx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-setex"><span class="nav-number">2.3.</span> <span class="nav-text">3. setex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-setrange"><span class="nav-number">2.4.</span> <span class="nav-text">4. setrange</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-mset"><span class="nav-number">2.5.</span> <span class="nav-text">5. mset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-msetnx"><span class="nav-number">2.6.</span> <span class="nav-text">6. msetnx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-get"><span class="nav-number">2.7.</span> <span class="nav-text">7. get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-getset"><span class="nav-number">2.8.</span> <span class="nav-text">8. getset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-getrange"><span class="nav-number">2.9.</span> <span class="nav-text">9. getrange</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-mget"><span class="nav-number">2.10.</span> <span class="nav-text">10. mget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-incr"><span class="nav-number">2.11.</span> <span class="nav-text">11. incr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-incrby"><span class="nav-number">2.12.</span> <span class="nav-text">12. incrby</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-decr"><span class="nav-number">2.13.</span> <span class="nav-text">13. decr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-decrby"><span class="nav-number">2.14.</span> <span class="nav-text">14. decrby</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-append"><span class="nav-number">2.15.</span> <span class="nav-text">15. append</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-strlen"><span class="nav-number">2.16.</span> <span class="nav-text">16. strlen</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ceylog</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wglgg"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

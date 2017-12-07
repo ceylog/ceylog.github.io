@@ -1,0 +1,1121 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Ceylog Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="redis 相关整理（一）简介及安装">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis 整理（一）简介及安装">
+<meta property="og:url" content="http://blog.wglgg.cn/2014/08/06/redis-introduction-install/index.html">
+<meta property="og:site_name" content="Ceylog Blog">
+<meta property="og:description" content="redis 相关整理（一）简介及安装">
+<meta property="og:updated_time" content="2017-04-07T06:51:33.639Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis 整理（一）简介及安装">
+<meta name="twitter:description" content="redis 相关整理（一）简介及安装">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wglgg.cn/2014/08/06/redis-introduction-install/"/>
+
+
+
+
+
+  <title> redis 整理（一）简介及安装 | Ceylog Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?71481116ee0fd744a092e4317c9f870f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ceylog Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Whatever is worth doing is worth doing well.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://blog.wglgg.cn/2014/08/06/redis-introduction-install/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ceylog">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ceylog Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ceylog Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis 整理（一）简介及安装
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2014-08-06T00:00:00+08:00">
+                2014-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/08/06/redis-introduction-install/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/06/redis-introduction-install/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  redis 相关整理（一）简介及安装
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="NoSQL-简介"><a href="#NoSQL-简介" class="headerlink" title="NoSQL 简介"></a>NoSQL 简介</h2><p>NoSQL更注重的是对海量数据存取的性能、分布式、扩展性支持上，并不需要传统关系数据库的一些特征，例如：Schema、事务、完整SQL查询支持等等，因此在分布式环境下的性能相对与传统的关系数据库有较大的提升。<br>Redis就是NoSQL这个大家族中的一份子，它是一个开源的使用ANSI C语言编写、支持网络、可基于内存也可持久化的日志型、Key-Value数据库，并提供多种语言的API。</p>
+<h2 id="Redis-简介"><a href="#Redis-简介" class="headerlink" title="Redis 简介"></a>Redis 简介</h2><p><a href="http://redis.io" title="redis" target="_blank" rel="external">Redis</a> is an open source, BSD licensed, advanced key-value cache and store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets, sorted sets, bitmaps and hyperloglogs.</p>
+<p>Redis是一个开源的，高级的键值式存储数据库。它通常被称为一个数据结构服务器可以包含字符串，哈希表，链表，集合和有序集合。</p>
+<p>为了实现其出色的表现，Redis是工作在内存中的数据集。您还可以根据您的具体的使用情况，每隔一段时间或执行命令时将数据集写入到磁盘，并且添加到日志中。Redis还支持主从复制，并且配置起来很简单，第一次同步就可以无阻塞的达到极快的速度，在网络断开的时候可以自动重连等等。另外它的简单的检查与设置机制，发布(Publish)与订阅(Subscribe)和配置设置的特性使它看起来像是一个缓存。</p>
+<h2 id="Redis-适用场景"><a href="#Redis-适用场景" class="headerlink" title="Redis 适用场景"></a>Redis 适用场景</h2><h3 id="1、取最新N-个数据的操作"><a href="#1、取最新N-个数据的操作" class="headerlink" title="1、取最新N 个数据的操作"></a>1、取最新N 个数据的操作</h3><p>比如典型的取你网站的最新文章，通过下面方式，我们可以将最新的5000 条评论的ID 放在Redis 的List 集合中，<br>并将超出集合部分从数据库获取。</p>
+<h3 id="2、排行榜应用，取TOP-N-操作"><a href="#2、排行榜应用，取TOP-N-操作" class="headerlink" title="2、排行榜应用，取TOP N 操作"></a>2、排行榜应用，取TOP N 操作</h3><p>这个需求与上面需求的不同之处在于，前面操作以时间为权重，这个是以某个条件为权重，比如按顶的次数排序，<br>这时候就需要我们的sorted set 出马了，将你要排序的值设置成sorted set 的score，将具体的数据设置成相应的value，<br>每次只需要执行一条ZADD 命令即可。</p>
+<h3 id="3、需要精准设定过期时间的应用"><a href="#3、需要精准设定过期时间的应用" class="headerlink" title="3、需要精准设定过期时间的应用"></a>3、需要精准设定过期时间的应用</h3><p>比如你可以把上面说到的sorted set 的score 值设置成过期时间的时间戳，那么就可以简单地通过过期时间排序，<br>定时清除过期数据了，不仅是清除Redis 中的过期数据，你完全可以把Redis 里这个过期时间当成是对数据库中数据的索引，<br>用Redis 来找出哪些数据需要过期删除，然后再精准地从数据库中删除相应的记录。</p>
+<h3 id="4、计数器应用"><a href="#4、计数器应用" class="headerlink" title="4、计数器应用"></a>4、计数器应用</h3><p>Redis 的命令都是原子性的，你可以轻松地利用INCR，DECR 命令来构建计数器系统。</p>
+<h3 id="5、Uniq-操作，获取某段时间所有数据排重值"><a href="#5、Uniq-操作，获取某段时间所有数据排重值" class="headerlink" title="5、Uniq 操作，获取某段时间所有数据排重值"></a>5、Uniq 操作，获取某段时间所有数据排重值</h3><p>这个使用Redis 的set 数据结构最合适了，只需要不断地将数据往set 中扔就行了，set 意为集合，所以会自动排重。</p>
+<h3 id="6、实时系统，反垃圾系统"><a href="#6、实时系统，反垃圾系统" class="headerlink" title="6、实时系统，反垃圾系统"></a>6、实时系统，反垃圾系统</h3><p>通过上面说到的set 功能，你可以知道一个终端用户是否进行了某个操作，可以找到其操作的集合并进行分析统计对比等。<br>没有做不到，只有想不到。</p>
+<h3 id="7、Pub-Sub-构建实时消息系统"><a href="#7、Pub-Sub-构建实时消息系统" class="headerlink" title="7、Pub/Sub 构建实时消息系统"></a>7、Pub/Sub 构建实时消息系统</h3><p>Redis 的Pub/Sub 系统可以构建实时的消息系统，比如很多用Pub/Sub 构建的实时聊天系统的例子。</p>
+<h3 id="8、构建队列系统"><a href="#8、构建队列系统" class="headerlink" title="8、构建队列系统"></a>8、构建队列系统</h3><p>使用list 可以构建队列系统，使用sorted set 甚至可以构建有优先级的队列系统。</p>
+<h3 id="9、缓存"><a href="#9、缓存" class="headerlink" title="9、缓存"></a>9、缓存</h3><p>这个不必说了，性能优于Memcached，数据结构更多样化。</p>
+<h2 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h2><h3 id="第一步，下载Redis，可以通过官网下载最新版本的源代码包"><a href="#第一步，下载Redis，可以通过官网下载最新版本的源代码包" class="headerlink" title="第一步，下载Redis，可以通过官网下载最新版本的源代码包"></a>第一步，下载Redis，可以通过官网<a href="http://redis.io/download" title="redis download" target="_blank" rel="external">下载</a>最新版本的源代码包</h3><h3 id="第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装"><a href="#第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装" class="headerlink" title="第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装"></a>第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装</h3><pre><code>$ tar zxf redis-2.8.13.tar.gz
+$ cd redis-2.8.13
+$ make
+$ cd src &amp;&amp; make all
+</code></pre><h3 id="第三步，启动redis服务"><a href="#第三步，启动redis服务" class="headerlink" title="第三步，启动redis服务"></a>第三步，启动redis服务</h3><pre><code>$ src/redis-server
+</code></pre><h3 id="第四步，测试redis"><a href="#第四步，测试redis" class="headerlink" title="第四步，测试redis"></a>第四步，测试redis</h3><pre><code>$ redis－cli
+redis 127.0.0.1:6379&gt; set foo 123
+redis 127.0.0.1:6379&gt; get foo  
+&quot;123&quot;
+redis 127.0.0.1:6379&gt; exit
+</code></pre><p>Redis服务器的端口默认是6379，但是你会发现Redis服务会一直占用我们当前登录Linux的SESSION，那能否像Mysql或者是MongoDB一样在后台执行Redis进程呢，当然可以，我们只需要更改Redis的配置文件，并且启动的时候指定配置文件即可！</p>
+<p>如果是一个专业的DBA，那么实例启动时会加很多参数以便是系统运行的非常稳定，这样就可能在启动时在Redis后面加一个参数，以指定配置文件的路径，就像mysql一样的读取启动配置文件的方式来启动数据库。</p>
+<p>Redis的配置文件redis.conf里面都有什么：</p>
+<pre><code>#是否作为守护进程运行  
+daemonize yes  
+#配置 pid 的存放路径及文件名,默认为当前路径下  
+pidfile redis.pid  
+#Redis 默认监听端口  
+port 6379  
+#客户端闲置多少秒后,断开连接  
+timeout 300  
+#日志显示级别  
+loglevel verbose  
+#指定日志输出的文件名,也可指定到标准输出端口  
+logfile stdout  
+#设置数据库的数量,默认连接的数据库是 0,可以通过 select N 来连接不同的数据库  
+databases 16  
+#保存数据到 disk 的策略  
+#当有一条 Keys 数据被改变是,900 秒刷新到 disk 一次  
+save 900 1  
+#当有 10 条 Keys 数据被改变时,300 秒刷新到 disk 一次  
+save 300 10  
+#当有 1w 条 keys 数据被改变时,60 秒刷新到 disk 一次  
+save 60 10000  
+#当 dump .rdb 数据库的时候是否压缩数据对象  
+rdbcompression yes  
+#dump 数据库的数据保存的文件名  
+dbfilename dump.rdb  
+#Redis 的工作目录  
+dir /home/falcon/redis-2.0.0/  
+########### Replication #####################  
+#Redis 的复制配置  
+# slaveof &lt;masterip&gt; &lt;masterport&gt;  
+# masterauth &lt;master-password&gt;  
+############## SECURITY ###########  
+# requirepass foobared  
+############### LIMITS ##############  
+#最大客户端连接数  
+# maxclients 128  
+#最大内存使用率  
+# maxmemory &lt;bytes&gt;  
+########## APPEND ONLY MODE #########  
+#是否开启日志功能  
+appendonly no  
+# 刷新日志到 disk 的规则  
+# appendfsync always  
+appendfsync everysec  
+# appendfsync no  
+################ VIRTUAL MEMORY ###########  
+#是否开启 VM 功能  
+vm-enabled no  
+# vm-enabled yes  
+vm-swap-file logs/redis.swap  
+vm-max-memory 0  
+vm-page-size 32  
+vm-pages 134217728  
+vm-max-threads 4  
+############# ADVANCED CONFIG ###############  
+glueoutputbuf yes  
+hash-max-zipmap-entries 64  
+hash-max-zipmap-value 512  
+#是否重置 Hash 表  
+activerehashing yes
+</code></pre><p>可以看到第一条就是启动后台进程启动Redis服务，将其设置为yes，就会在后台运行Redis服务！</p>
+<p>启动的时候来指定redis的配置文件</p>
+<pre><code>$ /usr/local/redis/bin/redis-server /usr/local/redis/redis.conf
+</code></pre><h2 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h2><h3 id="1-配置"><a href="#1-配置" class="headerlink" title="1.配置"></a>1.配置</h3><p>将以下代码存为redis,放到/etc/init.d/下面,注意修改相应的路径</p>
+<pre><code>#
+# chkconfig: - 90 10
+# description: Redis is an open source, advanced key-value store. 
+#
+# processname: redis-server
+# config: /etc/redis.conf
+# pidfile: /var/run/redis.pid
+
+PATH=/usr/local/bin:/sbin:/usr/bin:/bin
+
+REDISPORT=6379
+EXEC=/usr/local/bin/redis-server
+REDIS_CLI=/usr/local/bin/redis-cli
+
+PIDFILE=/var/run/redis.pid
+CONF=&quot;/etc/redis.conf&quot;
+
+case &quot;$1&quot; in
+    start)
+        if [ -f $PIDFILE ]
+        then
+                echo -n &quot;$PIDFILE exists, process is already running or crashed\n&quot;
+        else
+                echo -n &quot;Starting Redis server...\n&quot;
+                $EXEC $CONF
+        fi
+        ;;
+    stop)
+        if [ ! -f $PIDFILE ]
+        then
+                echo -n &quot;$PIDFILE does not exist, process is not running\n&quot;
+        else
+        PID=$(cat $PIDFILE)
+                echo -n &quot;Stopping ...\n&quot;
+                $REDIS_CLI -p $REDISPORT SHUTDOWN
+                while [ -x ${PIDFILE} ]
+                do
+                    echo &quot;Waiting for Redis to shutdown ...&quot;
+                    sleep 1
+                done
+                echo &quot;Redis stopped&quot;
+        fi
+        ;;
+esac
+</code></pre><h3 id="2-修改配置文件权限"><a href="#2-修改配置文件权限" class="headerlink" title="2.修改配置文件权限"></a>2.修改配置文件权限</h3><pre><code>$ chmod a+x /etc/init.d/redis
+</code></pre><h3 id="3-设定开机启动"><a href="#3-设定开机启动" class="headerlink" title="3.设定开机启动"></a>3.设定开机启动</h3><pre><code>$ chkconfig redis on
+</code></pre><h3 id="4-启动，停止redis服务"><a href="#4-启动，停止redis服务" class="headerlink" title="4.启动，停止redis服务"></a>4.启动，停止redis服务</h3><pre><code>$ service redis start   #或者 /etc/init.d/redis start  
+$ service redis stop    #或者 /etc/init.d/redis stop 
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat_mp.jpg" alt="ceylog wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我公众平台！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx_pay.png" alt="ceylog WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/08/07/redis-datatype-string/" rel="next" title="redis 整理（二）String类型">
+                <i class="fa fa-chevron-left"></i> redis 整理（二）String类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/14/cas-disable-ssl/" rel="prev" title="CAS 服务器端取消 https的配置 方法">
+                CAS 服务器端取消 https的配置 方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2014/08/06/redis-introduction-install/"
+     data-title="redis 整理（一）简介及安装"
+     data-content=""
+     data-url="http://blog.wglgg.cn/2014/08/06/redis-introduction-install/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/08/06/redis-introduction-install/"
+           data-title="redis 整理（一）简介及安装" data-url="http://blog.wglgg.cn/2014/08/06/redis-introduction-install/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="ceylog" />
+          <p class="site-author-name" itemprop="name">ceylog</p>
+           
+              <p class="site-description motion-element" itemprop="description">If you find a path with no obstacles, it probably doesn’t lead anywhere.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ceylog" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/ceylog" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/ceylog" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/ceylogs" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NoSQL-简介"><span class="nav-number">1.</span> <span class="nav-text">NoSQL 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-简介"><span class="nav-number">2.</span> <span class="nav-text">Redis 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-适用场景"><span class="nav-number">3.</span> <span class="nav-text">Redis 适用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、取最新N-个数据的操作"><span class="nav-number">3.1.</span> <span class="nav-text">1、取最新N 个数据的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、排行榜应用，取TOP-N-操作"><span class="nav-number">3.2.</span> <span class="nav-text">2、排行榜应用，取TOP N 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、需要精准设定过期时间的应用"><span class="nav-number">3.3.</span> <span class="nav-text">3、需要精准设定过期时间的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、计数器应用"><span class="nav-number">3.4.</span> <span class="nav-text">4、计数器应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、Uniq-操作，获取某段时间所有数据排重值"><span class="nav-number">3.5.</span> <span class="nav-text">5、Uniq 操作，获取某段时间所有数据排重值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、实时系统，反垃圾系统"><span class="nav-number">3.6.</span> <span class="nav-text">6、实时系统，反垃圾系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、Pub-Sub-构建实时消息系统"><span class="nav-number">3.7.</span> <span class="nav-text">7、Pub/Sub 构建实时消息系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、构建队列系统"><span class="nav-number">3.8.</span> <span class="nav-text">8、构建队列系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、缓存"><span class="nav-number">3.9.</span> <span class="nav-text">9、缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-安装"><span class="nav-number">4.</span> <span class="nav-text">Redis 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步，下载Redis，可以通过官网下载最新版本的源代码包"><span class="nav-number">4.1.</span> <span class="nav-text">第一步，下载Redis，可以通过官网下载最新版本的源代码包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装"><span class="nav-number">4.2.</span> <span class="nav-text">第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步，启动redis服务"><span class="nav-number">4.3.</span> <span class="nav-text">第三步，启动redis服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四步，测试redis"><span class="nav-number">4.4.</span> <span class="nav-text">第四步，测试redis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机启动"><span class="nav-number">5.</span> <span class="nav-text">开机启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置"><span class="nav-number">5.1.</span> <span class="nav-text">1.配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改配置文件权限"><span class="nav-number">5.2.</span> <span class="nav-text">2.修改配置文件权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-设定开机启动"><span class="nav-number">5.3.</span> <span class="nav-text">3.设定开机启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-启动，停止redis服务"><span class="nav-number">5.4.</span> <span class="nav-text">4.启动，停止redis服务</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ceylog</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wglgg"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

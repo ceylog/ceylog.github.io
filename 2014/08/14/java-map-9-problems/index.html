@@ -1,0 +1,1053 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Ceylog Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Java中关于Map的九大问题">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中关于Map的九大问题">
+<meta property="og:url" content="http://blog.wglgg.cn/2014/08/14/java-map-9-problems/index.html">
+<meta property="og:site_name" content="Ceylog Blog">
+<meta property="og:description" content="Java中关于Map的九大问题">
+<meta property="og:updated_time" content="2017-04-07T06:51:33.604Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中关于Map的九大问题">
+<meta name="twitter:description" content="Java中关于Map的九大问题">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wglgg.cn/2014/08/14/java-map-9-problems/"/>
+
+
+
+
+
+  <title> Java中关于Map的九大问题 | Ceylog Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?71481116ee0fd744a092e4317c9f870f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ceylog Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Whatever is worth doing is worth doing well.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://blog.wglgg.cn/2014/08/14/java-map-9-problems/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ceylog">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ceylog Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ceylog Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java中关于Map的九大问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2014-08-14T00:00:00+08:00">
+                2014-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/08/14/java-map-9-problems/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/14/java-map-9-problems/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  Java中关于Map的九大问题
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>通常来说，Map是一个由键值对组成的数据结构，且在集合中每个键是唯一的。下面就以K和V来代表键和值，来说明一下java中关于Map的九大问题。</p>
+<h2 id="1、将Map转换为List类型"><a href="#1、将Map转换为List类型" class="headerlink" title="1、将Map转换为List类型"></a>1、将Map转换为List类型</h2><p>在java中Map接口提供了三种集合获取方式：Key set,，value set， and key-value set.。它们都可以通过构造方法或者addAll()方法来转换为List类型。下面代码就说明了如何从Map中构造ArrayList：</p>
+<pre><code>// key list
+List keyList = new ArrayList(map.keySet());
+// value list
+List valueList = new ArrayList(map.valueSet());
+// key-value list
+List entryList = new ArrayList(map.entrySet());
+</code></pre><h2 id="2、通过Entry-遍历Map"><a href="#2、通过Entry-遍历Map" class="headerlink" title="2、通过Entry 遍历Map"></a>2、通过Entry 遍历Map</h2><p>java中这种以键值对存在的方式被称为Map.Entry。Map.entrySet()返回的是一个key-value 集合，这是一种非常高效的遍历方式。</p>
+<pre><code>for(Entry entry: map.entrySet()) {
+    // get key
+    K key = entry.getKey();
+    // get value
+    V value = entry.getValue();
+}
+</code></pre><p>Iterator 我们也经常用到，尤其是在JDK1.5以前</p>
+<pre><code>Iterator itr = map.entrySet().iterator();
+while(itr.hasNext()) {
+    Entry entry = itr.next();
+    // get key
+    K key = entry.getKey();
+    // get value
+    V value = entry.getValue();
+}
+</code></pre><h2 id="3、通过Key来对Map排序"><a href="#3、通过Key来对Map排序" class="headerlink" title="3、通过Key来对Map排序"></a>3、通过Key来对Map排序</h2><p>排序需要对Map的ke进行频繁的操作，一种方式就是通过比较器(comparator )来实现：</p>
+<pre><code>List list = new ArrayList(map.entrySet());
+Collections.sort(list, new Comparator() {
+    @Override
+    public int compare(Entry e1, Entry e2) {
+        return e1.getKey().compareTo(e2.getKey());
+    }
+});
+</code></pre><p>另外一种方法就是通过SortedMap，但必须要实现Comparable接口。</p>
+<pre><code>SortedMap sortedMap = new TreeMap(new Comparator() {
+    @Override
+    public int compare(K k1, K k2) {
+        return k1.compareTo(k2);
+    }
+});
+sortedMap.putAll(map);
+</code></pre><h2 id="4、对value对Map进行排序"><a href="#4、对value对Map进行排序" class="headerlink" title="4、对value对Map进行排序"></a>4、对value对Map进行排序</h2><p>这与上一点有些类似，代码如下：</p>
+<pre><code>List list = new ArrayList(map.entrySet());
+Collections.sort(list, new Comparator() {
+    @Override
+    public int compare(Entry e1, Entry e2) {
+        return e1.getValue().compareTo(e2.getValue());
+    }
+});
+</code></pre><h2 id="5、初始化一个static-的常量Map"><a href="#5、初始化一个static-的常量Map" class="headerlink" title="5、初始化一个static 的常量Map"></a>5、初始化一个static 的常量Map</h2><p>当你希望创建一个全局静态Map的时候，我们有以下两种方式，而且是线程安全的。<br>而在Test1中，我们虽然声明了map是静态的，但是在初始化时，我们依然可以改变它的值，就像Test1.map.put(3,”three”);<br>在Test2中，我们通过一个内部类，将其设置为不可修改，那么当我们运行Test2.map.put(3,”three”)的时候，它就会抛出一个UnsupportedOperationException 异常来禁止你修改。<br>    public class Test1 {<br>        private static final Map map;<br>        static {<br>            map = new HashMap();<br>            map.put(1, “one”);<br>            map.put(2, “two”);<br>        }<br>    }</p>
+<pre><code>public class Test2 {
+    private static final Map map;
+    static {
+        Map aMap = new HashMap();
+        aMap.put(1, “one”);
+        aMap.put(2, “two”);
+        map = Collections.unmodifiableMap(aMap);
+    }
+}
+</code></pre><h2 id="6、HashMap-TreeMap-and-Hashtable之间的不同"><a href="#6、HashMap-TreeMap-and-Hashtable之间的不同" class="headerlink" title="6、HashMap, TreeMap, and Hashtable之间的不同"></a>6、HashMap, TreeMap, and Hashtable之间的不同</h2><p>在Map接口中，共有三种实现：HashMap，TreeMap，Hashtable。</p>
+<p>它们之间各有不同，详细内容请参考《 HashMap vs. TreeMap vs. Hashtable vs. LinkedHashMap》一文。</p>
+<h2 id="6、Map中的反向查询"><a href="#6、Map中的反向查询" class="headerlink" title="6、Map中的反向查询"></a>6、Map中的反向查询</h2><p>我们在Map添加一个键值对后，意味着这在Map中键和值是一一对应的，一个键就是对应一个值。但是有时候我们需要反向查询，比如通过某一个值来查找它的键，这种数据结构被称为bidirectional map，遗憾的是JDK并没有对其支持。</p>
+<p>Apache和Guava 共同提供了这种bidirectional map实现，它在实现中它规定了键和值都是必须是1:1的关系。</p>
+<h2 id="7、对Map的复制"><a href="#7、对Map的复制" class="headerlink" title="7、对Map的复制"></a>7、对Map的复制</h2><p>java中提供了很多方法都可以实现对一个Map的复制，但是那些方法不见得会时时同步。简单说，就是一个Map发生的变化，而复制的那个依然保持原样。下面是一个比较高效的实现方法：</p>
+<pre><code>Map copiedMap = Collections.synchronizedMap(map);
+</code></pre><p>当然还有另外一个方法，那就是克隆。但是我们的java鼻祖Josh Bloch却不推荐这种方式，他曾经在一次访谈中说过关于Map克隆的问题：在很多类中都提供了克隆的方法，因为人们确实需要。但是克隆非常有局限性，而且在很多时候造成了不必要的影响。（原文《Copy constructor versus cloning》）</p>
+<h2 id="8、创建一个空的Map"><a href="#8、创建一个空的Map" class="headerlink" title="8、创建一个空的Map"></a>8、创建一个空的Map</h2><p>如果这个map被置为不可用，可以通过以下实现</p>
+<pre><code>map = Collections.emptyMap();
+</code></pre><p>相反，我们会用到的时候，就可以直接</p>
+<pre><code>map = new HashMap();
+</code></pre><p>文章源自：IT学习者</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/wechat_mp.jpg" alt="ceylog wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我公众平台！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx_pay.png" alt="ceylog WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/08/15/java-overloading-Overriding/" rel="next" title="Java 重载与重写的区别">
+                <i class="fa fa-chevron-left"></i> Java 重载与重写的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/08/10/redis-datatype-set/" rel="prev" title="redis 整理（五）set 类型">
+                redis 整理（五）set 类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2014/08/14/java-map-9-problems/"
+     data-title="Java中关于Map的九大问题"
+     data-content=""
+     data-url="http://blog.wglgg.cn/2014/08/14/java-map-9-problems/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/08/14/java-map-9-problems/"
+           data-title="Java中关于Map的九大问题" data-url="http://blog.wglgg.cn/2014/08/14/java-map-9-problems/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="ceylog" />
+          <p class="site-author-name" itemprop="name">ceylog</p>
+           
+              <p class="site-description motion-element" itemprop="description">If you find a path with no obstacles, it probably doesn’t lead anywhere.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ceylog" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/ceylog" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/ceylog" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/ceylogs" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、将Map转换为List类型"><span class="nav-number">1.</span> <span class="nav-text">1、将Map转换为List类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、通过Entry-遍历Map"><span class="nav-number">2.</span> <span class="nav-text">2、通过Entry 遍历Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、通过Key来对Map排序"><span class="nav-number">3.</span> <span class="nav-text">3、通过Key来对Map排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、对value对Map进行排序"><span class="nav-number">4.</span> <span class="nav-text">4、对value对Map进行排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、初始化一个static-的常量Map"><span class="nav-number">5.</span> <span class="nav-text">5、初始化一个static 的常量Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、HashMap-TreeMap-and-Hashtable之间的不同"><span class="nav-number">6.</span> <span class="nav-text">6、HashMap, TreeMap, and Hashtable之间的不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、Map中的反向查询"><span class="nav-number">7.</span> <span class="nav-text">6、Map中的反向查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、对Map的复制"><span class="nav-number">8.</span> <span class="nav-text">7、对Map的复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、创建一个空的Map"><span class="nav-number">9.</span> <span class="nav-text">8、创建一个空的Map</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ceylog</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wglgg"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

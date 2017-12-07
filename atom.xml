@@ -1,0 +1,2111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ceylog Blog</title>
+  <subtitle>Whatever is worth doing is worth doing well.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://blog.wglgg.cn/"/>
+  <updated>2017-12-07T09:47:54.117Z</updated>
+  <id>http://blog.wglgg.cn/</id>
+  
+  <author>
+    <name>ceylog</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JSON-SCHEMA</title>
+    <link href="http://blog.wglgg.cn/2017/12/07/JSON-SCHEMA/"/>
+    <id>http://blog.wglgg.cn/2017/12/07/JSON-SCHEMA/</id>
+    <published>2017-12-07T09:01:12.000Z</published>
+    <updated>2017-12-07T09:47:54.117Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="JSON-Schema-简单使用"><a href="#JSON-Schema-简单使用" class="headerlink" title="JSON Schema 简单使用"></a>JSON Schema 简单使用</h3><p>在webservice时代开发基于SOAP协议的webservice应用经常会使用到xml，xml schema、DTD的作用非常大，可以用来约束协议中报文格式合法性；相应的在REST服务盛行的时代也JSON也扮演着重要角色，也出现了json schema这样的神器，可以定义json内容的格式类型，废话少说上代码</p>
+<p>json schema<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;$schema&quot;: &quot;http://json-schema.org/draft-04/schema#&quot;,</div><div class="line">  &quot;title&quot;: &quot;User&quot;,</div><div class="line">  &quot;type&quot;:&quot;object&quot;,</div><div class="line">  &quot;properties&quot;: &#123;</div><div class="line">    &quot;firstName&quot;: &#123;</div><div class="line">      &quot;type&quot;: &quot;string&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;lastName&quot;: &#123;</div><div class="line">      &quot;type&quot;: &quot;string&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;age&quot;: &#123;</div><div class="line">      &quot;type&quot;: &quot;integer&quot;,</div><div class="line">      &quot;minimum&quot;: 0</div><div class="line">    &#125;,</div><div class="line">    &quot;roles&quot;: &#123;</div><div class="line">      &quot;type&quot;: &quot;object&quot;,</div><div class="line">      &quot;properties&quot;: &#123;</div><div class="line">        &quot;name&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;string&quot;</div><div class="line">        &#125;,</div><div class="line">        &quot;code&quot;: &#123;</div><div class="line">          &quot;type&quot;: [&quot;string&quot;,&quot;integer&quot;]</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &quot;required&quot;: [</div><div class="line">        &quot;code&quot;</div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &quot;permissions&quot;: &#123;</div><div class="line">      &quot;type&quot;: &quot;array&quot;,</div><div class="line">      &quot;items&quot;: &#123;</div><div class="line">        &quot;type&quot;: &quot;object&quot;,</div><div class="line">        &quot;properties&quot;: &#123;</div><div class="line">          &quot;name&quot;: &#123;</div><div class="line">            &quot;type&quot;: &quot;string&quot;</div><div class="line">          &#125;,</div><div class="line">          &quot;code&quot;: &#123;</div><div class="line">            &quot;type&quot;: [&quot;integer&quot;,&quot;string&quot;]</div><div class="line">          &#125;</div><div class="line">        &#125;,</div><div class="line">        &quot;required&quot;: [</div><div class="line">          &quot;code&quot;</div><div class="line">        ]</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  &quot;required&quot;: [</div><div class="line">    &quot;firstName&quot;,</div><div class="line">    &quot;age&quot;,</div><div class="line">    &quot;permissions&quot;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>json </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;firstName&quot;: &quot;abcd&quot;,</div><div class="line">  &quot;lastName&quot;: &quot;adfads&quot;,</div><div class="line">  &quot;roles&quot;: &#123;</div><div class="line">    &quot;name&quot;: &quot;ddd&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;permissions&quot;: [</div><div class="line">    &#123;</div><div class="line">      &quot;name&quot;: &quot;dddd&quot;</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      &quot;name&quot;: &quot;aaaa&quot;,</div><div class="line">      &quot;code&quot;: &quot;dddf&quot;</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>pom.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">	&lt;groupId&gt;com.github.java-json-tools&lt;/groupId&gt;</div><div class="line">	&lt;artifactId&gt;json-schema-validator&lt;/artifactId&gt;</div><div class="line">	&lt;version&gt;2.2.8&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<p>java 代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">import com.fasterxml.jackson.databind.JsonNode;</div><div class="line">import com.github.fge.jackson.JsonNodeReader;</div><div class="line">import com.github.fge.jsonschema.core.report.ProcessingMessage;</div><div class="line">import com.github.fge.jsonschema.core.report.ProcessingReport;</div><div class="line">import com.github.fge.jsonschema.main.JsonSchema;</div><div class="line">import com.github.fge.jsonschema.main.JsonSchemaFactory;</div><div class="line">import org.junit.Assert;</div><div class="line">import org.junit.Test;</div><div class="line"></div><div class="line">import java.io.InputStream;</div><div class="line">import java.util.Iterator;</div><div class="line"></div><div class="line"></div><div class="line">public class JsonSchemaTest &#123;</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void test() throws Exception&#123;</div><div class="line">        InputStream resourceAsStream = this.getClass().getResourceAsStream(&quot;/JsonSchema.json&quot;);</div><div class="line">        JsonNode schema = new JsonNodeReader().fromInputStream(resourceAsStream);</div><div class="line">        JsonNode json = new JsonNodeReader().fromInputStream(this.getClass().getResourceAsStream(&quot;/User.json&quot;));</div><div class="line">        JsonSchemaFactory jsonSchemaFactory = JsonSchemaFactory.byDefault();</div><div class="line">        JsonSchema jsonSchema = jsonSchemaFactory.getJsonSchema(schema);</div><div class="line">        ProcessingReport report = jsonSchema.validate(json, true);</div><div class="line"></div><div class="line">        Iterator&lt;ProcessingMessage&gt; iterator = report.iterator();</div><div class="line">        while (iterator.hasNext())&#123;</div><div class="line">            ProcessingMessage pm = iterator.next();</div><div class="line">            JsonNode jsonNode = pm.asJson();</div><div class="line">            System.out.println(jsonNode);</div><div class="line">        &#125;</div><div class="line">        Assert.assertTrue(report.isSuccess());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[&#123;&quot;level&quot;:&quot;error&quot;,&quot;schema&quot;:&#123;&quot;loadingURI&quot;:&quot;#&quot;,&quot;pointer&quot;:&quot;&quot;&#125;,&quot;instance&quot;:&#123;&quot;pointer&quot;:&quot;&quot;&#125;,&quot;domain&quot;:&quot;validation&quot;,&quot;keyword&quot;:&quot;required&quot;,&quot;message&quot;:&quot;object has missing required properties ([\&quot;age\&quot;])&quot;,&quot;required&quot;:[&quot;age&quot;,&quot;firstName&quot;,&quot;permissions&quot;],&quot;missing&quot;:[&quot;age&quot;]&#125;,</div><div class="line">&#123;&quot;level&quot;:&quot;error&quot;,&quot;schema&quot;:&#123;&quot;loadingURI&quot;:&quot;#&quot;,&quot;pointer&quot;:&quot;/properties/permissions/items&quot;&#125;,&quot;instance&quot;:&#123;&quot;pointer&quot;:&quot;/permissions/0&quot;&#125;,&quot;domain&quot;:&quot;validation&quot;,&quot;keyword&quot;:&quot;required&quot;,&quot;message&quot;:&quot;object has missing required properties ([\&quot;code\&quot;])&quot;,&quot;required&quot;:[&quot;code&quot;],&quot;missing&quot;:[&quot;code&quot;]&#125;,</div><div class="line">&#123;&quot;level&quot;:&quot;error&quot;,&quot;schema&quot;:&#123;&quot;loadingURI&quot;:&quot;#&quot;,&quot;pointer&quot;:&quot;/properties/roles&quot;&#125;,&quot;instance&quot;:&#123;&quot;pointer&quot;:&quot;/roles&quot;&#125;,&quot;domain&quot;:&quot;validation&quot;,&quot;keyword&quot;:&quot;required&quot;,&quot;message&quot;:&quot;object has missing required properties ([\&quot;code\&quot;])&quot;,&quot;required&quot;:[&quot;code&quot;],&quot;missing&quot;:[&quot;code&quot;]&#125;]</div></pre></td></tr></table></figure></p>
+<p>就这样，so easy</p>
+<p>###参考<br><a href="https://github.com/networknt/json-schema-validator" target="_blank" rel="external">json-schema-validator实现</a><br><a href="http://json-schema.org/" target="_blank" rel="external">json schema</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      json schema 使用
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+      <category term="json schema" scheme="http://blog.wglgg.cn/tags/json-schema/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>idea-spring-boot-devtools-not-work</title>
+    <link href="http://blog.wglgg.cn/2017/03/02/idea-spring-boot-devtools-not-work/"/>
+    <id>http://blog.wglgg.cn/2017/03/02/idea-spring-boot-devtools-not-work/</id>
+    <published>2017-03-02T05:25:37.000Z</published>
+    <updated>2017-04-07T06:51:33.601Z</updated>
+    
+    <content type="html"><![CDATA[<p>java开发中总是会频繁重启应用，非常麻烦，<code>Spring Boot</code>可以利用<code>devtools</code>配置当修改代码时自动重启应用，也可以使用热部署工具<code>jrebel</code>，但是在idea下默认不生效，google后得到答案，idea不会自动编译程序，开启自动编译后发现，在应用运行中也不会自动编译，找到问题原因了，下面来解决它</p>
+<h2 id="设置idea-自动编译"><a href="#设置idea-自动编译" class="headerlink" title="设置idea 自动编译"></a>设置idea 自动编译</h2><p>Settings..<br><img src="/images/intellij_idea/idea_auto_compile.png" alt="开启自动编译"></p>
+<h2 id="设置idea-在程序运行中自动编译"><a href="#设置idea-在程序运行中自动编译" class="headerlink" title="设置idea 在程序运行中自动编译"></a>设置idea 在程序运行中自动编译</h2><p>快捷键 ctrl + alt + shift + / 选择Registry<br><img src="/images/intellij_idea/ctrl_shift_xie_registry.png" alt="打开设置"><br>勾选compiler.automake.allow.when.app.running<br><img src="/images/intellij_idea/enable_compile_when_app_running.png" alt="勾选compile_when_app_running"></p>
+<h2 id="Spring-Boot-配置"><a href="#Spring-Boot-配置" class="headerlink" title="Spring Boot 配置"></a>Spring Boot 配置</h2><p>pom.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">    ...</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</div><div class="line">        &lt;optional&gt;true&lt;/optional&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div><div class="line">&lt;build&gt;</div><div class="line">    &lt;plugins&gt;</div><div class="line">        ...</div><div class="line">        &lt;plugin&gt;</div><div class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</div><div class="line">            &lt;configuration&gt;</div><div class="line">                &lt;fork&gt;true&lt;/fork&gt;</div><div class="line">            &lt;/configuration&gt;</div><div class="line">        &lt;/plugin&gt;</div><div class="line">    &lt;/plugins&gt;</div><div class="line">&lt;/build&gt;</div></pre></td></tr></table></figure></p>
+<p>重启应用，就可以了</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;java开发中总是会频繁重启应用，非常麻烦，&lt;code&gt;Spring Boot&lt;/code&gt;可以利用&lt;code&gt;devtools&lt;/code&gt;配置当修改代码时自动重启应用，也可以使用热部署工具&lt;code&gt;jrebel&lt;/code&gt;，但是在idea下默认不生效，google后
+    
+    </summary>
+    
+      <category term="devtools" scheme="http://blog.wglgg.cn/categories/devtools/"/>
+    
+    
+      <category term="spring-boot" scheme="http://blog.wglgg.cn/tags/spring-boot/"/>
+    
+      <category term="idea" scheme="http://blog.wglgg.cn/tags/idea/"/>
+    
+      <category term="devtools" scheme="http://blog.wglgg.cn/tags/devtools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>msys2-here-context-menu-items</title>
+    <link href="http://blog.wglgg.cn/2017/02/28/msys2-here-context-menu-items/"/>
+    <id>http://blog.wglgg.cn/2017/02/28/msys2-here-context-menu-items/</id>
+    <published>2017-02-28T04:03:13.000Z</published>
+    <updated>2017-04-07T06:51:33.613Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="register-reg"><a href="#register-reg" class="headerlink" title="register.reg"></a>register.reg</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Windows Registry Editor Version 5.00</div><div class="line"></div><div class="line">[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\MSYS here\command]</div><div class="line">@=&quot;C:\\msys64\\msys2.exe bash&quot;</div><div class="line"></div><div class="line">[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\MINGW64 here\command]</div><div class="line">@=&quot;C:\\msys64\\mingw64.exe bash&quot;</div><div class="line"></div><div class="line">[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\MINGW32 here\command]</div><div class="line">@=&quot;C:\\msys64\\mingw32.exe bash&quot;</div></pre></td></tr></table></figure>
+<h2 id="unregister-reg"><a href="#unregister-reg" class="headerlink" title="unregister.reg"></a>unregister.reg</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Windows Registry Editor Version 5.00</div><div class="line"></div><div class="line">[-HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\MSYS here]</div><div class="line">[-HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\MINGW64 here]</div><div class="line">[-HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\MINGW32 here]</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;register-reg&quot;&gt;&lt;a href=&quot;#register-reg&quot; class=&quot;headerlink&quot; title=&quot;register.reg&quot;&gt;&lt;/a&gt;register.reg&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;
+    
+    </summary>
+    
+    
+      <category term="msys2" scheme="http://blog.wglgg.cn/tags/msys2/"/>
+    
+      <category term="mingw" scheme="http://blog.wglgg.cn/tags/mingw/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx upgrade &amp; add module</title>
+    <link href="http://blog.wglgg.cn/2016/12/22/nginx-upgrade/"/>
+    <id>http://blog.wglgg.cn/2016/12/22/nginx-upgrade/</id>
+    <published>2016-12-21T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.617Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="nginx-upgrade-amp-add-module"><a href="#nginx-upgrade-amp-add-module" class="headerlink" title="nginx upgrade &amp; add module"></a>nginx upgrade &amp; add module</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>升级nginx版本 1.10.1 –&gt; 1.10.2</li>
+<li>添加缓存模块</li>
+<li>添加文件上传模块和上传进度模块</li>
+</ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="查看-nginx-已安装模块"><a href="#查看-nginx-已安装模块" class="headerlink" title="查看 nginx 已安装模块"></a>查看 nginx 已安装模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$nginx -V</div><div class="line">--prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-file-aio --with-threads --with-ipv6 --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_ssl_module --with-cc-opt=&apos;-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic&apos;</div></pre></td></tr></table></figure>
+<h3 id="备份原nginx"><a href="#备份原nginx" class="headerlink" title="备份原nginx"></a>备份原nginx</h3><h3 id="下载新版本的nginx和需要添加的模块并解压"><a href="#下载新版本的nginx和需要添加的模块并解压" class="headerlink" title="下载新版本的nginx和需要添加的模块并解压"></a>下载新版本的nginx和需要添加的模块并解压</h3><h4 id="下载nginx-1-10-2"><a href="#下载nginx-1-10-2" class="headerlink" title="下载nginx 1.10.2"></a>下载nginx 1.10.2</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$wget http://nginx.org/download/nginx-1.10.2.tar.gz</div></pre></td></tr></table></figure>
+<h4 id="下载-nginx-upload-module"><a href="#下载-nginx-upload-module" class="headerlink" title="下载 nginx-upload-module"></a>下载 nginx-upload-module</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$wget https://codeload.github.com/vkholodkov/nginx-upload-module/tar.gz/2.2.0</div></pre></td></tr></table></figure>
+<h4 id="下载-nginx-upload-progress-module"><a href="#下载-nginx-upload-progress-module" class="headerlink" title="下载 nginx-upload-progress-module"></a>下载 nginx-upload-progress-module</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$wget https://github.com/masterzen/nginx-upload-progress-module/archive/v0.9.2.tar.gz</div></pre></td></tr></table></figure>
+<h4 id="下载-ngx-cache-purge"><a href="#下载-ngx-cache-purge" class="headerlink" title="下载 ngx_cache_purge"></a>下载 ngx_cache_purge</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$wget https://codeload.github.com/FRiCKLE/ngx_cache_purge/tar.gz/2.3</div></pre></td></tr></table></figure>
+<h4 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ tar zxf nginx-1.10.2.tar.gz</div><div class="line">$ tar zxf nginx-upload-module-2.2.0.tar.gz</div><div class="line">$ tar zxf nginx-upload-progress-module.tar.gz</div><div class="line">$ tar zxf ngx_cache_purge-2.3.tar.gz</div></pre></td></tr></table></figure>
+<h2 id="升级并添加新模块"><a href="#升级并添加新模块" class="headerlink" title="升级并添加新模块"></a>升级并添加新模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --user=nginx --group=nginx --with-file-aio --with-threads --with-ipv6 --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_ssl_module --add-module=/root/nginxinstall/nginx-upload-module-2.0.12 --add-module=/root/nginxinstall/nginx-upload-progress-module-82b35fc --add-module=/root/nginxinstall/ngx_cache_purge-2.3 --with-cc-opt=&apos;-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic&apos;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;nginx-upgrade-amp-add-module&quot;&gt;&lt;a href=&quot;#nginx-upgrade-amp-add-module&quot; class=&quot;headerlink&quot; title=&quot;nginx upgrade &amp;amp; add module&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="nginx" scheme="http://blog.wglgg.cn/categories/nginx/"/>
+    
+    
+      <category term="nginx" scheme="http://blog.wglgg.cn/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>osx 常用开发工具</title>
+    <link href="http://blog.wglgg.cn/2016/09/10/osx-dev-tools/"/>
+    <id>http://blog.wglgg.cn/2016/09/10/osx-dev-tools/</id>
+    <published>2016-09-09T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.621Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="ZSH"><a href="#ZSH" class="headerlink" title="ZSH"></a>ZSH</h2><h3 id="install"><a href="#install" class="headerlink" title="install"></a>install</h3><pre><code>sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+</code></pre><h2 id="homebrew"><a href="#homebrew" class="headerlink" title="homebrew"></a>homebrew</h2><h3 id="install-1"><a href="#install-1" class="headerlink" title="install"></a>install</h3><pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre><h2 id="iterm2"><a href="#iterm2" class="headerlink" title="iterm2"></a>iterm2</h2><h3 id="install-2"><a href="#install-2" class="headerlink" title="install"></a>install</h3><pre><code>brew cask install iterm2
+</code></pre><h2 id="dev-tool"><a href="#dev-tool" class="headerlink" title="dev tool"></a>dev tool</h2><h3 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h3><h4 id="install-3"><a href="#install-3" class="headerlink" title="install"></a>install</h4><pre><code>brew install mysql
+</code></pre><h4 id="start"><a href="#start" class="headerlink" title="start"></a>start</h4><pre><code>mysql.server start
+</code></pre><h3 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h3><h4 id="install-4"><a href="#install-4" class="headerlink" title="install"></a>install</h4><pre><code>brew install redis
+==&gt; Downloading https://homebrew.bintray.com/bottles/redis-3.2.3.el_capitan.bottle.tar.gz
+
+curl: (7) Failed to connect to akamai.bintray.com port 443: Operation timed out
+Error: Failed to download resource &quot;redis&quot;
+Download failed: https://homebrew.bintray.com/bottles/redis-3.2.3.el_capitan.bottle.tar.gz
+Warning: Bottle installation failed: building from source.
+==&gt; Using the sandbox
+==&gt; Downloading http://download.redis.io/releases/redis-3.2.3.tar.gz
+==&gt; Downloading from http://101.44.1.117/files/B22400000598F419/download.redis.io/releases/redis-3.2.3.tar.gz
+######################################################################## 100.0%
+==&gt; make install PREFIX=/usr/local/Cellar/redis/3.2.3 CC=clang
+==&gt; Caveats
+To have launchd start redis now and restart at login:
+  brew services start redis
+Or, if you don&apos;t want/need a background service you can just run:
+  redis-server /usr/local/etc/redis.conf
+==&gt; Summary
+🍺  /usr/local/Cellar/redis/3.2.3: 10 files, 1.7M, built in 13 seconds
+</code></pre><h4 id="start-1"><a href="#start-1" class="headerlink" title="start"></a>start</h4><pre><code>brew services start redis
+</code></pre><h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><h4 id="install-5"><a href="#install-5" class="headerlink" title="install"></a>install</h4><pre><code>brew cask install java
+java -version
+java version &quot;1.8.0_102&quot;
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
+</code></pre><h3 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h3><h4 id="install-6"><a href="#install-6" class="headerlink" title="install"></a>install</h4><pre><code>brew cask install maven
+mvn -v
+Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:47+08:00)
+Maven home: /usr/local/Cellar/maven/3.3.9/libexec
+Java version: 1.8.0_102, vendor: Oracle Corporation
+Java home: /Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: &quot;mac os x&quot;, version: &quot;10.11.6&quot;, arch: &quot;x86_64&quot;, family: &quot;mac&quot;
+</code></pre><h3 id="gradle"><a href="#gradle" class="headerlink" title="gradle"></a>gradle</h3><h4 id="install-7"><a href="#install-7" class="headerlink" title="install"></a>install</h4><pre><code>brew cask install gradle
+gradle -v
+------------------------------------------------------------
+Gradle 3.0
+------------------------------------------------------------
+
+Build time:   2016-08-15 13:15:01 UTC
+Revision:     ad76ba00f59ecb287bd3c037bd25fc3df13ca558
+
+Groovy:       2.4.7
+Ant:          Apache Ant(TM) version 1.9.6 compiled on June 29 2015
+JVM:          1.8.0_102 (Oracle Corporation 25.102-b14)
+OS:           Mac OS X 10.11.6 x86_64
+</code></pre><h3 id="groovy"><a href="#groovy" class="headerlink" title="groovy"></a>groovy</h3><h4 id="install-8"><a href="#install-8" class="headerlink" title="install"></a>install</h4><pre><code>brew cask install groovy
+</code></pre><h3 id="cask"><a href="#cask" class="headerlink" title="cask"></a>cask</h3><p>cask 可以安装很多软件、例如<code>jdk</code>，<code>maven</code>， <code>groovy</code>， <code>macDown</code>， <code>idea</code> 等等一系列软件都可以通过<code>cask</code>安装</p>
+]]></content>
+    
+    <summary type="html">
+    
+      osx 常用开发工具 技巧 整理
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+      <category term="osx" scheme="http://blog.wglgg.cn/tags/osx/"/>
+    
+      <category term="tool" scheme="http://blog.wglgg.cn/tags/tool/"/>
+    
+      <category term="zsh" scheme="http://blog.wglgg.cn/tags/zsh/"/>
+    
+      <category term="homebrew" scheme="http://blog.wglgg.cn/tags/homebrew/"/>
+    
+      <category term="brew" scheme="http://blog.wglgg.cn/tags/brew/"/>
+    
+      <category term="iterm2" scheme="http://blog.wglgg.cn/tags/iterm2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>服务器小脚本尝试</title>
+    <link href="http://blog.wglgg.cn/2016/03/30/server-bash/"/>
+    <id>http://blog.wglgg.cn/2016/03/30/server-bash/</id>
+    <published>2016-03-29T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.644Z</updated>
+    
+    <content type="html"><![CDATA[<p>###备份MySQL数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line">mysqldump -uroot -proot cswebsite &gt; /root/cswebsite_`date +%Y%m%d%H%M%S`.sql</div></pre></td></tr></table></figure>
+<p>###备份tomcat 应用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line">echo &quot;shutdown tomcat..&quot;</div><div class="line"></div><div class="line">/root/tomcat8/bin/shutdown.sh</div><div class="line"></div><div class="line">echo &quot;begin backup stillone...&quot;</div><div class="line"></div><div class="line">tar -zcvf /root/backup/stillone_`date +%Y%m%d%H%M%S`.tar.gz /root/tomcat8/webapps/ROOT --exclude=Files --exclude=uploadFiles</div><div class="line"></div><div class="line">echo &quot;&quot;</div><div class="line">echo &quot;&quot;</div><div class="line">echo &quot;&quot;</div><div class="line">echo -e &quot;\033[32;49;1m backup stillone done! have fun!! \033[39;49;0m&quot;</div><div class="line">echo &quot;&quot;</div><div class="line">echo &quot;&quot;</div></pre></td></tr></table></figure>
+<h3 id="筛选nginx日志访问量IP排名top1000-http-状态码403-请求路径-v2-sms-send"><a href="#筛选nginx日志访问量IP排名top1000-http-状态码403-请求路径-v2-sms-send" class="headerlink" title="筛选nginx日志访问量IP排名top1000(http 状态码403  请求路径/v2/sms/send)"></a>筛选nginx日志访问量IP排名top1000(http 状态码403  请求路径/v2/sms/send)</h3><pre><code>awk &apos;{if($9==&quot;403&quot; &amp;&amp; $7==&quot;/v2/sms/send&quot;) print $1}&apos; /usr/local/tomcat/nginx-log/api.credan.com.log | sort | uniq -c | sort -nr -k1|head -n 1000
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      服务器维护脚本 tomcat 应用备份操作  数据库备份操作
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis 整理（六）ZSet 类型</title>
+    <link href="http://blog.wglgg.cn/2015/03/04/redis-datatype-zset/"/>
+    <id>http://blog.wglgg.cn/2015/03/04/redis-datatype-zset/</id>
+    <published>2015-03-03T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.634Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="zset-类型简介"><a href="#zset-类型简介" class="headerlink" title="zset 类型简介"></a>zset 类型简介</h2><p>zset全称为sorted-sets类型,和set数据类型有极为相似,都是字符串的集合,都不允许重复的成员<br>出现在一个set中.两者的主要区别是zset的每一个成员都会有一个分数(score)与之关联.redis正是通过分数来为集合中的成员进行从小到大的排序.zset的成员是唯一的,但分数(score)却可以重复.<br>在zset中添加、删除或更新一个成员都是非常快速的操作，其时间复杂度为集合中成员数量的对数.</p>
+<p>Sorted-Sets中的成员在集合中的位置是有序的.</p>
+<h2 id="zset-操作"><a href="#zset-操作" class="headerlink" title="zset 操作"></a>zset 操作</h2><h3 id="1-zadd"><a href="#1-zadd" class="headerlink" title="1. zadd"></a>1. zadd</h3><p>命令格式: zadd key score member [[score] [member] …]</p>
+<p>描述：将一个或多个 member 元素及其 score 值加入到有序集 key 当中.如果某个 member 已经是有序集的成员，那么更新这个 member 的 score 值，并通过重新插入这个 member 元素，来保证该 member 在正确的位置上。score 值可以是整数值或双精度浮点数。如果 key 不存在，则创建一个空的有序集并执行 ZADD 操作。当 key 存在但不是有序集类型时，返回一个错误。</p>
+<p>时间复杂度: O(M*log(N))， N 是有序集的基数， M 为成功添加的新成员的数量</p>
+<p>返回值:被成功添加的新成员的数量，不包括那些被更新的、已经存在的成员。</p>
+<p>添加一个元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset_list 11 test1
+(integer) 1
+</code></pre><p>添加多个元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset_list 1 test2 2 test3
+(integer) 2
+</code></pre><p>查看元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1
+1) &quot;test2&quot;
+2) &quot;test3&quot;
+3) &quot;test1&quot;
+</code></pre><p>查看元素带score值</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;11&quot;
+</code></pre><p>添加已存在元素，且 score 值不变 操作不成功返回0</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset_list 11 test1
+(integer) 0
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;11&quot;
+</code></pre><p>添加已存在元素，但是改变 score 值</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;3&quot;
+</code></pre><h3 id="zrem"><a href="#zrem" class="headerlink" title="zrem"></a>zrem</h3><p>命令格式: ZREM key member [member …]</p>
+<p>描述:移除有序集 key 中的一个或多个成员，不存在的成员将被忽略。当 key 存在但不是有序集类型时，返回一个错误。</p>
+<p>时间复杂度:O(M*log(N))， N 为有序集的基数， M 为被成功移除的成员的数量。</p>
+<p>返回值:被成功移除的成员的数量，不包括被忽略的成员。</p>
+<p>移除单个元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+5) &quot;test1&quot;
+6) &quot;3&quot;
+127.0.0.1:6379[1]&gt; zrem zset_list test1
+(integer) 1
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+</code></pre><p>移除多个</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrem zset_list test2 test3
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+(empty list or set)
+</code></pre><p>移除不存在元素</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+(empty list or set)
+127.0.0.1:6379[1]&gt; zrem zset_list test2
+(integer) 0
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+(empty list or set)
+</code></pre><h3 id="zcard"><a href="#zcard" class="headerlink" title="zcard"></a>zcard</h3><p>描述：返回zset集合的成员数</p>
+<p>时间复杂度：O(1)</p>
+<p>返回值：当 key 存在且是有序集(zset)类型时，返回集合内的成员数。不存在返回0。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zcard zset_list
+(integer) 0
+127.0.0.1:6379[1]&gt; zadd zset_list 0 test1
+(integer) 1
+127.0.0.1:6379[1]&gt; zcard zset_list
+(integer) 1
+127.0.0.1:6379[1]&gt; zadd zset_list 1 test2 2 test3
+(integer) 2
+127.0.0.1:6379[1]&gt; zcard zset_list
+(integer) 3
+</code></pre><h3 id="zcount"><a href="#zcount" class="headerlink" title="zcount"></a>zcount</h3><p>命令格式:ZCOUNT key min max</p>
+<p>描述：返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或 max )的成员的数量。</p>
+<p>时间复杂度: O(log(N)+M)， N 为有序集的基数， M 为值在 min 和 max 之间的元素的数量。</p>
+<p>返回值：score 值在 min 和 max 之间的成员的数量。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zcount zset_list 1 2
+(integer) 2
+127.0.0.1:6379[1]&gt; zcount zset_list 0 2
+(integer) 3
+127.0.0.1:6379[1]&gt; zcount zset_list 2 2
+(integer) 1 
+</code></pre><h3 id="zscore"><a href="#zscore" class="headerlink" title="zscore"></a>zscore</h3><p>命令格式:ZSCORE key member</p>
+<p>描述:返回有序集 key 中，成员 member 的 score 值。如果 member 元素不是有序集 key 的成员，或 key 不存在，返回 nil 。</p>
+<p>时间复杂度:O(1)</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zscore zset_list test2
+&quot;1&quot;
+127.0.0.1:6379[1]&gt; zscore zset_list test5
+(nil)
+</code></pre><h3 id="zincrby"><a href="#zincrby" class="headerlink" title="zincrby"></a>zincrby</h3><p>命令格式：ZINCRBY key increment member</p>
+<p>描述：为有序集 key 的成员 member 的 score 值加上增量 increment 。</p>
+<p>时间复杂度：O(log(N))</p>
+<p>返回值： 返回member 成员的新 score 值，以字符串形式表示。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zscore zset_list test2
+&quot;1&quot;
+127.0.0.1:6379[1]&gt; zincrby zset_list 2 test2
+&quot;3&quot;
+127.0.0.1:6379[1]&gt; zincrby zset_list -2 test2
+&quot;1&quot;
+</code></pre><h3 id="zrange"><a href="#zrange" class="headerlink" title="zrange"></a>zrange</h3><p>命令格式: ZRANGE key start stop [WITHSCORES]</p>
+<p>描述：返回指定区间的成员。其中成员位置按 score 值递增(从小到大)来排序。 WITHSCORES选项是用来让成员和它的score值一并返回.(在前面我们已经用到过)</p>
+<p>时间复杂度:O(log(N)+M)， N 为有序集的基数，而 M 为结果集的基数。</p>
+<p>返回值：返回指定区间的成员列表.</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 1 2
+1) &quot;test2&quot;
+2) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 2
+1) &quot;test1&quot;
+2) &quot;test2&quot;
+3) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1
+1) &quot;test1&quot;
+2) &quot;test2&quot;
+3) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+</code></pre><p>当给定区间不存在于有序集时的情况</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 10 20
+(empty list or set)
+</code></pre><h3 id="zrevrange"><a href="#zrevrange" class="headerlink" title="zrevrange"></a>zrevrange</h3><p>命令格式：ZREVRANGE key start stop [WITHSCORES]</p>
+<p>描述：和zrange一样使用，唯一不同是其成员位置按 score 值递减(从大到小)来排列。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrevrange zset_list 0 -1 withscores
+1) &quot;test3&quot;
+2) &quot;2&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test1&quot;
+6) &quot;0&quot;
+</code></pre><h3 id="zrangebyscore"><a href="#zrangebyscore" class="headerlink" title="zrangebyscore"></a>zrangebyscore</h3><p>命令格式：ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</p>
+<p>描述：返回有序集key中所有score值介于min与max之间(包括等于)的成员.成员按score值递增(从小到大)排列 。min 和 max 可以是 -inf 和 +inf可选limit参数指定返回结果的数量及区间。</p>
+<p>时间复杂度：O(log(N)+M)， N 为有序集的基数， M 为被结果集的基数。</p>
+<p>返回值：指定区间内，带有 score 值(可选)的有序集成员的列表。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf
+1) &quot;test1&quot;
+2) &quot;test2&quot;
+3) &quot;test3&quot;
+127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrangebyscore zset_list 1 +inf withscores
+1) &quot;test2&quot;
+2) &quot;1&quot;
+3) &quot;test3&quot;
+4) &quot;2&quot;
+</code></pre><p>显示大于2 小于等于10的成员</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrangebyscore zset_list (1 10
+1) &quot;test3
+</code></pre><p>显示条件 1 &lt; score &lt; 10 的成员</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list (1 (10
+1) &quot;test3&quot;
+</code></pre><h3 id="zrevrangebyscore"><a href="#zrevrangebyscore" class="headerlink" title="zrevrangebyscore"></a>zrevrangebyscore</h3><p>命令格式: zrevrangebyscore key max min [WITHSCORES] [LIMIT offset count]</p>
+<p>描述：和zrangebyscore一样，唯一不同的是成员按 score 值递减(从大到小)的次序排列。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrangebyscore zset_list -inf +inf withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrevrangebyscore zset_list +inf -inf withscores
+1) &quot;test3&quot;
+2) &quot;2&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test1&quot;
+6) &quot;0&quot;
+</code></pre><h3 id="zrank"><a href="#zrank" class="headerlink" title="zrank"></a>zrank</h3><p>命令格式： zrank key member</p>
+<p>描述：返回有序集key中成员member的排名。成员按 score 值递增(从小到大)顺序排列。排名以0开始，也就是说score 值最小的为0.</p>
+<p>时间复杂度:O(log(N))</p>
+<p>返回值：返回成员排名，member不存在返回nil.</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrank zset_list test1
+(integer) 0
+</code></pre><h3 id="zrevrank"><a href="#zrevrank" class="headerlink" title="zrevrank"></a>zrevrank</h3><p>命令格式： zrevrank key member</p>
+<p>描述：返回有序集key中成员member的排名。成员按 score 值递增(从大到小)顺序排列。排名以0开始，也就是说score 值最大的为0.</p>
+<p>时间复杂度:O(log(N))</p>
+<p>返回值：返回成员排名，member不存在返回nil.</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrevrank zset_list test3
+(integer) 0
+</code></pre><h3 id="zremrangebyrank"><a href="#zremrangebyrank" class="headerlink" title="zremrangebyrank"></a>zremrangebyrank</h3><p>命令格式: ZREMRANGEBYRANK key start stop</p>
+<p>描述：移除有序集 key 中，指定排名(rank)区间内的所有成员。区间分别以下标参数 start 和 stop 指出，包含 start 和 stop 在内。下标参数 start 和 stop 都以 0 为底，也就是说，以 0 表示有序集第一个成员，以 1 表示有序集第二个成员，以此类推。你也可以使用负数下标，以 -1 表示最后一个成员， -2 表示倒数第二个成员，以此类推。</p>
+<p>时间复杂度:O(log(N)+M)， N 为有序集的基数，而 M 为被移除成员的数量。</p>
+<p>返回值:被移除成员的数量。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zremrangebyrank zset_list 1 2
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+</code></pre><h3 id="zremrangebyscore"><a href="#zremrangebyscore" class="headerlink" title="zremrangebyscore"></a>zremrangebyscore</h3><p>命令格式：zremrangebyscore key min max</p>
+<p>描述：移除score值介于min和max之间（等于）的成员</p>
+<p>时间复杂度:O(log(N)+M)， N 为有序集的基数，而 M 为被移除成员的数量。</p>
+<p>返回值:被移除成员的数量。</p>
+<p>移除所有score在 100 到 110 内的数据</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test11&quot;
+4) &quot;100&quot;
+5) &quot;test22&quot;
+6) &quot;101&quot;
+127.0.0.1:6379[1]&gt; zremrangebyscore zset_list 100 110
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+</code></pre><h3 id="zunionstore"><a href="#zunionstore" class="headerlink" title="zunionstore"></a>zunionstore</h3><p>命令格式：ZUNIONSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]] [AGGREGATE SUM|MIN|MAX]</p>
+<p>描述：计算给定的一个或多个有序集的并集，其中给定 key 的数量必须以 numkeys 参数指定，并将该并集(结果集)储存到 destination 。默认情况下，结果集中某个成员的 score 值是所有给定集下该成员 score 值之 和 。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zadd zset1 1 test1 2 test2
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+127.0.0.1:6379[1]&gt; zadd zset_list 1 test2
+(integer) 1
+127.0.0.1:6379[1]&gt; zunionstore dis_set 2 zset_list zset1
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange dis_set 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;3&quot;
+127.0.0.1:6379[1]&gt; zrange zset1 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+127.0.0.1:6379[1]&gt; zadd zset_list 3 test3
+(integer) 1
+127.0.0.1:6379[1]&gt; zunionstore dis_set1 2 zset_list zset1
+(integer) 3
+127.0.0.1:6379[1]&gt; zrange dis_set1 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;3&quot;
+5) &quot;test3&quot;
+6) &quot;3&quot;
+</code></pre><h3 id="zinterstore"><a href="#zinterstore" class="headerlink" title="zinterstore"></a>zinterstore</h3><p>命令格式：ZINTERSTORE destination numkeys key [key …] [WEIGHTS weight [weight …]] [AGGREGATE SUM|MIN|MAX]</p>
+<p>描述：计算给定的一个或多个有序集的交集。其中给定 key 的数量必须以 numkeys 参数指定，并将该交集(结果集)储存到 destination 。默认情况下，结果集中某个成员的 score 值是所有给定集下该成员 score 值之 和 。</p>
+<p>时间复杂度：O(N<em>K)+O(M</em>log(M))， N 为给定 key 中基数最小的有序集， K 为给定有序集的数量， M 为结果集的基数。</p>
+<p>返回值：保存到 destination 的结果集成员数。</p>
+<pre><code>127.0.0.1:6379[1]&gt; zrange zset1 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;2&quot;
+127.0.0.1:6379[1]&gt; zrange zset_list 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;0&quot;
+3) &quot;test2&quot;
+4) &quot;1&quot;
+5) &quot;test3&quot;
+6) &quot;3&quot;
+127.0.0.1:6379[1]&gt; zinterstore dis_set2 2 zset1 zset_list
+(integer) 2
+127.0.0.1:6379[1]&gt; zrange dis_set2 0 -1 withscores
+1) &quot;test1&quot;
+2) &quot;1&quot;
+3) &quot;test2&quot;
+4) &quot;3&quot;
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      redis 相关整理（六）ZSet 类型
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis 整理（七）key（键）的相关操作</title>
+    <link href="http://blog.wglgg.cn/2015/03/04/redis-key-operation/"/>
+    <id>http://blog.wglgg.cn/2015/03/04/redis-key-operation/</id>
+    <published>2015-03-03T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.642Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="del"><a href="#del" class="headerlink" title="del"></a>del</h3><p>时间复杂度: String类型其时间复杂度为O(1)。 其余O(N) N表删除key数量.</p>
+<p>描述：删除</p>
+<p>返回值: 实际被删除的KEY数量</p>
+<p>操作命令如下:</p>
+<pre><code>redis 127.0.0.1:6379&gt; del my_set_diff my_set
+(integer) 2
+</code></pre><h3 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h3><p>命令格式: keys pattern</p>
+<p>描述: 获取所有匹配PATTERN参数的keys.</p>
+<p>时间复杂度: O(N) 表KEY的数量.</p>
+<p>返回值:匹配模式的键列表。</p>
+<p>操作命令如下:</p>
+<pre><code>redis 127.0.0.1:6379&gt; keys my*
+1) “my_set_2″
+2) “myset2″
+3) “myset5″
+4) “myset”
+</code></pre><h3 id="exists"><a href="#exists" class="headerlink" title="exists"></a>exists</h3><p>描述: 判断指定键是否存在。1存在,0不存在.</p>
+<p>时间复杂度:O(1)</p>
+<p>操作命令如下:</p>
+<pre><code>redis 127.0.0.1:6379&gt; exists myset
+(integer) 1
+redis 127.0.0.1:6379&gt; exists myset9
+(integer) 0
+</code></pre><h3 id="move"><a href="#move" class="headerlink" title="move"></a>move</h3><p>命令格式: move key db</p>
+<p>时间复杂度:O(1)</p>
+<p>描述: 将当前数据库中指定的键Key移动到参数中指定的数据库中。如果该Key在目标数据库中已经存在，或者在当前数据库中并不存在，该命令将不做任何操作并返回0。redis中默认有16个数据库，默认从0开始到15。</p>
+<p>返回值:成功1 否则0</p>
+<h3 id="rename"><a href="#rename" class="headerlink" title="rename"></a>rename</h3><p>命令格式: rename key newkey</p>
+<p>时间复杂度:O(1)</p>
+<p>描述: 重命名key,key不存在将报错,如果newKey存在则直接覆盖</p>
+<h3 id="renamenx"><a href="#renamenx" class="headerlink" title="renamenx"></a>renamenx</h3><p>命令格式: renamenx key newkey</p>
+<p>时间复杂度:O(1)</p>
+<p>描述:当newkey不存在时才重命名.</p>
+<p>返回值: 成功返回1,如里newkey已经存在,返回0.</p>
+<h3 id="persist"><a href="#persist" class="headerlink" title="persist"></a>persist</h3><p>命令格式:persist key</p>
+<p>时间复杂度: O(1)</p>
+<p>描述:移除给定key的生存时间。</p>
+<p>返回值:1表示Key的过期时间被移出，0表示该Key不存在或没有过期时间。</p>
+<h3 id="expire"><a href="#expire" class="headerlink" title="expire"></a>expire</h3><p>命令格式:EXPIRE key seconds</p>
+<p>时间复杂度: O(1)</p>
+<p>描述:为给定key设置生存时间。当key过期时，它会被自动删除</p>
+<p>返回值:设置成功返回1。当key不存在或者不能为key设置生存时间，返回0。</p>
+<h3 id="expireat"><a href="#expireat" class="headerlink" title="expireat"></a>expireat</h3><p>命令格式:expireat key timetamp</p>
+<p>时间复杂度: O(1)</p>
+<p>描述:EXPIREAT的作用和EXPIRE一样，都用于为key设置生存时间。不同在于EXPIREAT命令接受的时间参数是UNIX时间戳(unix timestamp)。</p>
+<p>返回值:设置成功返回1。当key不存在或者不能为key设置生存时间，返回0。</p>
+<h3 id="ttl"><a href="#ttl" class="headerlink" title="ttl"></a>ttl</h3><p>命令格式:ttl key</p>
+<p>时间复杂度: O(1)</p>
+<p>描述:返回给定key的剩余生存时间(time to live)(以秒为单位)。</p>
+<p>返回值:key的剩余生存时间(以秒为单位)。当key不存在或没有设置生存时间时，返回-1 。</p>
+<h3 id="randomkey"><a href="#randomkey" class="headerlink" title="randomkey"></a>randomkey</h3><p>时间复杂度: O(1)</p>
+<p>描述:随机的返回一个Key。</p>
+<p>返回值:返回的随机键，如果该数据库是空的则返回nil。</p>
+<h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>命令格式:type key</p>
+<p>时间复杂度: O(1)</p>
+<p>描述:获取key的类型</p>
+<p>返回值: 返回的字符串为string、list、set、hash和zset，如果key不存在返回none。</p>
+<h3 id="dump"><a href="#dump" class="headerlink" title="dump"></a>dump</h3><p>命令格式:dump key</p>
+<p>可用版本:reidis&gt;=2.6.0</p>
+<p>时间复杂度: O(1)</p>
+<p>描述:序列化给定key,并返回被序列化的值,使用 RESTORE 命令可以将这个值反序列化为 Redis 键。</p>
+<p>返回值: 如key不存在返回nli,否则返回被序列化的值.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      redis 相关整理（七）key（键）的相关操作
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java 重载与重写的区别</title>
+    <link href="http://blog.wglgg.cn/2014/08/15/java-overloading-Overriding/"/>
+    <id>http://blog.wglgg.cn/2014/08/15/java-overloading-Overriding/</id>
+    <published>2014-08-14T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.606Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="重载-Overloading"><a href="#重载-Overloading" class="headerlink" title="重载(Overloading)"></a>重载(Overloading)</h2><p>（1） 方法重载是让类以统一的方式处理不同类型数据的一种手段。多个同名函数同时存在，具有不同的参数个数/类型。</p>
+<p>重载Overloading是一个类中多态性的一种表现。</p>
+<p>（2）Java的方法重载，就是在类中可以创建多个方法，它们具有相同的名字，但具有不同的参数和不同的定义。</p>
+<p>调用方法时通过传递给它们的不同参数个数和参数类型来决定具体使用哪个方法, 这就是多态性。</p>
+<p>（3） 重载的时候，方法名要一样，但是参数类型和个数不一样，返回值类型可以相同也可以不相同。无法以返回型别作为重载函数的区分标准。</p>
+<p>下面是重载的例子：<br>package c04.answer;//这是包名<br>//这是这个程序的第一种编程方法，在main方法中先创建一个Dog类实例，然后在Dog类的构造方法中利用this关键字调用不同的bark方法。</p>
+<p>不同的重载方法bark是根据其参数类型的不同而区分的。</p>
+<p>//注意：除构造器以外，编译器禁止在其他任何地方中调用构造器。</p>
+<pre><code>package c04.answer;
+public class Dog {
+
+    Dog(){
+        this.bark();
+    }
+
+    //bark()方法是重载方法
+    void bark(){
+        System.out.println(&quot;no barking!&quot;);
+        this.bark(&quot;female&quot;, 3.4);
+    }
+
+    //注意：重载的方法的返回值都是一样的，
+    void bark(String m,double l) {
+        System.out.println(&quot;a barking dog!&quot;);
+        this.bark(5, &quot;China&quot;);
+    }
+    //不能以返回值区分重载方法，而只能以“参数类型”和“类名”来区分
+    void bark(int a,String n) {
+        System.out.println(&quot;a howling dog&quot;);
+    }
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        //dog.bark(); [Page]
+        //dog.bark(&quot;male&quot;, &quot;yellow&quot;);
+        //dog.bark(5, &quot;China&quot;);
+    }
+}
+</code></pre><h2 id="重写（Overriding）"><a href="#重写（Overriding）" class="headerlink" title="重写（Overriding）"></a>重写（Overriding）</h2><p>（1） 父类与子类之间的多态性，对父类的函数进行重新定义。如果在子类中定义某方法与其父类有相同的名称和参数，我们说该方法被重写 (Overriding)。在Java中，子类可继承父类中的方法，而不需要重新编写相同的方法。</p>
+<p>但有时子类并不想原封不动地继承父类的方法，而是想作一定的修改，这就需要采用方法的重写。</p>
+<p>方法重写又称方法覆盖。</p>
+<p>（2）若子类中的方法与父类中的某一方法具有相同的方法名、返回类型和参数表，则新方法将覆盖原有的方法。</p>
+<p>如需父类中原有的方法，可使用super关键字，该关键字引用了当前类的父类。</p>
+<p>（3）子类函数的访问修饰权限不能少于父类的；<br>下面是重写的例子：</p>
+<p>概念：即调用对象方法的机制。</p>
+<p>动态绑定的内幕：</p>
+<p>1、编译器检查对象声明的类型和方法名，从而获取所有候选方法。试着把上例Base类的test注释掉，这时再编译就无法通过。</p>
+<p>2、重载决策：编译器检查方法调用的参数类型，从上述候选方法选出唯一的那一个（其间会有隐含类型转化）。</p>
+<p>如果编译器找到多于一个或者没找到，此时编译器就会报错。试着把上例Base类的test(byte b)注释掉，这时运行结果是1 1。</p>
+<p>3、若方法类型为priavte static final ，java采用静态编译，编译器会准确知道该调用哪<br>个方法。</p>
+<p>4、当程序运行并且使用动态绑定来调用一个方法时，那么虚拟机必须调用对象的实际类型相匹配的方法版本。</p>
+<p>在例子中，b所指向的实际类型是TestOverriding，所以b.test(0)调用子类的test。</p>
+<p>但是，子类并没有重写test(byte b)，所以b.test((byte)0)调用的是父类的test(byte b)。</p>
+<p>如果把父类的(byte b)注释掉，则通过第二步隐含类型转化为int,最终调用的是子类的test(int i)。</p>
+<p>学习总结：</p>
+<p>多态性是面向对象编程的一种特性，和方法无关，<br>简单说，就是同样的一个方法能够根据输入数据的不同，做出不同的处理，即方法的<br>重载——有不同的参数列表（静态多态性）</p>
+<p>　而当子类继承自父类的相同方法，输入数据一样，但要做出有别于父类的响应时，你就要覆盖父类方法，</p>
+<p>即在子类中重写该方法——相同参数，不同实现（动态多态性）</p>
+<p>OOP三大特性：继承，多态，封装。</p>
+<pre><code>public class Base {
+    void test(int i) {
+        System.out.print(i);
+    }
+
+    void test(byte b){
+        System.out.print(b);
+    }
+}
+public class TestOverriding extends Base {
+    void test(int i) {
+        i++;
+        System.out.println(i);
+    }
+    public static void main(String[]agrs) {
+        Base b=new TestOverriding();
+        b.test(0)
+        b.test((byte)0)
+    }
+}
+</code></pre><p>这时的输出结果是1 0，这是运行时动态绑定的结果。</p>
+<p>重写的主要优点是能够定义某个子类特有的特征：</p>
+<pre><code>public class Father{
+
+    public void speak(){
+        System.out.println(Father);
+    }
+   }
+
+public class SonextendsFather{
+    public void speak(){
+        System.out.println(&quot;son&quot;);
+    }
+}
+</code></pre><p>这也叫做多态性，重写方法只能存在于具有继承关系中，重写方法只能重写父类非私有的方法。</p>
+<p>当上例中Father类speak()方法被private时，Son类不能重写出Father类speak()方法，此时Son类speak()方法相当与在Son类中定义的一个speak()方法。</p>
+<p>Father类speak()方法一但被final时，无论该方法被public,protected及默认所修饰时，Son类根本不能重写Father类speak()方法，</p>
+<p>试图编译代码时，编译器会报错。例：</p>
+<pre><code>public class Father{
+    final public void speak(){
+        System.out.println(&quot;Father&quot;);
+    }
+}
+public class SonextendsFather{
+    public void speak(){
+        System.out.println(&quot;son&quot;);
+    }
+}//编译器会报错；
+</code></pre><p>Father类speak()方法被默认修饰时，只能在同一包中，被其子类被重写，如果不在同一包则不能重写。</p>
+<p>Father类speak()方法被protoeted时，不仅在同一包中，被其子类被重写，还可以不同包的子类重写。</p>
+<p>重写方法的规则：</p>
+<p>1、参数列表必须完全与被重写的方法相同，否则不能称其为重写而是重载。</p>
+<p>2、返回的类型必须一直与被重写的方法的返回类型相同，否则不能称其为重写而是重载。</p>
+<p>3、访问修饰符的限制一定要大于被重写方法的访问修饰符（public&gt;protected&gt;default&gt;private）</p>
+<p>4、重写方法一定不能抛出新的检查异常或者比被重写方法申明更加宽泛的检查型异常。例如：</p>
+<p>父类的一个方法申明了一个检查异常IOException，在重写这个方法是就不能抛出Exception,只能抛出IOException的子类异常，可以抛出非检查异常。</p>
+<p>而重载的规则：</p>
+<p>1、必须具有不同的参数列表；</p>
+<p>2、可以有不责骂的返回类型，只要参数列表不同就可以了；</p>
+<p>3、可以有不同的访问修饰符；</p>
+<p>4、可以抛出不同的异常；</p>
+<p>重写与重载的区别在于：</p>
+<p>重写多态性起作用，对调用被重载过的方法可以大大减少代码的输入量，同一个方法名只要往里面传递不同的参数就可以拥有不同的功能或返回值。</p>
+<p>用好重写和重载可以设计一个结构清晰而简洁的类，可以说重写和重载在编写代码过程中的作用非同一般.</p>
+<p>（来源：博客园）</p>
+]]></content>
+    
+    <summary type="html">
+    
+      Java 重载与重写的区别
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java中关于Map的九大问题</title>
+    <link href="http://blog.wglgg.cn/2014/08/14/java-map-9-problems/"/>
+    <id>http://blog.wglgg.cn/2014/08/14/java-map-9-problems/</id>
+    <published>2014-08-13T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.604Z</updated>
+    
+    <content type="html"><![CDATA[<p>通常来说，Map是一个由键值对组成的数据结构，且在集合中每个键是唯一的。下面就以K和V来代表键和值，来说明一下java中关于Map的九大问题。</p>
+<h2 id="1、将Map转换为List类型"><a href="#1、将Map转换为List类型" class="headerlink" title="1、将Map转换为List类型"></a>1、将Map转换为List类型</h2><p>在java中Map接口提供了三种集合获取方式：Key set,，value set， and key-value set.。它们都可以通过构造方法或者addAll()方法来转换为List类型。下面代码就说明了如何从Map中构造ArrayList：</p>
+<pre><code>// key list
+List keyList = new ArrayList(map.keySet());
+// value list
+List valueList = new ArrayList(map.valueSet());
+// key-value list
+List entryList = new ArrayList(map.entrySet());
+</code></pre><h2 id="2、通过Entry-遍历Map"><a href="#2、通过Entry-遍历Map" class="headerlink" title="2、通过Entry 遍历Map"></a>2、通过Entry 遍历Map</h2><p>java中这种以键值对存在的方式被称为Map.Entry。Map.entrySet()返回的是一个key-value 集合，这是一种非常高效的遍历方式。</p>
+<pre><code>for(Entry entry: map.entrySet()) {
+    // get key
+    K key = entry.getKey();
+    // get value
+    V value = entry.getValue();
+}
+</code></pre><p>Iterator 我们也经常用到，尤其是在JDK1.5以前</p>
+<pre><code>Iterator itr = map.entrySet().iterator();
+while(itr.hasNext()) {
+    Entry entry = itr.next();
+    // get key
+    K key = entry.getKey();
+    // get value
+    V value = entry.getValue();
+}
+</code></pre><h2 id="3、通过Key来对Map排序"><a href="#3、通过Key来对Map排序" class="headerlink" title="3、通过Key来对Map排序"></a>3、通过Key来对Map排序</h2><p>排序需要对Map的ke进行频繁的操作，一种方式就是通过比较器(comparator )来实现：</p>
+<pre><code>List list = new ArrayList(map.entrySet());
+Collections.sort(list, new Comparator() {
+    @Override
+    public int compare(Entry e1, Entry e2) {
+        return e1.getKey().compareTo(e2.getKey());
+    }
+});
+</code></pre><p>另外一种方法就是通过SortedMap，但必须要实现Comparable接口。</p>
+<pre><code>SortedMap sortedMap = new TreeMap(new Comparator() {
+    @Override
+    public int compare(K k1, K k2) {
+        return k1.compareTo(k2);
+    }
+});
+sortedMap.putAll(map);
+</code></pre><h2 id="4、对value对Map进行排序"><a href="#4、对value对Map进行排序" class="headerlink" title="4、对value对Map进行排序"></a>4、对value对Map进行排序</h2><p>这与上一点有些类似，代码如下：</p>
+<pre><code>List list = new ArrayList(map.entrySet());
+Collections.sort(list, new Comparator() {
+    @Override
+    public int compare(Entry e1, Entry e2) {
+        return e1.getValue().compareTo(e2.getValue());
+    }
+});
+</code></pre><h2 id="5、初始化一个static-的常量Map"><a href="#5、初始化一个static-的常量Map" class="headerlink" title="5、初始化一个static 的常量Map"></a>5、初始化一个static 的常量Map</h2><p>当你希望创建一个全局静态Map的时候，我们有以下两种方式，而且是线程安全的。<br>而在Test1中，我们虽然声明了map是静态的，但是在初始化时，我们依然可以改变它的值，就像Test1.map.put(3,”three”);<br>在Test2中，我们通过一个内部类，将其设置为不可修改，那么当我们运行Test2.map.put(3,”three”)的时候，它就会抛出一个UnsupportedOperationException 异常来禁止你修改。<br>    public class Test1 {<br>        private static final Map map;<br>        static {<br>            map = new HashMap();<br>            map.put(1, “one”);<br>            map.put(2, “two”);<br>        }<br>    }</p>
+<pre><code>public class Test2 {
+    private static final Map map;
+    static {
+        Map aMap = new HashMap();
+        aMap.put(1, “one”);
+        aMap.put(2, “two”);
+        map = Collections.unmodifiableMap(aMap);
+    }
+}
+</code></pre><h2 id="6、HashMap-TreeMap-and-Hashtable之间的不同"><a href="#6、HashMap-TreeMap-and-Hashtable之间的不同" class="headerlink" title="6、HashMap, TreeMap, and Hashtable之间的不同"></a>6、HashMap, TreeMap, and Hashtable之间的不同</h2><p>在Map接口中，共有三种实现：HashMap，TreeMap，Hashtable。</p>
+<p>它们之间各有不同，详细内容请参考《 HashMap vs. TreeMap vs. Hashtable vs. LinkedHashMap》一文。</p>
+<h2 id="6、Map中的反向查询"><a href="#6、Map中的反向查询" class="headerlink" title="6、Map中的反向查询"></a>6、Map中的反向查询</h2><p>我们在Map添加一个键值对后，意味着这在Map中键和值是一一对应的，一个键就是对应一个值。但是有时候我们需要反向查询，比如通过某一个值来查找它的键，这种数据结构被称为bidirectional map，遗憾的是JDK并没有对其支持。</p>
+<p>Apache和Guava 共同提供了这种bidirectional map实现，它在实现中它规定了键和值都是必须是1:1的关系。</p>
+<h2 id="7、对Map的复制"><a href="#7、对Map的复制" class="headerlink" title="7、对Map的复制"></a>7、对Map的复制</h2><p>java中提供了很多方法都可以实现对一个Map的复制，但是那些方法不见得会时时同步。简单说，就是一个Map发生的变化，而复制的那个依然保持原样。下面是一个比较高效的实现方法：</p>
+<pre><code>Map copiedMap = Collections.synchronizedMap(map);
+</code></pre><p>当然还有另外一个方法，那就是克隆。但是我们的java鼻祖Josh Bloch却不推荐这种方式，他曾经在一次访谈中说过关于Map克隆的问题：在很多类中都提供了克隆的方法，因为人们确实需要。但是克隆非常有局限性，而且在很多时候造成了不必要的影响。（原文《Copy constructor versus cloning》）</p>
+<h2 id="8、创建一个空的Map"><a href="#8、创建一个空的Map" class="headerlink" title="8、创建一个空的Map"></a>8、创建一个空的Map</h2><p>如果这个map被置为不可用，可以通过以下实现</p>
+<pre><code>map = Collections.emptyMap();
+</code></pre><p>相反，我们会用到的时候，就可以直接</p>
+<pre><code>map = new HashMap();
+</code></pre><p>文章源自：IT学习者</p>
+]]></content>
+    
+    <summary type="html">
+    
+      Java中关于Map的九大问题
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis 整理（五）set 类型</title>
+    <link href="http://blog.wglgg.cn/2014/08/10/redis-datatype-set/"/>
+    <id>http://blog.wglgg.cn/2014/08/10/redis-datatype-set/</id>
+    <published>2014-08-09T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.629Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="set-类型简介"><a href="#set-类型简介" class="headerlink" title="set 类型简介"></a>set 类型简介</h2><p>在Redis中，set是集合，和我们数学中的集合概念相似，对集合的操作有添加删除元素，有对多个几个求交并差等操作，操作中key理解为集合的名字。Redis的set是string类型的无序集合。set元素最大可以包含(2的32次方)个元素。set的十通过hash table实现的，所以添加、删除和查找的复杂度都是0（1）。hash table会随着添加或者删除自动的调整大小。需要注意的是调整hash table大小时候需要同步（获取写锁）会阻塞其他读写操作，可能不久后就会改用跳表来实现。关于set集合类型除了基本的添加删除操作，其他有用的操作还包括集合的取并集（union），交集（intersection），差集（difference）。通过这些操作可以很容易的实现sns中的好友推荐和blog的tag功能。</p>
+<h2 id="set-操作"><a href="#set-操作" class="headerlink" title="set 操作"></a>set 操作</h2><h3 id="1-sadd"><a href="#1-sadd" class="headerlink" title="1. sadd"></a>1. sadd</h3><p>向名称为key的set中添加元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; sadd myset &quot;hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; sadd myset &quot;world&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; sadd myset &quot;world&quot;
+(integer) 0
+redis 127.0.0.1:6379&gt; smembers myset
+1) &quot;world&quot;
+2) &quot;hello&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>本例中，我们向myset中添加了三个元素，但由于第三个元素跟第二个元素十相同的，所以第三个元素没有添加成功，最后我们用smembers来查看myset中的所有元素。</p>
+<h3 id="2-srem"><a href="#2-srem" class="headerlink" title="2. srem"></a>2. srem</h3><p>删除名称为key的set中的元素member</p>
+<pre><code>redis 127.0.0.1:6379&gt; sadd myset2 &quot;one&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; sadd myset2 &quot;two&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; sadd myset2 &quot;three&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; srem myset2 &quot;one&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; srem myset2 &quot;four&quot;
+(integer) 0
+redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>本例中，我们向myset2中添加了三个元素后，再调用srem来删除one和four，但由于元素中没有four，所以，词条srem命令执行失败。</p>
+<h3 id="3-spop"><a href="#3-spop" class="headerlink" title="3. spop"></a>3. spop</h3><p>随即返回并删除名称为key的set中一个元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; sadd myset3 &quot;one&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; sadd myset3 &quot;two&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; sadd myset3 &quot;three&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; spop myset3
+&quot;three&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>本例中，我们向myset3中添加三个元素后，在调用spop来随即删除一个元素，可以看到three元素被删除了。</p>
+<h3 id="4-sdiff"><a href="#4-sdiff" class="headerlink" title="4. sdiff"></a>4. sdiff</h3><p>返回所有给定key与第一个key的差集</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; sdiff myset2 myset3
+1) &quot;three&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>本例中，我们可以看到myset2中的元素与myset3中不同的只是three，所以只有three被查询出来，而不是three和one，因为one是myset3的元素。我们也可以将myset2和myset3换个顺序来看一下结果：</p>
+<pre><code>redis 127.0.0.1:6379&gt; sdiff myset3 myset2
+1) &quot;one&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>这个结果中只显示了，myset3中的元素与myset2中的不同的元素。</p>
+<h3 id="5-sdiffstore"><a href="#5-sdiffstore" class="headerlink" title="5. sdiffstore"></a>5. sdiffstore</h3><p>返回所有给定key与第一个key的差集，并将结果存为另一个key</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; sdiffstore myset4 myset2 myset3
+(integer) 1
+redis 127.0.0.1:6379&gt; smembers myset4
+1) &quot;three&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="6-sinter"><a href="#6-sinter" class="headerlink" title="6. sinter"></a>6. sinter</h3><p>返回所有给定key的交集</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; sinter myset2 myset3
+1) &quot;two&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过本例的结果可以看出，myset2和myset3的交集two被查出来了</p>
+<h3 id="7-sinterstore"><a href="#7-sinterstore" class="headerlink" title="7. sinterstore"></a>7. sinterstore</h3><p>返回所有给定key的交集，并将结果存为另一个key</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; sinterstore myset5 myset2 myset3
+(integer) 1
+redis 127.0.0.1:6379&gt;smembers myset5
+1) &quot;two&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过本例的结果可以看出，myset2和myset3的交集被保存到myset5中了。</p>
+<h3 id="8-sunion"><a href="#8-sunion" class="headerlink" title="8. sunion"></a>8. sunion</h3><p>返回所有给定key的并集</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; sunion myset2 myset3
+1) &quot;three&quot;
+2) &quot;one&quot;
+3) &quot;two&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过本例的结果可以看出，myset2和myset3的并集被查出来了</p>
+<h3 id="9-sunionstore"><a href="#9-sunionstore" class="headerlink" title="9. sunionstore"></a>9. sunionstore</h3><p>返回所有给定key的并集，并将结果存为另一个key</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; sunionstore myset6 myset2 myset3
+(integer) 3
+redis 127.0.0.1:6379&gt;smembers myset6
+1) &quot;three&quot;
+2) &quot;one&quot;
+3) &quot;two&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过本例的结果可以看出，myset2和myset3的并集被保存到myset6中了</p>
+<h3 id="10-smove"><a href="#10-smove" class="headerlink" title="10. smove"></a>10. smove</h3><p>从第一个key对应的set中一处member并添加到第二个对应set中</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;three&quot;
+2) &quot;two&quot;
+redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; smove myset2 myset7 three
+(integer) 1
+redis 127.0.0.1:6379&gt;smembers myset7
+1) &quot;three&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过本例可以看到，myset2的three被移到myset7中了</p>
+<h3 id="11-scard"><a href="#11-scard" class="headerlink" title="11. scard"></a>11. scard</h3><p>返回名称为key的set的元素个数</p>
+<pre><code>redis 127.0.0.1:6379&gt; scard myset2
+(integer) 1
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过本例可以看到，myset2的成员数量为1</p>
+<h3 id="12-sismember"><a href="#12-sismember" class="headerlink" title="12. sismember"></a>12. sismember</h3><p>测试member是否是名称为key的set的元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset2
+1) &quot;two&quot;
+redis 127.0.0.1:6379&gt; sismembers myset2 two
+(integer) 1
+redis 127.0.0.1:6379&gt;sismember myset2 one
+(integer) 0
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过本例可以看到，two是myset2的成员，而one不是。</p>
+<h3 id="13-srandmember"><a href="#13-srandmember" class="headerlink" title="13. srandmember"></a>13. srandmember</h3><p>随机返回名称为key的set的一个元素，但是不删除元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; smembers myset3
+1) &quot;two&quot;
+2) &quot;one&quot;
+redis 127.0.0.1:6379&gt; srandmember myset3
+&quot;two&quot;
+redis 127.0.0.1:6379&gt;srandmember myset3
+&quot;one&quot;
+redis 127.0.0.1:6379&gt; 
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      redis 相关整理（五）set 类型
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis 整理（四）List 类型</title>
+    <link href="http://blog.wglgg.cn/2014/08/09/redis-datatype-list/"/>
+    <id>http://blog.wglgg.cn/2014/08/09/redis-datatype-list/</id>
+    <published>2014-08-08T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.626Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="list-类型简介"><a href="#list-类型简介" class="headerlink" title="list 类型简介"></a>list 类型简介</h2><p>List是一个链表结构，主要功能是push、pop、获取一个范围的所有值等等，操作中key理解为链表的名字。Redis的list类型其实就是一个每个子元素都是string类型的双向链表。我们可以通过push、pop操作从链表的头部或者尾部添加删除元素，这样list既可以作为栈，又可以作为队列。</p>
+<h2 id="list-操作"><a href="#list-操作" class="headerlink" title="list 操作"></a>list 操作</h2><h3 id="1-lpush"><a href="#1-lpush" class="headerlink" title="1. lpush"></a>1. lpush</h3><p>在key对应list的头部添加字符串元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; lpush mylist &quot;world&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; lpush mylist &quot;hello&quot;
+(integer) 2
+redis 127.0.0.1:6379&gt; lrange mylist 0 -1
+1) &quot;hello&quot;
+2) &quot;world&quot;
+</code></pre><h3 id="2-rpush"><a href="#2-rpush" class="headerlink" title="2. rpush"></a>2. rpush</h3><p>在key对应list的尾部添加字符串元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; rpush mylist2 &quot;world&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; rpush mylist2 &quot;hello&quot;
+(integer) 2
+redis 127.0.0.1:6379&gt; lrange mylist2 0 -1
+1) &quot;hello&quot;
+2) &quot;world&quot;
+</code></pre><h3 id="3-linsert"><a href="#3-linsert" class="headerlink" title="3. linsert"></a>3. linsert</h3><p>在key对应list的特定位置前或后添加字符串</p>
+<pre><code>redis 127.0.0.1:6379&gt; rpush mylist3 &quot;world&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; linsert mylist3 before &quot;world&quot; &quot;hello&quot;
+(integer) 2
+redis 127.0.0.1:6379&gt; lrange mylist3 0 -1
+1) &quot;hello&quot;
+2) &quot;world&quot;
+</code></pre><h3 id="4-lset"><a href="#4-lset" class="headerlink" title="4. lset"></a>4. lset</h3><p>设置list中指定下标的元素值</p>
+<pre><code>redis 127.0.0.1:6379&gt; rpush mylist4 &quot;hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; lset mylist4 0 &quot;world&quot;
+OK
+redis 127.0.0.1:6379&gt; lrange mylist4 0 -1
+1) &quot;world&quot;
+</code></pre><h3 id="5-lrem"><a href="#5-lrem" class="headerlink" title="5. lrem"></a>5. lrem</h3><p>从key对应list中删除n个和value相同的元素。（n&lt;0从尾删除，n=0全部删除）</p>
+<pre><code>redis 127.0.0.1:6379&gt; rpush mylist5 &quot;hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; rpush mylist5 &quot;hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; lrem mylist5 1 &quot;hello&quot;
+(integer) 1
+</code></pre><h3 id="6-ltrim"><a href="#6-ltrim" class="headerlink" title="6. ltrim"></a>6. ltrim</h3><p>保留指定key的值范围内的数据</p>
+<pre><code>redis 127.0.0.1:6379&gt; rpush mylist8 &quot;one&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; rpush mylist8 &quot;two&quot;
+(integer) 2
+redis 127.0.0.1:6379&gt; ltrim mylist8 1 -1
+(integer) 1
+redis 127.0.0.1:6379&gt; lrange mylist5 1 &quot;hello&quot;
+(integer) 1
+</code></pre><h3 id="6-lpop"><a href="#6-lpop" class="headerlink" title="6. lpop"></a>6. lpop</h3><p>从list的头部删除元素，并返回删除元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; lrange mylist 0 -1
+1) &quot;hello&quot;
+2) &quot;world&quot;
+redis 127.0.0.1:6379&gt; lpop mylist
+&quot;hello&quot;
+redis 127.0.0.1:6379&gt; lrange mylist 0 -1
+&quot;world&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="7-rpop"><a href="#7-rpop" class="headerlink" title="7. rpop"></a>7. rpop</h3><p>从list的尾部删除元素，并返回删除元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; lrange mylist2 0 -1
+1) &quot;hello&quot;
+2) &quot;world&quot;
+redis 127.0.0.1:6379&gt; rpop mylist2
+&quot;world&quot;
+redis 127.0.0.1:6379&gt; lrange mylist2 0 -1
+1) &quot;hello&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="8-rpoplpush"><a href="#8-rpoplpush" class="headerlink" title="8. rpoplpush"></a>8. rpoplpush</h3><p>从第一个list的尾部移除元素并添加到第二个list的头部</p>
+<pre><code>redis 127.0.0.1:6379&gt; lrange mylist2 0 -1
+1) &quot;hello&quot;
+2) &quot;world&quot;
+redis 127.0.0.1:6379&gt; rpop mylist2
+&quot;world&quot;
+redis 127.0.0.1:6379&gt; lrange mylist2 0 -1
+1) &quot;hello&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="9-lindex"><a href="#9-lindex" class="headerlink" title="9. lindex"></a>9. lindex</h3><p>返回名称为key的list中index位置的元素</p>
+<pre><code>redis 127.0.0.1:6379&gt; lrange mylist5 0 -1
+1) &quot;three&quot;
+2) &quot;foo&quot;
+redis 127.0.0.1:6379&gt; lindex mylist5 0
+&quot;three&quot;
+redis 127.0.0.1:6379&gt; lindex mylist5 1
+&quot;foo&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="10-llen"><a href="#10-llen" class="headerlink" title="10. llen"></a>10. llen</h3><p>返回key对应list的长度</p>
+<pre><code>redis 127.0.0.1:6379&gt; llen mylist5
+(integer) 2
+redis 127.0.0.1:6379&gt;
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      redis 相关整理（四）List 类型
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis 整理（三）hash 类型</title>
+    <link href="http://blog.wglgg.cn/2014/08/08/redis-datatype-hash/"/>
+    <id>http://blog.wglgg.cn/2014/08/08/redis-datatype-hash/</id>
+    <published>2014-08-07T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.624Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="hash-类型简介"><a href="#hash-类型简介" class="headerlink" title="hash 类型简介"></a>hash 类型简介</h2><p>redis hash是一个string类型的field和value的映射表。它的添加、删除操作都是0(1)(平均)。hash特别适合用于存储对象。相较于将对象的每个字段存成单个string类型，将一个对象存储在hash类型中会占用更少的内存，并且可以更方便的存取整个对象。省内存的原因是新建一个hash对象时开始是用zipmap来存储的。</p>
+<h2 id="hash-操作"><a href="#hash-操作" class="headerlink" title="hash 操作"></a>hash 操作</h2><h3 id="1-hset"><a href="#1-hset" class="headerlink" title="1. hset"></a>1. hset</h3><p>设置hash field为指定值，如果key不存在，则先创建。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hset myhash field1 Hello
+(integer) 1
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="2-hsetnx"><a href="#2-hsetnx" class="headerlink" title="2. hsetnx"></a>2. hsetnx</h3><p>设置hash field 为指定值，如果key 不存在，则先创建。如果field 已经存在，返回0，nx 是not exist 的意思。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hsetnx myhash field &quot;Hello&quot;
+(integer) 1
+redis 127.0.0.1:6379&gt; hsetnx myhash field &quot;Hello&quot;
+(integer) 0
+redis 127.0.0.1:6379&gt;
+</code></pre><p>第一次执行是成功的，但第二次执行相同的命令失败，原因是field 已经存在了。</p>
+<h3 id="3-hmset"><a href="#3-hmset" class="headerlink" title="3. hmset"></a>3. hmset</h3><p>同时设置hash的多个field。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hmset myhash field1 Hello field2 World
+OK
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="4-hget"><a href="#4-hget" class="headerlink" title="4. hget"></a>4. hget</h3><p>获取指定的hash field。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hget myhash field1
+&quot;Hello&quot;
+redis 127.0.0.1:6379&gt; hget myhash field2
+&quot;World&quot;
+redis 127.0.0.1:6379&gt; hget myhash field3
+(nil)
+redis 127.0.0.1:6379&gt;
+</code></pre><p>由于数据库没有field3，所以取到的是一个空值<code>nil</code>。</p>
+<h3 id="5-hmget"><a href="#5-hmget" class="headerlink" title="5. hmget"></a>5. hmget</h3><p>获取全部指定的hash field。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hmget myhash field1 field2 field3
+1) &quot;Hello&quot;
+2) &quot;World&quot;
+3) (nil)
+redis 127.0.0.1:6379&gt;
+</code></pre><p>由于数据库没有field3，所以取到的是一个空值<code>nil</code>。</p>
+<h3 id="6-hincrby"><a href="#6-hincrby" class="headerlink" title="6. hincrby"></a>6. hincrby</h3><p>指定的hash filed 加上给定值。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hset myhash field3 20
+(integer) 1
+redis 127.0.0.1:6379&gt; hget myhash field3
+&quot;20&quot;
+redis 127.0.0.1:6379&gt; hincrby myhash field3 -8
+(integer) 12
+redis 127.0.0.1:6379&gt; hget myhash field3
+&quot;12&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>例中将field3 的值从20 降到了12，即做了一个减8 的操作。</p>
+<h3 id="7-hexists"><a href="#7-hexists" class="headerlink" title="7. hexists"></a>7. hexists</h3><p>测试指定field 是否存在。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hexists myhash field1
+(integer) 1
+redis 127.0.0.1:6379&gt; hexists myhash field9
+(integer) 0
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过上例可以说明field1 存在，但field9 是不存在的。</p>
+<h3 id="8-hlen"><a href="#8-hlen" class="headerlink" title="8. hlen"></a>8. hlen</h3><p>返回指定hash 的field 数量。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hlen myhash
+(integer) 4
+redis 127.0.0.1:6379&gt;
+</code></pre><p>通过上例可以看到myhash 中有4 个field。</p>
+<h3 id="9-hdel"><a href="#9-hdel" class="headerlink" title="9. hdel"></a>9. hdel</h3><p>返回指定hash 的field 数量。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hlen myhash
+(integer) 4
+redis 127.0.0.1:6379&gt; hdel myhash field1
+(integer) 1
+redis 127.0.0.1:6379&gt; hlen myhash
+(integer) 3
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="10-hkeys"><a href="#10-hkeys" class="headerlink" title="10. hkeys"></a>10. hkeys</h3><p>返回hash 的所有field。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hkeys myhash
+1) &quot;field2&quot;
+2) &quot;field&quot;
+3) &quot;field3&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>说明这个hash 中有3 个field</p>
+<h3 id="11-hvals"><a href="#11-hvals" class="headerlink" title="11. hvals"></a>11. hvals</h3><p>返回hash 的所有value。</p>
+<pre><code>redis 127.0.0.1:6379&gt; hvals myhash
+1) &quot;World&quot;
+2) &quot;Hello&quot;
+3) &quot;12&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>说明这个hash 中有3 个field</p>
+<h3 id="12-hgetall"><a href="#12-hgetall" class="headerlink" title="12. hgetall"></a>12. hgetall</h3><p>获取某个hash 中全部的filed 及value</p>
+<pre><code>redis 127.0.0.1:6379&gt; hgetall myhash
+1) &quot;field2&quot;
+2) &quot;World&quot;
+3) &quot;field&quot;
+4) &quot;Hello&quot;
+5) &quot;field3&quot;
+6) &quot;12&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>可见，一下子将myhash 中所有的field 及对应的value 都取出来了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      redis 相关整理（三）hash 类型
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis 整理（二）String类型</title>
+    <link href="http://blog.wglgg.cn/2014/08/07/redis-datatype-string/"/>
+    <id>http://blog.wglgg.cn/2014/08/07/redis-datatype-string/</id>
+    <published>2014-08-06T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.632Z</updated>
+    
+    <content type="html"><![CDATA[<p>上文详细介绍了Redis数据库以及它的安装过程，及适用场景，已经了解，Redis数据库是基于内存的数据库，速度极快，本篇将介绍redis数据库的操作使用方法，Redis有七种数据类型：字符串，哈希表，链表，集合和有序集合</p>
+<h2 id="String-类型简介"><a href="#String-类型简介" class="headerlink" title="String 类型简介"></a>String 类型简介</h2><p>String是最简单的类型，可以理解成与Memcached是一模一样的类型，一个Key对应一个Value，可以完全实现Memcached的功能，而且效率要比Memcached高很多，同时可以设置Redis的定时数据持久化，操作日志的记录以及主从复制等功能！</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="1-set"><a href="#1-set" class="headerlink" title="1. set"></a>1. set</h3><p>设置Key对应的值为string类型的value。</p>
+<p>例如设置一个name = zhangsan 的键值对，可以这样做：</p>
+<pre><code>$ redis-cli
+redis 127.0.0.1:6379&gt; set name zhangsan
+OK
+redis 127.0.0.1:6379&gt; get name
+&quot;zhangsan&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="2-setnx"><a href="#2-setnx" class="headerlink" title="2. setnx"></a>2. setnx</h3><p>设置key 对应的值为string 类型的value。如果key 已经存在，返回0，nx 是not exist 的意思。</p>
+<p>例如添加一个name= lisi 的键值对，可以这样做:</p>
+<pre><code>redis 127.0.0.1:6379&gt; setnx name lisi
+(integer) 0
+redis 127.0.0.1:6379&gt; get name
+&quot;lisi&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><p>由于原来name 有一个对应的值，所以本次的修改不生效，且返回码是0。</p>
+<h3 id="3-setex"><a href="#3-setex" class="headerlink" title="3. setex"></a>3. setex</h3><p>设置一个键对应的值，并对此键值对设置一个有效期。</p>
+<p>例如：指定一个键值对 result = success，并且设置一个有效期为10秒，我们来这样做：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set result 10 success
+OK
+redis 127.0.0.1:6379&gt; get result
+&quot;success&quot;
+redis 127.0.0.1:6379&gt; get result
+(nil)
+redis 127.0.0.1:6379&gt;
+</code></pre><p>由于第二次调用已经超过10秒，所以无法取到result的值了！！！</p>
+<h3 id="4-setrange"><a href="#4-setrange" class="headerlink" title="4. setrange"></a>4. setrange</h3><p>设置指定键的值的子字符串。</p>
+<p>例如：我现在要把 gang 的邮箱 finalsin@foxmail.com 改为 finalsin@sina.com</p>
+<pre><code>redis 127.0.0.1:6379&gt; get gang
+&quot;finalsin@foxmail.com&quot;
+redis 127.0.0.1:6379&gt; setrange gang 9 sina.com
+(integer) 21
+redis 127.0.0.1:6379&gt; get gang
+&quot;finalsin@sina.com&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="5-mset"><a href="#5-mset" class="headerlink" title="5. mset"></a>5. mset</h3><p>同时设置多个键值对，成功返回ok表示所有键设置成功，失败则返回0表示所有键设置都不成功</p>
+<p>例如：同时设置 王刚 的多个爱好：</p>
+<pre><code>redis 127.0.0.1:6379&gt; mset hobby1 music hobby2 sport hobby3 girl
+OK
+redis 127.0.0.1:6379&gt; get hobby1
+&quot;music&quot;
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+redis 127.0.0.1:6379&gt;
+</code></pre><h3 id="6-msetnx"><a href="#6-msetnx" class="headerlink" title="6. msetnx"></a>6. msetnx</h3><p>同时设置多个键值对，同样失败返回0表示所有键都没有设置成功，成功返回OK表示所有键都设置成功，但不同于mset的是本方法不会设置已经存在的键值对！</p>
+<pre><code>redis 127.0.0.1:6379&gt; get hobby1
+&quot;music&quot;
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+redis 127.0.0.1:6379&gt; msetnx hobby1 tingge hobby4 hejiu
+(integer) 0
+redis 127.0.0.1:6379&gt; get hobby4
+(nil)
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+</code></pre><p>可以看出如果这条命令返回0，那么里面操作都会回滚，都不会被执行。</p>
+<h3 id="7-get"><a href="#7-get" class="headerlink" title="7. get"></a>7. get</h3><p>获取某个键对应的值，如果不存在则返回 <code>nil</code></p>
+<pre><code>redis 127.0.0.1:6379&gt; get hobby4
+(nil)
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;girl&quot;
+</code></pre><p>如上例，hobby3存在，并且值为”girl”，hobby4不存在，则返回 <code>nil</code></p>
+<h3 id="8-getset"><a href="#8-getset" class="headerlink" title="8. getset"></a>8. getset</h3><p>设置某一个键的值，并且返回该键的旧值，如果该键不存在，则返回 <code>nil</code>，然后再设置新的值</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; getset hobby4 football
+(nil)
+redis 127.0.0.1:6379&gt; getset hobby3 basketball
+&quot;girl&quot;
+redis 127.0.0.1:6379&gt; get hobby4
+&quot;football&quot;
+redis 127.0.0.1:6379&gt; get hobby3
+&quot;basketball&quot;
+</code></pre><h3 id="9-getrange"><a href="#9-getrange" class="headerlink" title="9. getrange"></a>9. getrange</h3><p>获取指定键的值的子字符串</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; getrange gang 0 7
+&quot;finalsin&quot;
+redis 127.0.0.1:6379&gt; getrange gang -8 -1
+&quot;sina.com&quot;
+redis 127.0.0.1:6379&gt; getrange gang 0 100
+&quot;finalsin@sina.com&quot;
+</code></pre><p>上例中，getrange jiege 0 4 表示获取 jiege 这个键的值的下标为 0~4 的所有字符</p>
+<p>同样，getrange jiege -15 -1 表示获取 jiege 这个键的值的下标从后数第15个到最后一个的所有字符</p>
+<p>而 getrange jiege 0 100 则表示全部输出 jiege 这个键的值的所有字符，因为最后一个字符的下标 小于 100，</p>
+<p>当下标超出字符串长度时，将默认为是同方向的最大下标。</p>
+<h3 id="10-mget"><a href="#10-mget" class="headerlink" title="10. mget"></a>10. mget</h3><p>一次性获取多个键的值，如果键不存在，则返回 <code>nil</code></p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; mget hobby1 hobby2 hobby5
+1) &quot;music&quot;
+2) &quot;sport&quot;
+3) (nil)
+redis 127.0.0.1:6379&gt;
+</code></pre><p>hobby5不存在，所以返回<code>nil</code>。</p>
+<h3 id="11-incr"><a href="#11-incr" class="headerlink" title="11. incr"></a>11. incr</h3><p>对一个键的值做加加操作，并返回新的值，如果该键的值类型不是int类型，将会报错，如果该键不存在，则设置该键为1</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set age 20
+OK
+redis 127.0.0.1:6379&gt; incr age
+(integer) 21
+redis 127.0.0.1:6379&gt; get age
+&quot;21&quot;
+redis 127.0.0.1:6379&gt; get age1
+(nil)
+redis 127.0.0.1:6379&gt; incr age1
+(integer) 1
+redis 127.0.0.1:6379&gt; get age1
+&quot;1&quot;
+</code></pre><h3 id="12-incrby"><a href="#12-incrby" class="headerlink" title="12. incrby"></a>12. incrby</h3><p>类似于incr，但是incrby可以指定增加的值</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; incrby age 5
+(integer) 26
+redis 127.0.0.1:6379&gt; get age
+&quot;26&quot;
+redis 127.0.0.1:6379&gt; incrby age -1
+(integer) 25
+redis 127.0.0.1:6379&gt; get age
+&quot;25&quot;
+</code></pre><p>可以看到，5代表给age键增加5，而-1表示给age键减1，即正数为加，负数为减</p>
+<h3 id="13-decr"><a href="#13-decr" class="headerlink" title="13. decr"></a>13. decr</h3><p>对某一个键做减减操作，同incr</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set age 20
+OK
+redis 127.0.0.1:6379&gt; decr age
+(integer) 19
+redis 127.0.0.1:6379&gt; get age
+&quot;19&quot;
+redis 127.0.0.1:6379&gt; get age1
+(nil)
+redis 127.0.0.1:6379&gt; decr age1
+(integer) -1
+redis 127.0.0.1:6379&gt; get age1
+&quot;-1&quot;
+</code></pre><h3 id="14-decrby"><a href="#14-decrby" class="headerlink" title="14. decrby"></a>14. decrby</h3><p>同incrby，给某一键减去指定的值</p>
+<pre><code>redis 127.0.0.1:6379&gt; decrby age 5
+(integer) 14
+redis 127.0.0.1:6379&gt; get age
+&quot;14&quot;
+</code></pre><p>decrby 完全是为了可读性，我们完全可以通过incrby 一个负值来实现同样效果，反之一样。</p>
+<h3 id="15-append"><a href="#15-append" class="headerlink" title="15. append"></a>15. append</h3><p>给指定key 的字符串值追加value,返回新字符串值的长度。</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set name wanggang
+OK
+redis 127.0.0.1:6379&gt; get name
+&quot;wanggang&quot;
+redis 127.0.0.1:6379&gt; append name @wg.org
+(integer) 15
+redis 127.0.0.1:6379&gt; get name
+&quot;wanggang@wg.org&quot;
+</code></pre><h3 id="16-strlen"><a href="#16-strlen" class="headerlink" title="16. strlen"></a>16. strlen</h3><p>取指定key 的value 值的长度。</p>
+<p>例如：</p>
+<pre><code>redis 127.0.0.1:6379&gt; get name
+&quot;wanggang@wg.org&quot;  
+redis 127.0.0.1:6379&gt; strlen name
+(integer) 15
+redis 127.0.0.1:6379&gt; get age
+&quot;20&quot;
+redis 127.0.0.1:6379&gt; strlen age
+(integer) 2
+</code></pre><p>好了，这就是String类型的所有操作</p>
+]]></content>
+    
+    <summary type="html">
+    
+      redis 相关整理（二）String类型
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>redis 整理（一）简介及安装</title>
+    <link href="http://blog.wglgg.cn/2014/08/06/redis-introduction-install/"/>
+    <id>http://blog.wglgg.cn/2014/08/06/redis-introduction-install/</id>
+    <published>2014-08-05T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.639Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="NoSQL-简介"><a href="#NoSQL-简介" class="headerlink" title="NoSQL 简介"></a>NoSQL 简介</h2><p>NoSQL更注重的是对海量数据存取的性能、分布式、扩展性支持上，并不需要传统关系数据库的一些特征，例如：Schema、事务、完整SQL查询支持等等，因此在分布式环境下的性能相对与传统的关系数据库有较大的提升。<br>Redis就是NoSQL这个大家族中的一份子，它是一个开源的使用ANSI C语言编写、支持网络、可基于内存也可持久化的日志型、Key-Value数据库，并提供多种语言的API。</p>
+<h2 id="Redis-简介"><a href="#Redis-简介" class="headerlink" title="Redis 简介"></a>Redis 简介</h2><p><a href="http://redis.io" title="redis" target="_blank" rel="external">Redis</a> is an open source, BSD licensed, advanced key-value cache and store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets, sorted sets, bitmaps and hyperloglogs.</p>
+<p>Redis是一个开源的，高级的键值式存储数据库。它通常被称为一个数据结构服务器可以包含字符串，哈希表，链表，集合和有序集合。</p>
+<p>为了实现其出色的表现，Redis是工作在内存中的数据集。您还可以根据您的具体的使用情况，每隔一段时间或执行命令时将数据集写入到磁盘，并且添加到日志中。Redis还支持主从复制，并且配置起来很简单，第一次同步就可以无阻塞的达到极快的速度，在网络断开的时候可以自动重连等等。另外它的简单的检查与设置机制，发布(Publish)与订阅(Subscribe)和配置设置的特性使它看起来像是一个缓存。</p>
+<h2 id="Redis-适用场景"><a href="#Redis-适用场景" class="headerlink" title="Redis 适用场景"></a>Redis 适用场景</h2><h3 id="1、取最新N-个数据的操作"><a href="#1、取最新N-个数据的操作" class="headerlink" title="1、取最新N 个数据的操作"></a>1、取最新N 个数据的操作</h3><p>比如典型的取你网站的最新文章，通过下面方式，我们可以将最新的5000 条评论的ID 放在Redis 的List 集合中，<br>并将超出集合部分从数据库获取。</p>
+<h3 id="2、排行榜应用，取TOP-N-操作"><a href="#2、排行榜应用，取TOP-N-操作" class="headerlink" title="2、排行榜应用，取TOP N 操作"></a>2、排行榜应用，取TOP N 操作</h3><p>这个需求与上面需求的不同之处在于，前面操作以时间为权重，这个是以某个条件为权重，比如按顶的次数排序，<br>这时候就需要我们的sorted set 出马了，将你要排序的值设置成sorted set 的score，将具体的数据设置成相应的value，<br>每次只需要执行一条ZADD 命令即可。</p>
+<h3 id="3、需要精准设定过期时间的应用"><a href="#3、需要精准设定过期时间的应用" class="headerlink" title="3、需要精准设定过期时间的应用"></a>3、需要精准设定过期时间的应用</h3><p>比如你可以把上面说到的sorted set 的score 值设置成过期时间的时间戳，那么就可以简单地通过过期时间排序，<br>定时清除过期数据了，不仅是清除Redis 中的过期数据，你完全可以把Redis 里这个过期时间当成是对数据库中数据的索引，<br>用Redis 来找出哪些数据需要过期删除，然后再精准地从数据库中删除相应的记录。</p>
+<h3 id="4、计数器应用"><a href="#4、计数器应用" class="headerlink" title="4、计数器应用"></a>4、计数器应用</h3><p>Redis 的命令都是原子性的，你可以轻松地利用INCR，DECR 命令来构建计数器系统。</p>
+<h3 id="5、Uniq-操作，获取某段时间所有数据排重值"><a href="#5、Uniq-操作，获取某段时间所有数据排重值" class="headerlink" title="5、Uniq 操作，获取某段时间所有数据排重值"></a>5、Uniq 操作，获取某段时间所有数据排重值</h3><p>这个使用Redis 的set 数据结构最合适了，只需要不断地将数据往set 中扔就行了，set 意为集合，所以会自动排重。</p>
+<h3 id="6、实时系统，反垃圾系统"><a href="#6、实时系统，反垃圾系统" class="headerlink" title="6、实时系统，反垃圾系统"></a>6、实时系统，反垃圾系统</h3><p>通过上面说到的set 功能，你可以知道一个终端用户是否进行了某个操作，可以找到其操作的集合并进行分析统计对比等。<br>没有做不到，只有想不到。</p>
+<h3 id="7、Pub-Sub-构建实时消息系统"><a href="#7、Pub-Sub-构建实时消息系统" class="headerlink" title="7、Pub/Sub 构建实时消息系统"></a>7、Pub/Sub 构建实时消息系统</h3><p>Redis 的Pub/Sub 系统可以构建实时的消息系统，比如很多用Pub/Sub 构建的实时聊天系统的例子。</p>
+<h3 id="8、构建队列系统"><a href="#8、构建队列系统" class="headerlink" title="8、构建队列系统"></a>8、构建队列系统</h3><p>使用list 可以构建队列系统，使用sorted set 甚至可以构建有优先级的队列系统。</p>
+<h3 id="9、缓存"><a href="#9、缓存" class="headerlink" title="9、缓存"></a>9、缓存</h3><p>这个不必说了，性能优于Memcached，数据结构更多样化。</p>
+<h2 id="Redis-安装"><a href="#Redis-安装" class="headerlink" title="Redis 安装"></a>Redis 安装</h2><h3 id="第一步，下载Redis，可以通过官网下载最新版本的源代码包"><a href="#第一步，下载Redis，可以通过官网下载最新版本的源代码包" class="headerlink" title="第一步，下载Redis，可以通过官网下载最新版本的源代码包"></a>第一步，下载Redis，可以通过官网<a href="http://redis.io/download" title="redis download" target="_blank" rel="external">下载</a>最新版本的源代码包</h3><h3 id="第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装"><a href="#第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装" class="headerlink" title="第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装"></a>第二步，将下载好的源代码包上传到我们的Linux主机中，解压，编译安装</h3><pre><code>$ tar zxf redis-2.8.13.tar.gz
+$ cd redis-2.8.13
+$ make
+$ cd src &amp;&amp; make all
+</code></pre><h3 id="第三步，启动redis服务"><a href="#第三步，启动redis服务" class="headerlink" title="第三步，启动redis服务"></a>第三步，启动redis服务</h3><pre><code>$ src/redis-server
+</code></pre><h3 id="第四步，测试redis"><a href="#第四步，测试redis" class="headerlink" title="第四步，测试redis"></a>第四步，测试redis</h3><pre><code>$ redis－cli
+redis 127.0.0.1:6379&gt; set foo 123
+redis 127.0.0.1:6379&gt; get foo  
+&quot;123&quot;
+redis 127.0.0.1:6379&gt; exit
+</code></pre><p>Redis服务器的端口默认是6379，但是你会发现Redis服务会一直占用我们当前登录Linux的SESSION，那能否像Mysql或者是MongoDB一样在后台执行Redis进程呢，当然可以，我们只需要更改Redis的配置文件，并且启动的时候指定配置文件即可！</p>
+<p>如果是一个专业的DBA，那么实例启动时会加很多参数以便是系统运行的非常稳定，这样就可能在启动时在Redis后面加一个参数，以指定配置文件的路径，就像mysql一样的读取启动配置文件的方式来启动数据库。</p>
+<p>Redis的配置文件redis.conf里面都有什么：</p>
+<pre><code>#是否作为守护进程运行  
+daemonize yes  
+#配置 pid 的存放路径及文件名,默认为当前路径下  
+pidfile redis.pid  
+#Redis 默认监听端口  
+port 6379  
+#客户端闲置多少秒后,断开连接  
+timeout 300  
+#日志显示级别  
+loglevel verbose  
+#指定日志输出的文件名,也可指定到标准输出端口  
+logfile stdout  
+#设置数据库的数量,默认连接的数据库是 0,可以通过 select N 来连接不同的数据库  
+databases 16  
+#保存数据到 disk 的策略  
+#当有一条 Keys 数据被改变是,900 秒刷新到 disk 一次  
+save 900 1  
+#当有 10 条 Keys 数据被改变时,300 秒刷新到 disk 一次  
+save 300 10  
+#当有 1w 条 keys 数据被改变时,60 秒刷新到 disk 一次  
+save 60 10000  
+#当 dump .rdb 数据库的时候是否压缩数据对象  
+rdbcompression yes  
+#dump 数据库的数据保存的文件名  
+dbfilename dump.rdb  
+#Redis 的工作目录  
+dir /home/falcon/redis-2.0.0/  
+########### Replication #####################  
+#Redis 的复制配置  
+# slaveof &lt;masterip&gt; &lt;masterport&gt;  
+# masterauth &lt;master-password&gt;  
+############## SECURITY ###########  
+# requirepass foobared  
+############### LIMITS ##############  
+#最大客户端连接数  
+# maxclients 128  
+#最大内存使用率  
+# maxmemory &lt;bytes&gt;  
+########## APPEND ONLY MODE #########  
+#是否开启日志功能  
+appendonly no  
+# 刷新日志到 disk 的规则  
+# appendfsync always  
+appendfsync everysec  
+# appendfsync no  
+################ VIRTUAL MEMORY ###########  
+#是否开启 VM 功能  
+vm-enabled no  
+# vm-enabled yes  
+vm-swap-file logs/redis.swap  
+vm-max-memory 0  
+vm-page-size 32  
+vm-pages 134217728  
+vm-max-threads 4  
+############# ADVANCED CONFIG ###############  
+glueoutputbuf yes  
+hash-max-zipmap-entries 64  
+hash-max-zipmap-value 512  
+#是否重置 Hash 表  
+activerehashing yes
+</code></pre><p>可以看到第一条就是启动后台进程启动Redis服务，将其设置为yes，就会在后台运行Redis服务！</p>
+<p>启动的时候来指定redis的配置文件</p>
+<pre><code>$ /usr/local/redis/bin/redis-server /usr/local/redis/redis.conf
+</code></pre><h2 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h2><h3 id="1-配置"><a href="#1-配置" class="headerlink" title="1.配置"></a>1.配置</h3><p>将以下代码存为redis,放到/etc/init.d/下面,注意修改相应的路径</p>
+<pre><code>#
+# chkconfig: - 90 10
+# description: Redis is an open source, advanced key-value store. 
+#
+# processname: redis-server
+# config: /etc/redis.conf
+# pidfile: /var/run/redis.pid
+
+PATH=/usr/local/bin:/sbin:/usr/bin:/bin
+
+REDISPORT=6379
+EXEC=/usr/local/bin/redis-server
+REDIS_CLI=/usr/local/bin/redis-cli
+
+PIDFILE=/var/run/redis.pid
+CONF=&quot;/etc/redis.conf&quot;
+
+case &quot;$1&quot; in
+    start)
+        if [ -f $PIDFILE ]
+        then
+                echo -n &quot;$PIDFILE exists, process is already running or crashed\n&quot;
+        else
+                echo -n &quot;Starting Redis server...\n&quot;
+                $EXEC $CONF
+        fi
+        ;;
+    stop)
+        if [ ! -f $PIDFILE ]
+        then
+                echo -n &quot;$PIDFILE does not exist, process is not running\n&quot;
+        else
+        PID=$(cat $PIDFILE)
+                echo -n &quot;Stopping ...\n&quot;
+                $REDIS_CLI -p $REDISPORT SHUTDOWN
+                while [ -x ${PIDFILE} ]
+                do
+                    echo &quot;Waiting for Redis to shutdown ...&quot;
+                    sleep 1
+                done
+                echo &quot;Redis stopped&quot;
+        fi
+        ;;
+esac
+</code></pre><h3 id="2-修改配置文件权限"><a href="#2-修改配置文件权限" class="headerlink" title="2.修改配置文件权限"></a>2.修改配置文件权限</h3><pre><code>$ chmod a+x /etc/init.d/redis
+</code></pre><h3 id="3-设定开机启动"><a href="#3-设定开机启动" class="headerlink" title="3.设定开机启动"></a>3.设定开机启动</h3><pre><code>$ chkconfig redis on
+</code></pre><h3 id="4-启动，停止redis服务"><a href="#4-启动，停止redis服务" class="headerlink" title="4.启动，停止redis服务"></a>4.启动，停止redis服务</h3><pre><code>$ service redis start   #或者 /etc/init.d/redis start  
+$ service redis stop    #或者 /etc/init.d/redis stop 
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      redis 相关整理（一）简介及安装
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CAS 服务器端取消 https的配置 方法</title>
+    <link href="http://blog.wglgg.cn/2014/07/14/cas-disable-ssl/"/>
+    <id>http://blog.wglgg.cn/2014/07/14/cas-disable-ssl/</id>
+    <published>2014-07-13T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.583Z</updated>
+    
+    <content type="html"><![CDATA[<p>需要修改的配置文件有：<br>WEB-INF/deployerConfigContext.xml 、 WEB-INF/spring-configuration/ticketGrantingTicketCookieGenerator.xml 、<br>WEB-INF\spring-configuration\warnCookieGenerator.xml</p>
+<p>详细配置修改如下：</p>
+<h3 id="1-、-WEB-INF-deployerConfigContext-xml-在"><a href="#1-、-WEB-INF-deployerConfigContext-xml-在" class="headerlink" title="1 、 WEB-INF/deployerConfigContext.xml 在"></a>1 、 WEB-INF/deployerConfigContext.xml 在</h3><pre><code>&lt; bean class = &quot;org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler&quot;     p:httpClient-ref = &quot;httpClient&quot; /&gt;
+</code></pre><p>增加参数 p:requireSecure=”false” ，是否需要安全验证，即 HTTPS ， false 为不采用 如下：</p>
+<pre><code>&lt; bean class = &quot;org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler&quot; p:httpClient-ref = &quot;httpClient&quot; p:requireSecure= &quot;false&quot; /&gt;
+</code></pre><h3 id="2-、-WEB-INF-spring-configuration-ticketGrantingTicketCookieGenerator-xml-修改-p-cookieSecure-”true”-为-p-cookieSecure-”-false-“-，-即不需要安全-cookie-如下部分："><a href="#2-、-WEB-INF-spring-configuration-ticketGrantingTicketCookieGenerator-xml-修改-p-cookieSecure-”true”-为-p-cookieSecure-”-false-“-，-即不需要安全-cookie-如下部分：" class="headerlink" title="2 、 WEB-INF/spring-configuration/ticketGrantingTicketCookieGenerator.xml 修改 p:cookieSecure=”true” 为 p:cookieSecure=” false “ ， 即不需要安全 cookie 如下部分："></a>2 、 WEB-INF/spring-configuration/ticketGrantingTicketCookieGenerator.xml 修改 p:cookieSecure=”true” 为 p:cookieSecure=” false “ ， 即不需要安全 cookie 如下部分：</h3><pre><code>&lt; bean id = &quot;ticketGrantingTicketCookieGenerator&quot; class = &quot;org.jasig.cas.web.support.CookieRetrievingCookieGenerator&quot;
+   p:cookieSecure = &quot; false &quot;
+   p:cookieMaxAge = &quot;-1&quot;
+   p:cookieName = &quot;CASTGC&quot;
+   p:cookiePath = &quot;/cas&quot; /&gt;
+</code></pre><h3 id="3-、-WEB-INF-spring-configuration-warnCookieGenerator-xml"><a href="#3-、-WEB-INF-spring-configuration-warnCookieGenerator-xml" class="headerlink" title="3 、 WEB-INF\spring-configuration\warnCookieGenerator.xml"></a>3 、 WEB-INF\spring-configuration\warnCookieGenerator.xml</h3><p>修改 p:cookieSecure=”true” 为 p:cookieSecure=” false “ ， 即不需要安全 cookie 结果如下：</p>
+<pre><code>&lt; bean id = &quot;warnCookieGenerator&quot; class = &quot;org.jasig.cas.web.support.CookieRetrievingCookieGenerator&quot;
+   p:cookieSecure = &quot; false &quot;
+   p:cookieMaxAge = &quot;-1&quot;
+   p:cookieName = &quot;CASPRIVACY&quot;
+   p:cookiePath = &quot;/cas&quot; /&gt;
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      CAS 服务器端取消 https的配置 方法
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CAS logout 注销</title>
+    <link href="http://blog.wglgg.cn/2014/07/12/cas-logout/"/>
+    <id>http://blog.wglgg.cn/2014/07/12/cas-logout/</id>
+    <published>2014-07-11T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.591Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="网友不停问为什么CAS-Logout后，仍然能够访问应用？"><a href="#网友不停问为什么CAS-Logout后，仍然能够访问应用？" class="headerlink" title="网友不停问为什么CAS Logout后，仍然能够访问应用？"></a>网友不停问为什么CAS Logout后，仍然能够访问应用？</h3><p><a href="http://dev2dev.bea.com.cn/bbs/thread.jspa?forumID=29304&amp;threadID=37715&amp;messageID=221727#221727" target="_blank" rel="external">http://dev2dev.bea.com.cn/bbs/thread.jspa?forumID=29304&amp;threadID=37715&amp;messageID=221727#221727</a> 假设有webapp1, webapp2, cas server，webapp1, webapp2均受cas server保护，首先，在这里简单解释一下： </p>
+<ul>
+<li><p>第1种不能logout的情况：</p>
+<ol>
+<li>登录了WebApp1，redirect到caserver，casserver认证后，再redirect到webapp1，ok！</li>
+<li>http方式 lougout casserver1，即<a href="http://yale_casserver:8080/cas/lougout" target="_blank" rel="external">http://yale_casserver:8080/cas/lougout</a> 显示logout成功</li>
+<li>访问webapp2，还能访问！这是非常正常的一种情况，因为你不通过https来注销，casserver怎么”杀”掉它通过https发给你的TGC Cookie? </li>
+</ol>
+</li>
+<li><p>第2种不能logout的情况： </p>
+<ol>
+<li>登录了WebApp1，redirect到caserver,casserver认证后，再redirect到webapp1，ok！</li>
+<li>https方式 lougout casserver1，即<a href="https://yale_casserver:8443/cas/lougout" target="_blank" rel="external">https://yale_casserver:8443/cas/lougout</a> 显示logout成功</li>
+<li>访问webapp1，还能访问！访问webapp2，不能访问，重定向到casserver要求登录！这也是非常正常的一种情况，因为你已经能够访问，你继续可以继续访问，<br>CASLogout不能阻止你访问webapp1，它只能阻止你访问webapp2，因为你已经被允许访问webapp1，而webapp2则还没有，如果你在(1)的时候，顺带也访问webapp2，那么你的注销将毫无作用了，CAS无法阻止你访问这两个webapp，因为你有Service Ticket。 </li>
+</ol>
+</li>
+</ul>
+<p>如果你对此费解，那时因为你已为Logout就是退出系统，那我只能表示遗憾，因为CAS Logout的作用不是这样，它的作用是阻止你继续通过TGC（它简单地清楚了IE的TGC Cookie）来获取ST，阻止你获取通向其他web应用的Ticket。 </p>
+<p>所以，用完webapp1的时候，注销，然后再关闭掉IE就彻底Logout了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      CAS 登出 注销
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SSO实现机制:Cookie机制和Session机制</title>
+    <link href="http://blog.wglgg.cn/2014/07/11/cas-implementation-mechanism-cookie-session/"/>
+    <id>http://blog.wglgg.cn/2014/07/11/cas-implementation-mechanism-cookie-session/</id>
+    <published>2014-07-10T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.586Z</updated>
+    
+    <content type="html"><![CDATA[<p>SSO 的实现机制不尽相同，大体分可为 Cookie 机制和 Session 机制两大类。</p>
+<ul>
+<li>WebLogic 通过 Session 共享认证信息。 Session 是一种服务器端机制，当客户端访问服务器时，服务器为客户端创建一个惟一的 SessionID ，以使在整个交互过程中始终保持状态，而交互的信息则可由应用自行指定，因此 用 Session 方式实现 SSO ，不能在多个浏览器之间实现单点登录，但却可以跨域 。</li>
+<li>WebSphere 通过 Cookie 记录认证信息。 Cookie 是一种客户端机制，它存储的内容主要包括 : 名字、值、过期时间、路径和域，路径与域合在一起就构成了 Cookie 的作用范围，因此 用 Cookie 方式可实现 SSO ，但域名必须相同 。</li>
+</ul>
+<p>目前 大部分 SSO 产品采用的是 Cookie 机制。 目前能够找到的最好的开源单点登录产品 CAS 也是采用 Cookie 机制。 CAS 单点登录系统最早由耶鲁大学开发。 2004 年 12 月， CAS 成为 JA-SIG 中的一个项目。 JA-SIG 的全称是 Java Architectures Special Interest Group ，是在高校中推广和探讨基于 Java 的开源技术的一个组织。 CAS 的优点很多，例如设计理念先进、体系结构合理、配置简单、客户端支持广泛、技术成熟等等。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      SSO实现机制:Cookie机制和Session机制
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CAS 登录流程httpwatch解析</title>
+    <link href="http://blog.wglgg.cn/2014/07/10/cas-login-flow-httpwatch/"/>
+    <id>http://blog.wglgg.cn/2014/07/10/cas-login-flow-httpwatch/</id>
+    <published>2014-07-09T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.588Z</updated>
+    
+    <content type="html"><![CDATA[<p>cas sso 登录流程解析，使用httpwatch查看</p>
+<h2 id="1-第一次访问-http-localhost-8080-a"><a href="#1-第一次访问-http-localhost-8080-a" class="headerlink" title="1. 第一次访问 http://localhost:8080/a"></a>1. 第一次访问 <a href="http://localhost:8080/a" target="_blank" rel="external">http://localhost:8080/a</a></h2><p>CLIENT：没票据且SESSION中没有Assertion所以跳转至CAS </p>
+<p>CAS：拿不到TGC故要求用户登录<br><img src="/images/cas/cas_clip_image008.jpg" alt="image8"> </p>
+<h2 id="2-认证成功后回跳"><a href="#2-认证成功后回跳" class="headerlink" title="2. 认证成功后回跳"></a>2. 认证成功后回跳</h2><p>CAS：通过TGT生成ST发给客户端，客户端保存TGC，并重定向到<a href="http://localhost:8080/a" target="_blank" rel="external">http://localhost:8080/a</a> </p>
+<p>CLIENT：带有票据所以不跳转只是后台发给CAS验证票据（浏览器中无法看到这一过程）<br><img src="/images/cas/cas_clip_image009.jpg" alt="image9"></p>
+<h2 id="3-第一次访问-http-localhost-8080-b"><a href="#3-第一次访问-http-localhost-8080-b" class="headerlink" title="3. 第一次访问 http://localhost:8080/b"></a>3. 第一次访问 <a href="http://localhost:8080/b" target="_blank" rel="external">http://localhost:8080/b</a></h2><p>CLIENT：没票据且SESSION中没有消息所以跳转至CAS </p>
+<p>CAS：从客户端取出TGC，如果TGC有效则给用户ST并后台验证ST，从而SSO。【如果失效重登录或注销时，怎么通知其它系统更新SESSION信息呢？？TicketGrantingTicketImpl类grantServiceTicket方法里this.services.put(id, service);可见CAS端已经记录了当前登录的子系统】<br><img src="/images/cas/cas_clip_image010.jpg" alt="image010"></p>
+<h2 id="4-再次访问-http-localhost-8080-a"><a href="#4-再次访问-http-localhost-8080-a" class="headerlink" title="4. 再次访问 http://localhost:8080/a"></a>4. 再次访问 <a href="http://localhost:8080/a" target="_blank" rel="external">http://localhost:8080/a</a></h2><p>CLIENT：没票据但是SESSION中有(Assertion)消息故不跳转也不用发CAS验证票据，允许用户访问<br><img src="/images/cas/cas_clip_image011.jpg" alt="image011"></p>
+<p>CAS Authentication Filter认证：</p>
+<pre><code>if (CommonUtils.isBlank(ticket) &amp;&amp; request.setAttribute(CONST_CAS_ASSERTION, assertion)== null &amp;&amp; !wasGatewayed) { 
+ //即没有票据且没有SESSION通过信息则跳转 
+}
+</code></pre><p>CAS Validation Filter认证： </p>
+<pre><code>if (CommonUtils.isNotBlank(ticket)) { 
+    //即如果发现ST则发给CAS认证，否则不认证。 
+    final Assertion assertion = this.ticketValidator.validate( 
+                    ticket, constructServiceUrl(request, response)); 
+    request.setAttribute(CONST_CAS_ASSERTION, assertion);//认证通过后将信息保存SESSION中
+}
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      CAS 登录流程httpwatch解析
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CAS 服务器端配置文件</title>
+    <link href="http://blog.wglgg.cn/2014/07/08/cas-server-config/"/>
+    <id>http://blog.wglgg.cn/2014/07/08/cas-server-config/</id>
+    <published>2014-07-07T16:00:00.000Z</published>
+    <updated>2017-04-07T06:51:33.593Z</updated>
+    
+    <content type="html"><![CDATA[<p>CAS 服务器端主要配置文件如下：</p>
+<ul>
+<li>login-webflow.xml：其中内容指定了当访问cas/login时的程序流程，初始“initialFlowSetup”</li>
+<li>cas-servlet.xml：servlet与class对应关系</li>
+<li>deployerConfigContext.xml：认证管理器相关</li>
+<li>cas.properties：系统属性设置</li>
+<li>applicationContext.xml：系统属性相关</li>
+<li>argumentExtractorsConfiguration.xml：不是很了解它的用途</li>
+<li>ticketExpirationPolicies.xml：ticket过期时间设置</li>
+<li>ticketGrantingTicketCookieGenerator.xml：TGT cookie属性相关，是否支持http也在这儿修改</li>
+<li>ticketRegistry.xml：保存ticket的类相关设置</li>
+<li>uniqueIdGenerators.xml：ticket自动生成类设置</li>
+<li>warnCookieGenerator.xml：同ticketGrantingTicketCookieGenerator.xml，生成的 cookie名为CASPRIVACY</li>
+</ul>
+<h2 id="login-："><a href="#login-：" class="headerlink" title="/login ："></a>/login ：</h2><p>当访问/login时，会调用login-webflow.xml中的流程图：<br><img src="/images/cas/cas_clip_image006.jpg" alt="cas flow">    </p>
+<p>##/serviceValidate:<br>对应的处理类是org.jasig.cas.web.ServiceValidateController，主要负责对service ticket的验证，失败返回casServiceValidationFailure.jsp，成功返回casServiceValidationSuccess.jsp对service ticket的验证是通过client端向server端发送http（或https）实现的逻辑： </p>
+<ol>
+<li>通过由client端传来的ticket到DefaultTicketRegistry中获取缓存的ServiceTicketImpl对象，并判断其是否已经过期（ST过期时间默认是5分钟，TGT默认是2个小时，可以在ticketExpirationPolicies.xml中进行修改）以及与当前service的id是否相一，以上都满足则表示验证通过。</li>
+<li>通过ServiceTicketImpl对象获取到登录之后的Authentication对象，借助于它生成ImmutableAssertionImpl对象并返回</li>
+<li>成功返回</li>
+</ol>
+<h2 id="CAS数据流程"><a href="#CAS数据流程" class="headerlink" title="CAS数据流程"></a>CAS数据流程</h2><p>Credentials–&gt;Principal–&gt;Authentication </p>
+<h2 id="定义自己的AuthenticationHandler"><a href="#定义自己的AuthenticationHandler" class="headerlink" title="定义自己的AuthenticationHandler"></a>定义自己的AuthenticationHandler</h2><p>在中心认证进行认证的过程中会调用deployerConfigContext.xml中设置的AuthenticationHandler来进行认证工作。 </p>
+<pre><code>&lt;property name=&quot;authenticationHandlers&quot;&gt;   
+    &lt;list&gt;   
+        &lt;!--  
+            This is the authentication handler that authenticates services by means of callback via SSL, thereby validating a server side SSL certificate.   
+        --&gt;   
+        &lt;bean class=&quot;org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler&quot;  
+            p:httpClient-ref=&quot;httpClient&quot; /&gt;   
+        &lt;!--   
+             This is the authentication handler declaration that every CAS deployer will need to change before deploying CAS    
+             into production.  The default SimpleTestUsernamePasswordAuthenticationHandler authenticates UsernamePasswordCredentials   
+             where the username equals the password.  You will need to replace this with an AuthenticationHandler that implements your   
+             local authentication strategy.  You might accomplish this by coding a new such handler and declaring   
+             edu.someschool.its.cas.MySpecialHandler here, or you might use one of the handlers provided in the adaptors modules.   
+            --&gt;   
+        &lt;bean   
+            class=&quot;org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler&quot; /&gt;   
+        &lt;bean class=&quot;com.goldarmor.live800.cas.Live800CasAuthenticationHandler&quot;&gt;   
+            &lt;property name=&quot;dataSource&quot; ref=&quot;casDataSource&quot; /&gt;   
+        &lt;/bean&gt;   
+    &lt;/list   
+&lt;/property&gt; 
+&lt;property name=&quot;authenticationHandlers&quot;&gt; 
+    &lt;list&gt; 
+        &lt;!--
+        This is the authentication handler that authenticates services by means of callback via SSL, thereby validating
+        a server side SSL certificate. 
+        --&gt; 
+        &lt;bean class=&quot;org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler&quot; 
+        p:httpClient-ref=&quot;httpClient&quot; /&gt; 
+        &lt;!-- 
+        This is the authentication handler declaration that every CAS deployer will need to change before deploying CAS 
+        into production.  The default SimpleTestUsernamePasswordAuthenticationHandler authenticates UsernamePasswordCredentials 
+        where the username equals the password.  You will need to replace this with an AuthenticationHandler that implements your 
+        local authentication strategy.  You might accomplish this by coding a new such handler and declaring
+        edu.someschool.its.cas.MySpecialHandler here, or you might use one of the handlers provided in the adaptors modules. 
+        --&gt; 
+        &lt;bean 
+        class=&quot;org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler&quot; /&gt; 
+        &lt;bean class=&quot;com.goldarmor.live800.cas.Live800CasAuthenticationHandler&quot;&gt; 
+        &lt;property name=&quot;dataSource&quot; ref=&quot;casDataSource&quot; /&gt; 
+        &lt;/bean&gt; 
+    &lt;/list&gt; 
+&lt;/property&gt; 
+</code></pre><p>如上，我们定义了3个AuthenticationHandler，这正是CAS的一个，通过配置，我们可以实现针对不同的应用提供不同的认证方式，这样可以实现任意的中心认证。再来看看AuthenticationHandler的代码</p>
+<pre><code>/**  
+* Method to determine if the credentials supplied are valid.  
+*   
+* @param credentials The credentials to validate.  
+* @return true if valid, return false otherwise.  
+* @throws AuthenticationException An AuthenticationException can contain  
+* details about why a particular authentication request failed.  
+*/  
+
+boolean authenticate(Credentials credentials)   
+    throws AuthenticationException;   
+
+/**  
+* Method to check if the handler knows how to handle the credentials  
+* provided. It may be a simple check of the Credentials class or something  
+* more complicated such as scanning the information contained in the  
+* Credentials object.  
+*   
+* @param credentials The credentials to check.  
+* @return true if the handler supports the Credentials, false othewrise.  
+*/  
+boolean supports(Credentials credentials); 
+/** 
+ * Method to determine if the credentials supplied are valid. 
+ * 
+ * @param credentials The credentials to validate. 
+ * @return true if valid, return false otherwise. 
+ * @throws AuthenticationException An AuthenticationException can contain 
+ * details about why a particular authentication request failed. 
+ */
+boolean authenticate(Credentials credentials) 
+    throws AuthenticationException;
+/** 
+ * Method to check if the handler knows how to handle the credentials 
+ * provided. It may be a simple check of the Credentials class or something 
+ * more complicated such as scanning the information contained in the 
+ * Credentials object. 
+ * 
+ * @param credentials The credentials to check. 
+ * @return true if the handler supports the Credentials, false othewrise. 
+ */ 
+boolean supports(Credentials credentials); 
+</code></pre><p>我们要做的就是实现这俩个方法而已，特别提醒：可以在cas-servlet.xml中设置你所使用的Credentials，如下：（其中的p:formObjectClass值，如果不指定默认使用UsernamePasswordCredentials）</p>
+<pre><code>&lt;bean id=&quot;authenticationViaFormAction&quot; class=&quot;org.jasig.cas.web.flow.AuthenticationViaFormAction&quot;  
+    p:formObjectClass=&quot;com.goldarmor.live800.cas.Live800CasCredentials&quot;  
+    p:centralAuthenticationService-ref=&quot;centralAuthenticationService&quot;  
+    p:warnCookieGenerator-ref=&quot;warnCookieGenerator&quot; /&gt; 
+&lt;bean id=&quot;authenticationViaFormAction&quot; class=&quot;org.jasig.cas.web.flow.AuthenticationViaFormAction&quot; 
+    p:formObjectClass=&quot;com.goldarmor.live800.cas.Live800CasCredentials&quot; 
+    p:centralAuthenticationService-ref=&quot;centralAuthenticationService&quot; 
+    p:warnCookieGenerator-ref=&quot;warnCookieGenerator&quot; /&gt;
+</code></pre><h2 id="定义自己的credentialsToPrincipalResolvers"><a href="#定义自己的credentialsToPrincipalResolvers" class="headerlink" title="定义自己的credentialsToPrincipalResolvers"></a>定义自己的credentialsToPrincipalResolvers</h2><p>通过AuthenticationHandler的认证后，会调用在deployerConfigContext.xml中配置的credentialsToPrincipalResolvers来处理Credentials，生成Principal对象：</p>
+<pre><code>&lt;property name=&quot;credentialsToPrincipalResolvers&quot;&gt;   
+    &lt;list&gt;   
+        &lt;!--   
+            UsernamePasswordCredentialsToPrincipalResolver supports the UsernamePasswordCredentials that we use for /login    
+            by default and produces SimplePrincipal instances conveying the username from the credentials.   
+            If you&apos;ve changed your LoginFormAction to use credentials other than UsernamePasswordCredentials then you will also   
+            need to change this bean declaration (or add additional declarations) to declare a CredentialsToPrincipalResolver that supports the   
+            Credentials you are using.   
+        --&gt;              
+        &lt;bean   
+            class=&quot;org.jasig.cas.authentication.principal.UsernamePasswordCredentialsToPrincipalResolver&quot; /&gt;   
+        &lt;!--   
+            HttpBasedServiceCredentialsToPrincipalResolver supports HttpBasedCredentials.  It supports the CAS 2.0 approach of   
+            authenticating services by SSL callback, extracting the callback URL from the Credentials and representing it as a   
+            SimpleService identified by that callback URL.   
+            If you are representing services by something more or other than an HTTPS URL whereat they are able to   
+            receive a proxy callback, you will need to change this bean declaration (or add additional declarations).   
+            --&gt;   
+        &lt;bean   
+            class=&quot;org.jasig.cas.authentication.principal.HttpBasedServiceCredentialsToPrincipalResolver&quot; /&gt;   
+        &lt;bean class=&quot;com.goldarmor.live800.cas.Live800CasCredentialsToPrincipalResolver&quot;/&gt;   
+    &lt;/list&gt;   
+&lt;/property&gt; 
+&lt;property name=&quot;credentialsToPrincipalResolvers&quot;&gt; 
+    &lt;list&gt; 
+        &lt;!-- 
+        UsernamePasswordCredentialsToPrincipalResolver supports the UsernamePasswordCredentials that we use for /login 
+        by default and produces SimplePrincipal instances conveying the username from the credentials. 
+        If you&apos;ve changed your LoginFormAction to use credentials other than UsernamePasswordCredentials then you will also 
+        need to change this bean declaration (or add additional declarations) to declare a CredentialsToPrincipalResolver that supports the 
+        Credentials you are using. 
+        --&gt; 
+        &lt;bean class=&quot;org.jasig.cas.authentication.principal.UsernamePasswordCredentialsToPrincipalResolver&quot; /&gt; 
+        &lt;!-- 
+        HttpBasedServiceCredentialsToPrincipalResolver supports HttpBasedCredentials.  It supports the CAS 2.0 approach of 
+        authenticating services by SSL callback, extracting the callback URL from the Credentials and representing it as a 
+        SimpleService identified by that callback URL. 
+        If you are representing services by something more or other than an HTTPS URL whereat they are able to 
+        receive a proxy callback, you will need to change this bean declaration (or add additional declarations). 
+        --&gt; 
+        &lt;bean class=&quot;org.jasig.cas.authentication.principal.HttpBasedServiceCredentialsToPrincipalResolver&quot; /&gt; 
+        &lt;bean class=&quot;com.goldarmor.live800.cas.Live800CasCredentialsToPrincipalResolver&quot;/&gt; 
+    &lt;/list&gt; 
+&lt;/property&gt; 
+</code></pre><p>如上：我们也可以像定义AuthenticationHandler一样，可以定义多个credentialsToPrincipalResolvers来处理Credentials，返回你所需要的Principal对象，下面来看看credentialsToPrincipalResolvers的方法：</p>
+<pre><code>/**  
+* Turn Credentials into a Principal object by analyzing the information  
+* provided in the Credentials and constructing a Principal object based on  
+* that information or information derived from the Credentials object.  
+*   
+* @param credentials from which to resolve Principal  
+* @return resolved Principal, or null if the principal could not be resolved.  
+*/  
+Principal resolvePrincipal(Credentials credentials);   
+
+/**  
+* Determine if a credentials type is supported by this resolver. This is  
+* checked before calling resolve principal.  
+*   
+* @param credentials The credentials to check if we support.  
+* @return true if we support these credentials, false otherwise.  
+*/  
+
+
+boolean supports(Credentials credentials); 
+/** 
+ * Turn Credentials into a Principal object by analyzing the information 
+ * provided in the Credentials and constructing a Principal object based on 
+ * that information or information derived from the Credentials object. 
+ * 
+ * @param credentials from which to resolve Principal 
+ * @return resolved Principal, or null if the principal could not be resolved. 
+ */ 
+Principal resolvePrincipal(Credentials credentials);
+/** 
+ * Determine if a credentials type is supported by this resolver. This is 
+ * checked before calling resolve principal. 
+ * 
+ * @param credentials The credentials to check if we support. 
+ * @return true if we support these credentials, false otherwise. 
+ */
+
+boolean supports(Credentials credentials);  
+</code></pre><p>在CAS验证的时候，通过访问/serviceValidate可知：验证成功之后返回的casServiceValidationSuccess.jsp中的数据来源于Assertion，下面来看看它的代码：</p>
+<pre><code>List&lt;Authentication&gt; getChainedAuthentications();   
+
+/**  
+* True if the validated ticket was granted in the same transaction as that  
+* in which its grantor GrantingTicket was originally issued.  
+*   
+* @return true if validated ticket was granted simultaneous with its  
+* grantor&apos;s issuance  
+*/  
+
+boolean isFromNewLogin();   
+
+
+/**  
+* Method to obtain the service for which we are asserting this ticket is  
+* valid for.  
+*   
+* @return the service for which we are asserting this ticket is valid for.  
+*/  
+
+Service getService(); 
+List&lt;Authentication&gt; getChainedAuthentications();
+/** 
+ * True if the validated ticket was granted in the same transaction as that 
+ * in which its grantor GrantingTicket was originally issued. 
+ * 
+ * @return true if validated ticket was granted simultaneous with its 
+ * grantor&apos;s issuance 
+ */
+boolean isFromNewLogin();
+
+/** 
+ * Method to obtain the service for which we are asserting this ticket is 
+ * valid for. 
+ * 
+ * @return the service for which we are asserting this ticket is valid for. 
+ */
+Service getService(); 
+</code></pre><p>通过getChainedAuthentications()方法，我们可以得到Authentication对象列表，再看看Authentication的代码：</p>
+<pre><code>/**  
+* Method to obtain the Principal.  
+*   
+* @return a Principal implementation  
+*/  
+
+Principal getPrincipal();   
+
+/**  
+* Method to retrieve the timestamp of when this Authentication object was  
+* created.  
+*   
+* @return the date/time the authentication occurred.  
+*/  
+
+Date getAuthenticatedDate();   
+
+/**  
+* Attributes of the authentication (not the Principal).  
+* @return the map of attributes.  
+*/  
+Map&lt;String, Object&gt; getAttributes(); 
+/** 
+ * Method to obtain the Principal. 
+ * 
+ * @return a Principal implementation 
+ */
+Principal getPrincipal();
+/** 
+ * Method to retrieve the timestamp of when this Authentication object was 
+ * created. 
+ * 
+ * @return the date/time the authentication occurred. 
+ */
+Date getAuthenticatedDate();
+/** 
+ * Attributes of the authentication (not the Principal). 
+ * @return the map of attributes. 
+ */ 
+Map&lt;String, Object&gt; getAttributes(); 
+</code></pre><p>而这其中的Principal就来源于上面提到的由credentialsToPrincipalResolvers处理得到的Principal对象，最后看一下Principal的代码，我们只要再做一个实现他的代码，整个CAS Server就可以信手拈来了，呵呵</p>
+<pre><code>/**  
+* Returns the unique id for the Principal  
+* @return the unique id for the Principal.  
+*/  
+
+String getId();   
+
+
+/**  
+ *   
+ * @return  
+ */  
+
+Map&lt;String, Object&gt; getAttributes(); 
+/** 
+ * Returns the unique id for the Principal 
+ * @return the unique id for the Principal. 
+ */
+String getId();
+
+ /** 
+ * 
+ * @return 
+ */
+Map&lt;String, Object&gt; getAttributes();
+</code></pre><p>我们还可以自定义自己的casServiceValidationSuccess.jsp和casLoginView.jsp页面等，具体的操作办法也是最简单的办法就是备份以前的页面之后修改成自己需要的页面。 </p>
+]]></content>
+    
+    <summary type="html">
+    
+      CAS 服务器端配置文件
+    
+    </summary>
+    
+      <category term="blog" scheme="http://blog.wglgg.cn/categories/blog/"/>
+    
+    
+  </entry>
+  
+</feed>
